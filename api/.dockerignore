@@ -1,0 +1,7 @@
+# These are files Docker shouldn't copy when building images.
+
+# Ignore the python virtual environment
+/venv
+
+# Ignore the python compiled bytecode
+__pycache__

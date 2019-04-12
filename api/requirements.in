@@ -1,0 +1,10 @@
+# main framework
+fastapi
+
+# requirements.txt management
+pip-tools
+
+# fast python server
+uvicorn
+# uvicorn optional component, gives a warning if not installed
+email-validator

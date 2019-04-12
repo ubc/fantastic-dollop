@@ -1,0 +1,31 @@
+version: '3'
+
+#volumes:
+#  api_db_data:
+#  locker_db_data:
+#  redis_data:
+
+# MAINTENANCE NOTE
+# node-fibers, a dependency put in by `vue create`, only works with node 8 or 10
+# node 8 EOL is 2019-12-31, so we're not using it
+# node 10 EOL is 2021-04-01, gives us a bit more room
+
+services:
+  ui:
+    image: "node:10-alpine"
+    working_dir: /home/node/app
+    volumes:
+      - ./ui/:/home/node/app
+    command: "yarn serve"
+    ports:
+      - "5000:8080"
+  api:
+    build: api/
+    # overrides the default startup to enable live reload when code changes.
+    command: "/start-reload.sh"
+    # mount the python source inside the container so that when you change
+    # the source code, the change is reflected instantly.
+    #volumes:
+    #  - ./api/:/app
+    ports:
+      - "5001:80"
