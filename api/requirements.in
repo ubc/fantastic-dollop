@@ -8,3 +8,6 @@ pip-tools
 uvicorn
 # uvicorn optional component, gives a warning if not installed
 email-validator
+
+# for reading yaml config files, e.g.: config/logging.yml
+PyYAML
