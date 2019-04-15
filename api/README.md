@@ -70,4 +70,11 @@ To upgrade a dependency to a specific version:
   This is caused by an outdated `setuptools`, version 39.0.1 was problematic for me, but updating to 41.0.0 seems to have fixed it. To upgrade `setuptools`:
 
         pip install --upgrade setuptools
-        
+
+  This can also be caused by an outdated `pip`. You can upgrade with:
+
+        pip install --upgrade pip
+
+  After upgrading, you will want to reinstall the package that threw the compilation error, this will need to be done with `pip` and not `pip-sync`:
+
+        pip install --force-reinstall <PACKAGE_NAME>

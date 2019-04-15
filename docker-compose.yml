@@ -20,12 +20,18 @@ services:
     ports:
       - "5000:8080"
   api:
+    # Not using a stock image, building our own that includes build tools 
+    # so we can install packages from pip. The build tools aren't necessary for
+    # prod images.
     build: api/
     # overrides the default startup to enable live reload when code changes.
     command: "/start-reload.sh"
     # mount the python source inside the container so that when you change
     # the source code, the change is reflected instantly.
-    #volumes:
-    #  - ./api/:/app
+    volumes:
+      - ./api/:/app
+    # python exceptions will kill the container, so have the container restart in
+    # case we make a typo in a parameter name or something when updating the code
+    restart: always
     ports:
       - "5001:80"
