@@ -16,9 +16,9 @@ services:
     working_dir: /home/node/app
     volumes:
       - ./ui/:/home/node/app
-    command: "yarn serve"
+    command: "yarn serve --port 5000"
     ports:
-      - "5000:8080"
+      - "5000:5000"
   api:
     # Not using a stock image, building our own that includes build tools 
     # so we can install packages from pip. The build tools aren't necessary for

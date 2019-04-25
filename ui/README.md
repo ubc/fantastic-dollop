@@ -18,15 +18,31 @@ For first time setups or if new dependencies were added, run:
 
     yarn install
 
+###### Add New Dependencies
+
+If you need to add a new dependency, run:
+
+    yarn add <DEPENDENCY NAME>
+
+`<DEPENDENCY NAME>` is the npm package you want to install.
+
+#### Configuration
+
+The API url is configured using environment variable files, documented [here](https://cli.vuejs.org/guide/mode-and-env.html). The included `.env.development` file is configured for the Docker build, so you will have to modify it to your API server's location.
+
 #### Run
 
 This will run locally with dynamic reload, changing the source should automatically reload the page:
 
     yarn run serve
 
-In practice though, I've found that some CSS changes aren't properly processed and you have to do a manual page refresh to properly see the changes.
-
 The site should be available at [http://localhost:8080/](http://localhost:8080/), unless port 8080 is already taken, in which case, it increments the port number until a free one is found.
+
+###### Live Reload Limitations
+
+In practice, I've found that some CSS changes aren't properly processed and you have to do a manual page refresh to properly see the changes. So if you find adding in a class doesn't do what you expected, refresh the page just to be sure.
+
+Environment variable file changes, such as to `.env`, requires an application restart to take effect.
 
 ###### Other Commands
 
