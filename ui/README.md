@@ -26,6 +26,14 @@ If you need to add a new dependency, run:
 
 `<DEPENDENCY NAME>` is the npm package you want to install.
 
+###### Upgrade Dependencies
+
+If you need to upgrade a dependency, run:
+
+    yarn upgrade <DEPENDENCY NAME>
+
+`<DEPENDENCY NAME>` is the npm package you want to install. You can also just run `yarn upgrade` to upgrade everything.
+
 #### Configuration
 
 The API url is configured using environment variable files, documented [here](https://cli.vuejs.org/guide/mode-and-env.html). The included `.env.development` file is configured for the Docker build, so you will have to modify it to your API server's location.
