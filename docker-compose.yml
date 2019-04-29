@@ -16,9 +16,11 @@ services:
     working_dir: /home/node/app
     volumes:
       - ./ui/:/home/node/app
-    command: "yarn serve --port 5000"
-    ports:
-      - "5000:5000"
+    command: "yarn serve"
+    labels:
+      - "traefik.frontend.rule=HostRegexp:{catchall:.*}"
+      - "traefik.frontend.priority=1" # lowest priority
+      - "traefik.port=8080"
   api:
     # Not using a stock image, building our own that includes build tools 
     # so we can install packages from pip. The build tools aren't necessary for
@@ -30,8 +32,19 @@ services:
     # the source code, the change is reflected instantly.
     volumes:
       - ./api/:/app
-    # python exceptions will kill the container, so have the container restart in
-    # case we make a typo in a parameter name or something when updating the code
+    # python exceptions will kill the container, so have the container restart
+    # automatically or every mistake we make will require a manual restart
     restart: always
+    labels:
+      - "traefik.frontend.rule=PathPrefixStrip:/api"
     ports:
       - "5001:80"
+  # to avoid CORS errors, we throw a reverse proxy in front of the ui and api
+  proxy:
+    image: "traefik:1.7-alpine" # The official Traefik docker image
+    command: --api --docker # Enables the web UI and tells Traefik to listen to docker
+    ports:
+      - "5000:80"     # The HTTP port
+      - "5002:8080" # The Web UI (enabled by --api)
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
