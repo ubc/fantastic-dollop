@@ -1,10 +1,5 @@
 version: '3'
 
-#volumes:
-#  api_db_data:
-#  locker_db_data:
-#  redis_data:
-
 # MAINTENANCE NOTE
 # node-fibers, a dependency put in by `vue create`, only works with node 8 or 10
 # node 8 EOL is 2019-12-31, so we're not using it
@@ -39,6 +34,23 @@ services:
       - "traefik.frontend.rule=PathPrefixStrip:/api"
     ports:
       - "5001:80"
+    depends_on:
+      - api_db
+  api_db:
+    image: "postgres:11-alpine"
+    volumes:
+      - api_db_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=api_db
+      - POSTGRES_PASSWORD=api_db
+  api_db_gui:
+    image: "adminer:4"
+    ports:
+      - "5003:8080"
+    depends_on:
+      - api_db
+    environment:
+      - ADMINER_DEFAULT_SERVER=api_db
   # to avoid CORS errors, we throw a reverse proxy in front of the ui and api
   proxy:
     image: "traefik:1.7-alpine" # The official Traefik docker image
@@ -48,3 +60,7 @@ services:
       - "5002:8080" # The Web UI (enabled by --api)
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
+
+volumes:
+  api_db_data:
+
