@@ -36,6 +36,11 @@ services:
       - "5001:80"
     depends_on:
       - api_db
+    environment:
+      - DB_USER=api_db
+      - DB_PASSWORD=api_db
+      - DB_HOST=api_db
+      - DB_NAME=api_db
   api_db:
     image: "postgres:11-alpine"
     volumes:

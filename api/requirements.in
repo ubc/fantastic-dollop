@@ -1,13 +1,19 @@
 # main framework
 fastapi
-
-# requirements.txt management
-pip-tools
-
-# fast python server
+# fast python server used by fastapi
 uvicorn
 # uvicorn optional component, gives a warning if not installed
 email-validator
 
 # for reading yaml config files, e.g.: config/logging.yml
 PyYAML
+
+# requirements.txt management
+pip-tools
+
+# sql database
+sqlalchemy
+# postgres adapter, used by sqlalchemy
+psycopg2
+# database migrations
+alembic

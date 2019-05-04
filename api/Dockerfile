@@ -5,7 +5,8 @@ FROM "tiangolo/uvicorn-gunicorn-fastapi:python3.6-alpine3.8"
 #
 # bash - nice to have for when we access the shell in the container
 # build-base - for compiling python modules installed by pip
-RUN apk add --no-cache bash build-base
+# postgresql-dev - for building psycopg2, python postgres adapter
+RUN apk add --no-cache bash build-base postgresql-dev
 
 WORKDIR /app
 

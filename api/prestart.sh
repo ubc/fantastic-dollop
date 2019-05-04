@@ -10,3 +10,5 @@ set -e
 echo "Update dependencies using pip-sync"
 pip-sync
 
+echo "Migrating database schema"
+alembic upgrade head

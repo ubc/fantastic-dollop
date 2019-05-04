@@ -34,6 +34,8 @@ For subsequent installs, you can use:
 
 Note that `pip-sync` will attempt to match `requirements.txt` exactly, including removing packages that do no appear in `requirements.txt`.
 
+##### TODO Database configuration
+
 ##### Start API server
 
 With all the requirements installed, you should be able to start the server with this command:
@@ -78,3 +80,7 @@ To upgrade a dependency to a specific version:
   After upgrading, you will want to reinstall the package that threw the compilation error, this will need to be done with `pip` and not `pip-sync`:
 
         pip install --force-reinstall <PACKAGE_NAME>
+
+### Modifying the Database Schema
+
+See the README in `app/migrations` for instructions on how to write migrations for modifying the database schema.
