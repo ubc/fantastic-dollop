@@ -1,9 +1,11 @@
-from fastapi import FastAPI
-
 import logging
 import logging.config
 import os
 import yaml # for reading the logging config file
+
+from fastapi import FastAPI
+from app.controllers import users
+from app import db
 
 # Configures logging for the whole app, will default to using the settings
 # in `config/logging.yml` which will set logging at DEBUG to stdout. The config
@@ -23,8 +25,22 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI()
 
+app.include_router(users.router)
 
 @app.get("/")
 async def root():
     logger.debug("HELLO WORLD 1")
     return {"message": "Hello World"}
+
+@app.get("/items/")
+async def read_items():
+    logger.debug("HELLO WORLD")
+    return "blah"
+
+@app.on_event("startup")
+async def startup():
+    await db.connect()
+
+@app.on_event("shutdown")
+async def shutdown():
+    await db.disconnect()

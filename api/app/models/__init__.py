@@ -1,5 +1,5 @@
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import MetaData
 
-# sqlalchemy docs says there's usually just one instance of this base class
-# declaring it here so all models can use it
-SQLAlchemyBase = declarative_base()
+# sqlalchemy use this to store a description of the database, so we need to share
+# the same instance among all models
+db_metadata = MetaData()

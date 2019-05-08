@@ -39,6 +39,15 @@ Note the different port used, 500*1* instead of 5000. This is the actual port th
 
 The reverse proxy status page is at: [http://localhost:5002/](http://localhost:5002/)
 
+A web frontend to the Postgres database is available at:
+
+* [http://localhost:5003/](http://localhost:5003/), powered by [Adminer](https://www.adminer.org/), login information:
+  * System: PostgreSQL
+  * Server: api_db
+  * Username: api_db
+  * Password: api_db
+  * Database: api_db
+
 ##### Execute Commands
 
 To run arbitary commands, just replace `<COMMAND>` with what you wish to run:
@@ -84,6 +93,18 @@ Examples:
 * API's Database (Postgre)
 
         docker-compose logs api_db
+
+## Updating dependencies
+
+#### API
+
+First, follow the API `README.md` instructions for adding/updating dependencies.
+
+If the app is currently running, shut it down.  Rebuild the API docker image so it has the new dependencies using:
+
+    docker-compose build api
+
+Then start it back up again.
 
 ## Common Problems
 

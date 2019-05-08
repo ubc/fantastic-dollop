@@ -13,7 +13,11 @@ pip-tools
 
 # sql database
 sqlalchemy
-# postgres adapter, used by sqlalchemy
+# postgres driver for sqlalchemy, this is the non-async driver used by alembic
 psycopg2
 # database migrations
 alembic
+# async support for sqlalchemy (EL only, no ORM)
+databases
+# postgres async driver for sqlalchemy
+databases[postgresql]
