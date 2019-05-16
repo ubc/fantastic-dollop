@@ -1,40 +1,37 @@
 <template>
 	<div id="app">
 
-		<!-- header -->
-		<div class='flex'>
-			<div class='flex-1 border-gray-300 border-b'>
-				<h1 class="text-xl font-semibold p-4">
-					App Name
-				</h1>
-			</div>
-		</div>
+		<Header />
 
 		<!-- content body -->
-		<div class="flex">
-			<!-- side nav -->
-			<div class='flex-initial p-4 border-gray-300 border-r min-h-64'>
-				<router-link to="/">Home</router-link> |
-				<router-link to="/about">About</router-link> |
-				<router-link to="/users">User</router-link>
-			</div>
-			<!-- content -->
-			<div class='flex-1 p-4'>
-				<div class='flex justify-center'>
-					<router-view/>
-				</div>
-			</div>
-		</div>
+		<component :is="layout">
+			<router-view />
+		</component>
 
-		<!-- footer -->
-		<div class='flex'>
-			<div class='flex-1 border-gray-300 border-t p-4'>
-				footer
-			</div>
-		</div>
+		<Footer />
 
 	</div>
 </template>
+
+<script>
+import Header from '@/layouts/Header'
+import Footer from '@/layouts/Footer'
+
+const DEFAULT_LAYOUT = "Default"
+
+export default {
+	name: 'App',
+	components: {
+		Header,
+		Footer
+	},
+	computed: {
+		layout() {
+			return (this.$route.meta.layout || DEFAULT_LAYOUT) + 'Layout'
+		}
+	}
+}
+</script>
 
 <style>
 </style>

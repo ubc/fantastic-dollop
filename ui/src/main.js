@@ -11,8 +11,16 @@ import axios from 'axios'
 // css framework
 import '@/plugins/tailwind.scss'
 
+// layouts
+import DefaultLayout from "@/layouts/Default"
+import NoSidebarLayout from "@/layouts/NoSidebar"
+
 // make axios available globally from Vue
 Vue.prototype.axios = axios
+
+// make the layouts available
+Vue.component('DefaultLayout', DefaultLayout)
+Vue.component('NoSidebarLayout', NoSidebarLayout)
 
 Vue.config.productionTip = false
 
