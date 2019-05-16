@@ -1,5 +1,8 @@
 import logging
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
+
+# http status codes
+from starlette.status import HTTP_404_NOT_FOUND
 
 # request body data validation
 from pydantic import BaseModel
@@ -36,12 +39,21 @@ class UserOut(UserBase):
 
 router = APIRouter()
 
-@router.get("/users/", response_model=List[UserOut])
+@router.get("/users", response_model=List[UserOut])
 async def get():
     query = user.select()
     return await db.fetch_all(query)
 
-@router.post("/users/", response_model=UserOut)
+@router.get("/users/{userId}", response_model=UserOut)
+async def get(userId: int):
+    query = user.select().where(user.c.id==userId)
+    ret = await db.fetch_one(query)
+    if ret:
+        return ret
+    raise HTTPException(status_code=HTTP_404_NOT_FOUND,
+                        detail="User not found")
+
+@router.post("/users", response_model=UserOut)
 async def add(userInfo: UserIn):
     query = user.insert().values(
         username=userInfo.username,

@@ -1,7 +1,7 @@
 <!-- Form for entering user information -->
 <template>
 	<div>
-		<Loading v-if='users.loading' />
+		<Loading v-if='user.loading' />
 		<form @submit.prevent='saveUser'>
 			<!-- Required Fields -->
 			<fieldset>
