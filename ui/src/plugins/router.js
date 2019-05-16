@@ -22,12 +22,29 @@ export default new Router({
       component: () => import(/* webpackChunkName: "about" */'../views/About.vue')
     },
     {
-      path: '/user',
-      name: 'user',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ '../views/User.vue')
+      path: '/users',
+      component: () => import('../views/Users.vue'),
+      children: [
+        {
+          path: '',
+          name: 'userHome',
+          component: () => import('../components/users/UserTable.vue')
+        },
+        {
+          path: '/users/add',
+          name: 'addUser',
+          component: () => import('../components/users/UserInfoForm.vue'),
+          props: {isNewUser: true}
+        },
+        {
+          path: '/users/:userId/edit',
+          name: 'editUser',
+          component: () => import('../components/users/UserInfoForm.vue'),
+          // userId is expected to be a number, but by default, router passes all
+          // params as a string, so we need to use a function here to cast it
+          props(route) { return {userId: Number(route.params.userId)} }
+        }
+      ]
     }
   ]
 })

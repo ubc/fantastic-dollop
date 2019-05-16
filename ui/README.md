@@ -26,6 +26,8 @@ If you need to add a new dependency, run:
 
 `<DEPENDENCY NAME>` is the npm package you want to install.
 
+The server will need to be restarted to load in the new dependencies.
+
 ###### Upgrade Dependencies
 
 If you need to upgrade a dependency, run:
@@ -68,3 +70,8 @@ Environment variable file changes, such as to `.env`, requires an application re
 
 #### Vue Customization
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+#### Issues
+
+* When installing packages in the UI using npm or yarn, installation fails with file permission errors.
+  This is caused by the docker container mounting the directory and creating files using root permission. You just need to change the owner of the file back to you, e.g.: `sudo chown -R <username> node_modules/`

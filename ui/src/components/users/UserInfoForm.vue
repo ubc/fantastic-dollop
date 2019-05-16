@@ -1,16 +1,18 @@
 <!-- Form for entering user information -->
 <template>
 	<div>
+		<Loading v-if='users.loading' />
 		<form @submit.prevent='saveUser'>
 			<!-- Required Fields -->
 			<fieldset>
 				<legend>Required</legend>
 
 				<label for='username'>Username</label>
-				<input id='username' name='username' v-model='username' autocomplete='username' spellcheck='false' />
+				<input id='username' name='username' v-model='user.username' autocomplete='username' spellcheck='false' class='border' />
+				<span v-for="error in user.errors.username" v-bind:key="error">{{ error }}</span>
 
 				<label for='password'>Password</label>
-				<input id='password' name='password' v-model='password' type='password' v-bind:autocomplete='passwordAutocomplete' spellcheck='false' />
+				<input id='password' name='password' v-model='user.password' type='password' v-bind:autocomplete='passwordAutocomplete' spellcheck='false' class='border' />
 			</fieldset>
 
 			<!-- Optional Fields -->
@@ -19,18 +21,18 @@
 				<!-- Using UK gov guidelines for various fields:
 					https://design-system.service.gov.uk/patterns/ -->
 				<label for='name'>Name</label>
-				<input id='name' name='name' v-model='name' autocomplete='name' spellcheck='false' placeholder='Alfie Owens' />
+				<input id='name' name='name' v-model='user.name' autocomplete='name' spellcheck='false' placeholder='John Smith' class='border' />
 
-				<!-- autocomplete using 'given-name' instead of 'nickname', since 
+				<!-- autocomplete using 'given-name' instead of 'nickname', since
 				nickname might be a bit too casual for our university context. -->
 				<label for='preferredName'>Preferred Name</label>
-				<input id='preferredName' name='preferredName' v-model='preferredName' spellcheck='false' autocomplete='given-name' placeholder='Stormageddon' />
+				<input id='preferredName' name='preferredName' v-model='user.preferredName' spellcheck='false' autocomplete='given-name' placeholder='John' class='border' />
 
 				<label for='email'>Email</label>
-				<input id='email' name='email' v-model='email' type='email' spellcheck='false' autocomplete='email' />
+				<input id='email' name='email' v-model='user.email' type='email' spellcheck='false' autocomplete='email' class='border' />
 
 				<label for='studentNumber'>Student Number</label>
-				<input id='studentNumber' name='studentNumber' v-model='studentNumber' type='number' spellcheck='false' min='1000000' />
+				<input id='studentNumber' name='studentNumber' v-model='user.studentNumber' spellcheck='false' class='border' />
 			</fieldset>
 
 			<button type='submit'>Save</button>
@@ -39,35 +41,51 @@
 </template>
 
 <script>
+import Loading from '@/components/util/Loading'
+import {User} from '@/models/User'
+
 export default {
 	name: 'UserInfoForm',
+	components: {
+		Loading
+	},
 	computed: {
-		passwordAutocomplete: function() {
+		passwordAutocomplete() {
 			if (this.isNewUser) return 'new-password';
 			return 'current-password';
+		},
+		isNewUser() {
+			if (this.userId) return false
+			return true
 		}
 	},
 	props: {
-		isNewUser: {
-			type: Boolean,
-			default: false
+		userId: {
+			type: Number,
+			default: null
 		}
 	},
-	data: function () { return {
-		username: '',
-		password: '',
-		name: '',
-		preferredName: '',
-		email: '',
-		studentNumber: ''
+	data() { return {
+		user: new User()
 	}},
+	mounted() {
+		if (this.userId) {
+			console.log("fetching user")
+			this.user.id = this.userId
+			this.user.fetch()
+			console.log(this.user)
+		}
+	},
 	methods: {
 		saveUser: function() {
-			console.log("Blah")
-			this.axios.get(process.env.VUE_APP_API)
-				.then(function(response) {
-					console.log(response)
-				})
+			this.user.save().then( (response) => {
+				console.log("we has success")
+				console.log(response)
+			}).catch( (error) => {
+				console.log("we has error")
+				console.log(error)
+				console.log(this.user.errors)
+			})
 		}
 	}
 }

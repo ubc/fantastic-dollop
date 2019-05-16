@@ -1,30 +1,40 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link> |
-      <router-link to="/user">User</router-link>
-    </div>
-    <router-view/>
-  </div>
+	<div id="app">
+
+		<!-- header -->
+		<div class='flex'>
+			<div class='flex-1 border-gray-300 border-b'>
+				<h1 class="text-xl font-semibold p-4">
+					App Name
+				</h1>
+			</div>
+		</div>
+
+		<!-- content body -->
+		<div class="flex">
+			<!-- side nav -->
+			<div class='flex-initial p-4 border-gray-300 border-r min-h-64'>
+				<router-link to="/">Home</router-link> |
+				<router-link to="/about">About</router-link> |
+				<router-link to="/users">User</router-link>
+			</div>
+			<!-- content -->
+			<div class='flex-1 p-4'>
+				<div class='flex justify-center'>
+					<router-view/>
+				</div>
+			</div>
+		</div>
+
+		<!-- footer -->
+		<div class='flex'>
+			<div class='flex-1 border-gray-300 border-t p-4'>
+				footer
+			</div>
+		</div>
+
+	</div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
+<style>
 </style>
