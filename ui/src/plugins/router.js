@@ -23,6 +23,12 @@ export default new Router({
       component: () => import(/* webpackChunkName: "about" */'../views/About.vue')
     },
     {
+      path: '/login',
+      name: 'login',
+      meta: { layout: 'NoSidebar' },
+      component: () => import('../views/Login.vue')
+    },
+    {
       path: '/users',
       component: () => import('../views/Users.vue'),
       children: [
