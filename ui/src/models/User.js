@@ -1,5 +1,5 @@
 import {Model, Collection} from 'vue-mc'
-import {empty, equal, integer, min, required, string} from 'vue-mc/validation'
+import {equal, integer, min, required, string} from 'vue-mc/validation'
 import {getAPIURL} from './Helpers'
 
 export class User extends Model {

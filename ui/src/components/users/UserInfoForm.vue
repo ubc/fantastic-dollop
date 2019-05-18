@@ -35,7 +35,7 @@
 				<input id='studentNumber' name='studentNumber' v-model='user.studentNumber' spellcheck='false' class='border' />
 			</fieldset>
 
-			<button type='submit'>Save</button>
+			<button type='submit' class='btnPrimary'>Save</button>
 		</form>
 	</div>
 </template>

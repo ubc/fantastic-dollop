@@ -20,28 +20,46 @@ a {
 	}
 }
 
-button {
-	@apply font-bold py-1 px-2 m-1 rounded
-		border border-blue-700 border-solid text-blue-700;
+.btnRegular, .btnPrimary {
+	@apply font-bold py-1 px-2 m-1 ml-0 rounded border border-blue-700; 
 	&:hover {
-		@apply shadow text-blue-500 border-blue-500;
+		@apply border-blue-500;
+	}
+}
+
+.btnRegular {
+	@apply text-blue-700;
+	&:hover {
+		@apply shadow text-blue-500;
 	}
 	&:active {
 		@apply bg-blue-500 text-white
 	}
 }
 
-/* move the icons down a bit so that they align with text better */
-ion-icon {
-	@apply text-lg relative;
-	top: 0.125rem;
+.btnPrimary {
+	@apply bg-blue-700 text-white shadow-md;
+	&:hover {
+		@apply bg-blue-500 text-white shadow-lg;
+	}
+	&:active {
+		@apply bg-white text-blue-500;
+	}
+}
+
+/* zondicon, regular 1rem sized */
+.zicon {
+	/* need to specify size limit or icons end up huge */
+	@apply fill-current inline-block relative h-4;
+	/* move the icons down a bit so that they align with text better */
+	top: -0.125rem;
 }
 
 table caption {
 	@apply invisible;
 }
 
-.form-vertical {
+.formVertical {
 	input {
 		@apply p-1;
 	}

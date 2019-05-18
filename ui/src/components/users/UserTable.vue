@@ -2,8 +2,8 @@
 <template>
 	<div>
 		<h3>Users List</h3>
-		<router-link :to="{name: 'addUser'}" tag="button">
-			<ion-icon name='add'></ion-icon>
+		<router-link :to="{name: 'addUser'}" tag="button" class='btnRegular'>
+			<Zondicon icon='add-outline' class='zicon'/>
 			Add
 		</router-link>
 		<Loading v-if='users.loading' />
@@ -24,8 +24,8 @@
 				<tr v-for="user in users.models" :user="user" :key="user.id">
 					<td>
 						<router-link :to="{name: 'editUser', params:{userId: user.$.id}}"
-							tag="button">
-							<ion-icon name='create'></ion-icon>
+							tag="button" class='btnRegular'>
+							<Zondicon icon='edit-pencil' class='zicon' />
 							Edit
 						</router-link>
 					</td>
@@ -35,7 +35,7 @@
 					<td>{{ user.$.email }}</td>
 					<td>{{ user.$.studentNumber }}</td>
 					<td>
-						<button>Delete</button>
+						<button class='btnRegular'>Delete</button>
 					</td>
 				</tr>
 			</tbody>

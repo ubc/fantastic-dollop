@@ -9,7 +9,7 @@
 			v-on:input='onPasswordInput'
 			/>
 		<a @click='togglePasswordVisible' class='block mt-1'>
-			<ion-icon :name='showPasswordIcon'></ion-icon>
+			<Zondicon :icon="showPasswordIcon" class='zicon' />
 			{{ showOrHide }} password
 		</a>
 	</div>
@@ -26,8 +26,8 @@ export default {
 	},
 	data() { return {
 		passwordType: 'password',
-		password: null,
-		showPasswordIcon: 'eye',
+		password: '',
+		showPasswordIcon: 'view-show',
 		showOrHide: 'show'
 	}},
 	props: {
@@ -41,8 +41,8 @@ export default {
 		togglePasswordVisible() {
 			this.passwordType = this.passwordType == 'password' ?
 				'text':'password'
-			this.showPasswordIcon = this.showPasswordIcon == 'eye' ?
-				'eye-off' : 'eye'
+			this.showPasswordIcon = this.showPasswordIcon == 'view-show' ?
+				'view-hide' : 'view-show'
 			this.showOrHide = this.showOrHide == 'show' ?
 				'hide' : 'show'
 		}

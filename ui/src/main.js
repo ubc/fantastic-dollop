@@ -11,6 +11,9 @@ import axios from 'axios'
 // css framework
 import '@/plugins/tailwind.scss'
 
+// svg icon set
+import '@/plugins/zondicons'
+
 // layouts
 import DefaultLayout from "@/layouts/Default"
 import NoSidebarLayout from "@/layouts/NoSidebar"
