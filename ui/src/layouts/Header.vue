@@ -6,16 +6,26 @@
 			</h1>
 		</div>
 		<div class='flex-1 p-4 flex justify-end'>
-			<div>
-			Login
-			</div>
+			<router-link to='signin'>
+				<LabelledIcon label='Sign in'>
+					<SignInIcon title="Sign in" />
+				</LabelledIcon>
+			</router-link>
 		</div>
 	</div>
 </template>
 
 <script>
+import LabelledIcon from '@/components/util/LabelledIcon'
+
+import SignInIcon from 'icons/Account'
+
 export default {
-	name: 'Header'
+	name: 'Header',
+	components: {
+		LabelledIcon,
+		SignInIcon
+	}
 }
 </script>
 

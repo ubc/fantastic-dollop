@@ -1,6 +1,6 @@
 <!-- 
 	Idea is to have the labels disappear on mobile devices to save space.
-	So the icons better be good.
+	So the icons, ideally, needs to be easy to figure out by itself.
 -->
 <template>
 	<div>
@@ -22,12 +22,12 @@ export default {
 
 <style scoped>
 .material-design-icon {
-	@apply text-xl;
+	@apply text-2xl;
 }
  
 @screen md {
 	.material-design-icon {
-		@apply text-base;
+		@apply text-lg;
 	}
 }
 </style>
