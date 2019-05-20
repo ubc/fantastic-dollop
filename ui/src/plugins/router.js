@@ -30,23 +30,23 @@ export default new Router({
     },
     {
       path: '/users',
-      component: () => import('../views/Users.vue'),
+      component: () => import('../views/users/Users.vue'),
       children: [
         {
           path: '',
           name: 'userHome',
-          component: () => import('../components/users/UserTable.vue')
+          component: () => import('../views/users/UserTable.vue')
         },
         {
           path: '/users/add',
           name: 'addUser',
-          component: () => import('../components/users/UserInfoForm.vue'),
+          component: () => import('../views/users/UserInfoForm.vue'),
           props: {isNewUser: true}
         },
         {
           path: '/users/:userId/edit',
           name: 'editUser',
-          component: () => import('../components/users/UserInfoForm.vue'),
+          component: () => import('../views/users/UserInfoForm.vue'),
           // userId is expected to be a number, but by default, router passes all
           // params as a string, so we need to use a function here to cast it
           props(route) { return {userId: Number(route.params.userId)} }
