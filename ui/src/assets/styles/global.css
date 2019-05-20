@@ -1,9 +1,6 @@
-@tailwind base;
-
-@tailwind components;
-
 /***********************************************************
 Custom component classes, needs to be added before utilities
+Note that this isn't plain css, requires postcss processing
  ***********************************************************/
 
 /* default link colors */
@@ -60,12 +57,10 @@ table caption {
 }
 
 .formVertical {
-	input {
+	& input {
 		@apply p-1;
 	}
-	input, label {
+	& input, & label {
 		@apply block my-1;
 	}
 }
-
-@tailwind utilities;

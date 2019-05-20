@@ -8,9 +8,6 @@ import store from '@/plugins/store'
 // for making http requests
 import axios from 'axios'
 
-// css framework
-import '@/plugins/tailwind.scss'
-
 // svg icon set
 import '@/plugins/zondicons'
 
