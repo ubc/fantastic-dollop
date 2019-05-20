@@ -8,9 +8,6 @@ import store from '@/plugins/store'
 // for making http requests
 import axios from 'axios'
 
-// svg icon set default styling
-import "vue-material-design-icons/styles.css"
-
 // layouts
 import DefaultLayout from "@/layouts/Default"
 import NoSidebarLayout from "@/layouts/NoSidebar"

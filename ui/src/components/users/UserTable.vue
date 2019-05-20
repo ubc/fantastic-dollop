@@ -3,8 +3,7 @@
 	<div>
 		<h3>Users List</h3>
 		<router-link :to="{name: 'addUser'}" tag="button" class='btnRegular'>
-			<AddIcon />
-			Add
+			<LabelledIcon label='Add'><AddIcon title='Add a new user' /></LabelledIcon>
 		</router-link>
 		<Loading v-if='users.loading' />
 		<table>
@@ -26,7 +25,7 @@
 						<router-link :to="{name: 'editUser', params:{userId: user.$.id}}"
 							tag="button" class='btnRegular'>
 							<LabelledIcon label='Edit'>
-								<EditIcon />
+								<EditIcon title='Edit user' />
 							</LabelledIcon>
 						</router-link>
 					</td>
@@ -36,7 +35,11 @@
 					<td>{{ user.$.email }}</td>
 					<td>{{ user.$.studentNumber }}</td>
 					<td>
-						<button class='btnRegular'><DeleteIcon /> Delete</button>
+						<button class='btnRegular'>
+							<LabelledIcon label='Delete'>
+								<DeleteIcon title='Delete user' />
+							</LabelledIcon>
+						</button>
 					</td>
 				</tr>
 			</tbody>
@@ -46,7 +49,7 @@
 
 <script>
 import AddIcon from 'icons/AccountPlus'
-import EditIcon from 'icons/SquareEditOutline'
+import EditIcon from 'icons/Pencil'
 import DeleteIcon from 'icons/Delete'
 
 import {UserList} from '@/models/User'

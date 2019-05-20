@@ -1,3 +1,7 @@
+<!-- 
+	Idea is to have the labels disappear on mobile devices to save space.
+	So the icons better be good.
+-->
 <template>
 	<div>
 		<slot />
@@ -17,4 +21,13 @@ export default {
 </script>
 
 <style scoped>
+.material-design-icon {
+	@apply text-xl;
+}
+ 
+@screen md {
+	.material-design-icon {
+		@apply text-base;
+	}
+}
 </style>
