@@ -9,15 +9,23 @@
 			v-on:input='onPasswordInput'
 			/>
 		<a @click='togglePasswordVisible' class='block mt-1'>
-			<Zondicon :icon="showPasswordIcon" class='zicon' />
-			{{ showOrHide }} password
+			<EyeOffIcon v-if='showPassword' />
+			<EyeIcon v-else />
+			{{ showPassword ? 'hide' : 'show' }} password
 		</a>
 	</div>
 </template>
 
 <script>
+import EyeIcon from 'icons/Eye'
+import EyeOffIcon from 'icons/EyeOff'
+
 export default {
 	name: "PasswordField",
+	components: {
+		EyeIcon,
+		EyeOffIcon
+	},
 	computed: {
 		passwordAutocomplete() {
 			if (this.isNewPassword) return 'new-password'
@@ -27,8 +35,7 @@ export default {
 	data() { return {
 		passwordType: 'password',
 		password: '',
-		showPasswordIcon: 'view-show',
-		showOrHide: 'show'
+		showPassword: false
 	}},
 	props: {
 		isNewPassword: Boolean
@@ -39,12 +46,8 @@ export default {
 			this.password = event.target.value
 		},
 		togglePasswordVisible() {
-			this.passwordType = this.passwordType == 'password' ?
-				'text':'password'
-			this.showPasswordIcon = this.showPasswordIcon == 'view-show' ?
-				'view-hide' : 'view-show'
-			this.showOrHide = this.showOrHide == 'show' ?
-				'hide' : 'show'
+			this.passwordType = this.passwordType == 'password' ? 'text' : 'password'
+			this.showPassword = !this.showPassword
 		}
 	}
 }

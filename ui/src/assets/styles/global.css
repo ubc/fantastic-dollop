@@ -44,14 +44,6 @@ a {
 	}
 }
 
-/* zondicon, regular 1rem sized */
-.zicon {
-	/* need to specify size limit or icons end up huge */
-	@apply fill-current inline-block relative h-4;
-	/* move the icons down a bit so that they align with text better */
-	top: -0.125rem;
-}
-
 table caption {
 	@apply invisible;
 }

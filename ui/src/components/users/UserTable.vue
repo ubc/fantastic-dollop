@@ -3,7 +3,7 @@
 	<div>
 		<h3>Users List</h3>
 		<router-link :to="{name: 'addUser'}" tag="button" class='btnRegular'>
-			<Zondicon icon='add-outline' class='zicon'/>
+			<AddIcon />
 			Add
 		</router-link>
 		<Loading v-if='users.loading' />
@@ -25,8 +25,9 @@
 					<td>
 						<router-link :to="{name: 'editUser', params:{userId: user.$.id}}"
 							tag="button" class='btnRegular'>
-							<Zondicon icon='edit-pencil' class='zicon' />
-							Edit
+							<LabelledIcon label='Edit'>
+								<EditIcon />
+							</LabelledIcon>
 						</router-link>
 					</td>
 					<td>{{ user.$.username }}</td>
@@ -35,7 +36,7 @@
 					<td>{{ user.$.email }}</td>
 					<td>{{ user.$.studentNumber }}</td>
 					<td>
-						<button class='btnRegular'>Delete</button>
+						<button class='btnRegular'><DeleteIcon /> Delete</button>
 					</td>
 				</tr>
 			</tbody>
@@ -44,12 +45,22 @@
 </template>
 
 <script>
-import Loading from '@/components/util/Loading'
+import AddIcon from 'icons/AccountPlus'
+import EditIcon from 'icons/SquareEditOutline'
+import DeleteIcon from 'icons/Delete'
+
 import {UserList} from '@/models/User'
+
+import LabelledIcon from '@/components/util/LabelledIcon'
+import Loading from '@/components/util/Loading'
 
 export default {
 	name: 'UserTable',
 	components: {
+		AddIcon,
+		EditIcon,
+		DeleteIcon,
+		LabelledIcon,
 		Loading
 	},
 	data() { return {
