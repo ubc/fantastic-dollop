@@ -8,6 +8,11 @@ module.exports = {
         '10': '0.1',
         '90': '0.9',
       },
+      // added common Linux system fonts to the default list: 
+      // Ubuntu, Montserrat (Fedora), Oxygen (KDE), Cantarell (Gnome)
+      fontFamily: {
+        'sans': ['-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Ubuntu', 'Montserrat', 'Oxygen', 'Cantarell', 'Roboto', '"Helvetica Neue"', 'Arial', '"Noto Sans"', 'sans-serif', '"Apple Color Emoji"', '"Segoe UI Emoji"', '"Segoe UI Symbol"', '"Noto Color Emoji"'],
+      },
     },
   },
   variants: {

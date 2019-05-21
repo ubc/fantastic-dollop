@@ -3,6 +3,11 @@ Custom component classes, needs to be added before utilities
 Note that this isn't plain css, requires postcss processing
  ***********************************************************/
 
+/* override default fonts to use expanded list configured in tailwind.config.js */
+html {
+	@apply font-sans;
+}
+
 /* default link colors */
 a {
 	@apply text-blue-600;
