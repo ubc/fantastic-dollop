@@ -11,6 +11,9 @@ from app.tables.User import userTable
 # database connection
 from app import db
 
+# password security
+from app.helpers import Password
+
 log = logging.getLogger(__name__)
 router = APIRouter()
 
@@ -24,7 +27,8 @@ async def signin(formData: OAuth2PasswordRequestForm = Depends()):
         log.debug("Username not found: " + formData.username)
         raise HTTPException(status_code=HTTP_400_BAD_REQUEST,
                             detail="Incorrect username or password")
-    if ret['password'] != formData.password:
+
+    if not Password.verify(formData.password, ret['password']):
         log.debug("Incorrect password.")
         raise HTTPException(status_code=HTTP_400_BAD_REQUEST,
                             detail="Incorrect username or password")

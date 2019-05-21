@@ -20,6 +20,8 @@ from app.models.User import UserIn, UserOut
 
 # session data
 from app.helpers import Session
+# password security
+from app.helpers import Password
 
 log = logging.getLogger(__name__)
 router = APIRouter()
@@ -41,9 +43,10 @@ async def get(userId: int):
 
 @router.post("/users", response_model=UserOut)
 async def add(userInfo: UserIn):
+    hashedPassword = Password.hash(userInfo.password)
     query = userTable.insert().values(
         username=userInfo.username,
-        password=userInfo.password,
+        password=hashedPassword,
         name=userInfo.name,
         preferredName=userInfo.preferredName,
         email=userInfo.email,
