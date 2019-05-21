@@ -4,6 +4,8 @@ fastapi
 uvicorn
 # uvicorn optional component, gives a warning if not installed
 email-validator
+# required for form post request parsing
+python-multipart
 
 # for reading yaml config files, e.g.: config/logging.yml
 PyYAML

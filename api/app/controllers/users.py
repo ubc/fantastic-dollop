@@ -1,5 +1,6 @@
 import logging
-from fastapi import APIRouter, HTTPException
+
+from fastapi import APIRouter, Depends, HTTPException
 
 # http status codes
 from starlette.status import HTTP_404_NOT_FOUND
@@ -10,43 +11,28 @@ from pydantic import BaseModel
 from typing import List
 
 # database table
-from app.models.User import user
+from app.tables.User import userTable
 # database connection
 from app import db
 
-logger = logging.getLogger(__name__)
+# validation models
+from app.models.User import UserIn, UserOut
 
+# session data
+from app.helpers import Session
 
-# For data validation with incoming and outgoing data, this base class contains
-# fields that are in both requests and responses.
-# unfortunately, this mechanism suffers from code duplication with the database 
-# table definition, no clue how to address that
-class UserBase(BaseModel):
-    username: str
-    name: str = None
-    preferredName: str = None
-    email: str = None
-    studentNumber: str = None
-
-
-# Incoming request data will need to match this spec.
-class UserIn(UserBase):
-    password: str
-
-# Outgoing response data will be filtered to match this spec.
-class UserOut(UserBase):
-    id: int
-
+log = logging.getLogger(__name__)
 router = APIRouter()
 
 @router.get("/users", response_model=List[UserOut])
-async def get():
-    query = user.select()
+async def get(curentUser: UserOut=Depends(Session.getCurrentUser)):
+    log.debug("token: " + currentUser)
+    query = userTable.select()
     return await db.fetch_all(query)
 
 @router.get("/users/{userId}", response_model=UserOut)
 async def get(userId: int):
-    query = user.select().where(user.c.id==userId)
+    query = userTable.select().where(userTable.c.id==userId)
     ret = await db.fetch_one(query)
     if ret:
         return ret
@@ -55,7 +41,7 @@ async def get(userId: int):
 
 @router.post("/users", response_model=UserOut)
 async def add(userInfo: UserIn):
-    query = user.insert().values(
+    query = userTable.insert().values(
         username=userInfo.username,
         password=userInfo.password,
         name=userInfo.name,

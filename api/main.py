@@ -5,6 +5,7 @@ import yaml # for reading the logging config file
 
 from fastapi import FastAPI
 from app.controllers import users
+from app.controllers import signin
 from app import db
 
 # Configures logging for the whole app, will default to using the settings
@@ -26,6 +27,7 @@ logger = logging.getLogger(__name__)
 app = FastAPI()
 
 app.include_router(users.router)
+app.include_router(signin.router)
 
 @app.get("/")
 async def root():
