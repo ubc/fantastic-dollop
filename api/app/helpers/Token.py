@@ -11,6 +11,8 @@ import jwt
 from jwt import PyJWTError
 
 from app.config import EnvConfig
+from app.models.User import UserOut
+from app.tables import UserTable
 
 log = logging.getLogger(__name__)
 
@@ -31,11 +33,12 @@ async def getCurrentUser(token: str=Depends(oauth2_scheme)):
         username: str = payload.get("sub")
         if username is None:
             raise credentials_exception
-        tokenData = TokenData(username=username)
     except PyJWTError:
         raise credentials_exception
-    user = {'username': tokenData.username}
-    return user
+    user = await UserTable.getByUsername(username)
+    if not user:
+        raise credentials_exception
+    return UserOut(**user)
 
 def create(*, data: dict,
            expires_delta: timedelta = timedelta(minutes=TOKEN_EXPIRE)):

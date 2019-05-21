@@ -29,8 +29,7 @@ log = logging.getLogger(__name__)
 router = APIRouter()
 
 @router.get("/users", response_model=List[UserOut])
-async def get(curentUser: UserOut=Depends(Token.getCurrentUser)):
-    log.debug("token: " + currentUser)
+async def get(currentUser: UserOut=Depends(Token.getCurrentUser)):
     query = UserTable.table.select()
     return await db.fetch_all(query)
 
