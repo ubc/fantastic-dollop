@@ -6,6 +6,8 @@ uvicorn
 email-validator
 # required for form post request parsing
 python-multipart
+# secure session token generation
+pyjwt
 # secure password hashing
 passlib[bcrypt]
 

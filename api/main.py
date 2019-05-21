@@ -22,7 +22,7 @@ if os.path.exists(configPath):
 else:
     logging.basicConfig(level=logging.DEBUG)
 
-logger = logging.getLogger(__name__)
+log = logging.getLogger(__name__)
 
 app = FastAPI()
 
@@ -31,12 +31,12 @@ app.include_router(signin.router)
 
 @app.get("/")
 async def root():
-    logger.debug("HELLO WORLD 1")
+    log.debug("HELLO WORLD 1")
     return {"message": "Hello World"}
 
 @app.get("/items/")
 async def read_items():
-    logger.debug("HELLO WORLD")
+    log.debug("HELLO WORLD")
     return "blah"
 
 @app.on_event("startup")

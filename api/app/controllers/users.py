@@ -19,7 +19,7 @@ from app import db
 from app.models.User import UserIn, UserOut
 
 # session data
-from app.helpers import Session
+from app.helpers import Token
 # password security
 from app.helpers import Password
 
@@ -27,7 +27,7 @@ log = logging.getLogger(__name__)
 router = APIRouter()
 
 @router.get("/users", response_model=List[UserOut])
-async def get(curentUser: UserOut=Depends(Session.getCurrentUser)):
+async def get(curentUser: UserOut=Depends(Token.getCurrentUser)):
     log.debug("token: " + currentUser)
     query = userTable.select()
     return await db.fetch_all(query)
