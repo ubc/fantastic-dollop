@@ -9,7 +9,7 @@ from pydantic import BaseModel
 from starlette.status import HTTP_400_BAD_REQUEST
 
 # database table
-from app.tables.User import userTable
+from app.tables import UserTable
 # database connection
 from app import db
 
@@ -26,9 +26,7 @@ class TokenOut(BaseModel):
 @router.post("/signin", response_model=TokenOut)
 async def signin(formData: OAuth2PasswordRequestForm = Depends()):
     log.debug("Starting user sign in")
-    query = userTable.select().where(
-        userTable.c.username == formData.username)
-    ret = await db.fetch_one(query)
+    ret = await UserTable.getByUsername(formData.username)
     if not ret:
         log.debug("Username not found: " + formData.username)
         raise HTTPException(status_code=HTTP_400_BAD_REQUEST,

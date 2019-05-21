@@ -1,9 +1,14 @@
 from sqlalchemy import Column, Integer, Unicode, Table
-from app.tables import db_metadata
+from app.tables import dbMetadata
 
-userTable = Table(
+# database connection
+from app import db
+
+from app.helpers import TableRetriever
+
+table = Table(
     'users',
-    db_metadata,
+    dbMetadata,
     Column('id', Integer, primary_key=True),
     Column('username', Unicode(255), nullable=False),
     Column('password', Unicode(255), nullable=False),
@@ -12,3 +17,6 @@ userTable = Table(
     Column('email', Unicode(255)),
     Column('studentNumber', Unicode(255))
 )
+
+async def getByUsername(username: str):
+    return await TableRetriever.getByField(table, table.c.username, username)

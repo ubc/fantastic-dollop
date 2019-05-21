@@ -11,7 +11,7 @@ from pydantic import BaseModel
 from typing import List
 
 # database table
-from app.tables.User import userTable
+from app.tables import UserTable
 # database connection
 from app import db
 
@@ -22,6 +22,8 @@ from app.models.User import UserIn, UserOut
 from app.helpers import Token
 # password security
 from app.helpers import Password
+# database retrival
+from app.helpers import TableRetriever
 
 log = logging.getLogger(__name__)
 router = APIRouter()
@@ -29,13 +31,12 @@ router = APIRouter()
 @router.get("/users", response_model=List[UserOut])
 async def get(curentUser: UserOut=Depends(Token.getCurrentUser)):
     log.debug("token: " + currentUser)
-    query = userTable.select()
+    query = UserTable.table.select()
     return await db.fetch_all(query)
 
 @router.get("/users/{userId}", response_model=UserOut)
 async def get(userId: int):
-    query = userTable.select().where(userTable.c.id==userId)
-    ret = await db.fetch_one(query)
+    ret = await TableRetriever.getById(UserTable.table, userId)
     if ret:
         return ret
     raise HTTPException(status_code=HTTP_404_NOT_FOUND,
@@ -44,7 +45,7 @@ async def get(userId: int):
 @router.post("/users", response_model=UserOut)
 async def add(userInfo: UserIn):
     hashedPassword = Password.hash(userInfo.password)
-    query = userTable.insert().values(
+    query = UserTable.table.insert().values(
         username=userInfo.username,
         password=hashedPassword,
         name=userInfo.name,
