@@ -5,8 +5,8 @@
 		<div class="flex">
 			<!-- side nav -->
 			<div class='flex-initial p-4 border-gray-300 border-r min-h-64'>
-				<router-link to="/">Home</router-link> |
-				<router-link to="/about">About</router-link> |
+				<router-link to="/">Root</router-link> |
+				<router-link to="/home">Home</router-link> |
 				<router-link to="/users">User</router-link>
 			</div>
 			<!-- content -->

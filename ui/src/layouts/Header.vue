@@ -6,7 +6,7 @@
 			</h1>
 		</div>
 		<div class='flex-1 p-4 flex justify-end'>
-			<router-link to='signin' v-if='!isSignedIn'>
+			<router-link to='/home' v-if='!isSignedIn'>
 				<LabelledIcon label='Sign in'>
 					<SignInIcon title="Sign in" />
 				</LabelledIcon>
@@ -41,6 +41,7 @@ export default {
 	methods: {
 		signOut() {
 			this.$store.dispatch('auth/signOut')
+			this.$router.push({ name: 'signedOut' })
 		}
 	}
 }

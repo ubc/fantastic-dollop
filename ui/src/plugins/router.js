@@ -1,8 +1,17 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '../views/Home.vue'
+import Home from '../views/home/Home.vue'
 
 Vue.use(Router)
+
+/* Each route entry can have optional metadata configuration, see root page for
+ * example.
+ * Available meta config options:
+ * - isPublic: if set to true, this page can be viewed without signing in.
+ *    Defaults to false.
+ * - layout: use a different layout (from layouts/ directory) to render the page.
+ *    Defaults to DefaultLayout.
+ * */
 
 export default new Router({
   mode: 'history',
@@ -11,22 +20,23 @@ export default new Router({
     {
       path: '/',
       name: 'home',
+      meta: { isPublic: true, layout: 'NoSidebar'  },
       component: Home
     },
     {
-      path: '/about',
-      name: 'about',
-      meta: { layout: 'NoSidebar' },
+      path: '/home',
+      name: 'signedInHome',
       // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
+      // this generates a separate chunk (signedInHome.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */'../views/About.vue')
+      component: () =>
+        import('../views/home/SignedInHome.vue')//webpackChunkName: "signedInHome"
     },
     {
-      path: '/signin',
-      name: 'signin',
-      meta: { layout: 'NoSidebar' },
-      component: () => import('../views/SignIn.vue')
+      path: '/signed-out',
+      name: 'signedOut',
+      meta: { isPublic: true, layout: 'NoSidebar' },
+      component: () => import('../views/SignedOut.vue')
     },
     {
       path: '/users',
