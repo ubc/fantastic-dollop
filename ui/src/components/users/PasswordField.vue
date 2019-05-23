@@ -2,10 +2,12 @@
 	<div>
 		<label for='password'>Password</label>
 		<input id='password' name='password' 
-			spellcheck='false' class='border' 
+			spellcheck='false' class='w-full' 
 			v-bind:type='passwordType' 
 			v-bind:autocomplete='passwordAutocomplete' 
 			v-bind:value='password'
+			v-bind:required='isRequired'
+			v-bind:disabled='isDisabled'
 			v-on:input='onPasswordInput'
 			/>
 		<a @click='togglePasswordVisible' class='block mt-1'>
@@ -38,7 +40,15 @@ export default {
 		showPassword: false
 	}},
 	props: {
-		isNewPassword: Boolean
+		isNewPassword: Boolean,
+		isRequired: {
+			type: Boolean,
+			default: false
+		},
+		isDisabled: {
+			type: Boolean,
+			default: false
+		}
 	},
 	methods: {
 		onPasswordInput(event) {

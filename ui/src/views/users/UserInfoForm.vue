@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import Loading from '@/components/util/Loading'
+import Loading from '@/components/util/status/Loading'
 import {User} from '@/models/User'
 
 export default {

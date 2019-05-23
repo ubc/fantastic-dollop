@@ -25,17 +25,19 @@ class TokenOut(BaseModel):
 
 @router.post("/signin", response_model=TokenOut)
 async def signin(formData: OAuth2PasswordRequestForm = Depends()):
-    log.debug("Starting user sign in")
+    log.info("Starting user sign in for '" + formData.username + "'")
     ret = await UserTable.getByUsername(formData.username)
     if not ret:
+        log.info("Sign in failed.")
         log.debug("Username not found: " + formData.username)
         raise HTTPException(status_code=HTTP_400_BAD_REQUEST,
                             detail="Incorrect username or password")
 
     if not Password.verify(formData.password, ret['password']):
+        log.info("Sign in failed.")
         log.debug("Incorrect password.")
         raise HTTPException(status_code=HTTP_400_BAD_REQUEST,
                             detail="Incorrect username or password")
-    log.debug("Verified username & password, generating token...")
+    log.info("Sign in successful, generating token.")
     token = Token.create(data={"sub": ret['username']})
     return {"access_token": token, "token_type": "bearer"}

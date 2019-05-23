@@ -5,15 +5,12 @@ import App from '@/App.vue'
 import router from '@/plugins/router'
 import store from '@/plugins/store'
 
-// for making http requests
-import axios from 'axios'
+// for making http requests, make axios globally available on Vue
+import '@/plugins/axios'
 
 // layouts
 import DefaultLayout from "@/layouts/Default"
 import NoSidebarLayout from "@/layouts/NoSidebar"
-
-// make axios available globally from Vue
-Vue.prototype.axios = axios
 
 // make the layouts available
 Vue.component('DefaultLayout', DefaultLayout)

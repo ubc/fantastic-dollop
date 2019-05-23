@@ -55,7 +55,7 @@ import DeleteIcon from 'icons/Delete'
 import {UserList} from '@/models/User'
 
 import LabelledIcon from '@/components/util/LabelledIcon'
-import Loading from '@/components/util/Loading'
+import Loading from '@/components/util/status/Loading'
 
 export default {
 	name: 'UserTable',
