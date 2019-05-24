@@ -5,7 +5,6 @@
 		<router-link :to="{name: 'addUser'}" tag="button" class='btnRegular'>
 			<LabelledIcon label='Add'><AddIcon title='Add a new user' /></LabelledIcon>
 		</router-link>
-		<Loading v-if='users.loading' />
 		<table>
 			<caption>Users List</caption>
 			<thead>
@@ -44,6 +43,9 @@
 				</tr>
 			</tbody>
 		</table>
+		<div class='flex justify-center'>
+			<Loading v-if='users.loading' class='text-center' />
+		</div>
 	</div>
 </template>
 
@@ -83,4 +85,7 @@ export default {
 </script>
 
 <style>
+th, td {
+	@apply px-2 py-1 m-1 text-left;
+}
 </style>

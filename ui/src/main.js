@@ -6,7 +6,7 @@ import router from '@/plugins/router'
 import store from '@/plugins/store'
 
 // for making http requests, make axios globally available on Vue
-import '@/plugins/axios'
+import axios from '@/plugins/axios'
 
 // layouts
 import DefaultLayout from "@/layouts/Default"
@@ -15,6 +15,9 @@ import NoSidebarLayout from "@/layouts/NoSidebar"
 // make the layouts available
 Vue.component('DefaultLayout', DefaultLayout)
 Vue.component('NoSidebarLayout', NoSidebarLayout)
+
+// make axios available from Vue
+Vue.prototype.axios = axios
 
 Vue.config.productionTip = false
 

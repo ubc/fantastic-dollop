@@ -1,7 +1,7 @@
-import Vue from 'vue'
-
 import axios from 'axios'
 
-Vue.prototype.axios = axios.create({
+const http = axios.create({
   baseURL: process.env.VUE_APP_API
 })
+
+export default http;
