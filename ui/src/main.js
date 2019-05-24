@@ -10,11 +10,9 @@ import axios from '@/plugins/axios'
 
 // layouts
 import DefaultLayout from "@/layouts/Default"
-import NoSidebarLayout from "@/layouts/NoSidebar"
 
 // make the layouts available
 Vue.component('DefaultLayout', DefaultLayout)
-Vue.component('NoSidebarLayout', NoSidebarLayout)
 
 // make axios available from Vue
 Vue.prototype.axios = axios

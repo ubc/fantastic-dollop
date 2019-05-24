@@ -10,7 +10,8 @@ Vue.use(Router)
  * - isPublic: if set to true, this page can be viewed without signing in.
  *    Defaults to false.
  * - layout: use a different layout (from layouts/ directory) to render the page.
- *    Defaults to DefaultLayout.
+ *    Defaults to DefaultLayout. Currently, no alternative layout other than
+ *    default exists. Keeping the system around for a bit to see if we need it.
  * */
 
 export default new Router({
@@ -20,7 +21,7 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      meta: { isPublic: true, layout: 'NoSidebar'  },
+      meta: { isPublic: true },
       component: Home
     },
     {
@@ -33,35 +34,36 @@ export default new Router({
         import('../views/home/SignedInHome.vue')//webpackChunkName: "signedInHome"
     },
     {
-      path: '/signed-out',
-      name: 'signedOut',
-      meta: { isPublic: true, layout: 'NoSidebar' },
-      component: () => import('../views/SignedOut.vue')
-    },
-    {
-      path: '/users',
-      component: () => import('../views/users/Users.vue'),
+      path: '/admin',
+      name: 'admin',
+      component: () => import('../views/admin/Admin.vue'),
       children: [
         {
-          path: '',
-          name: 'userHome',
+          path: '/admin/users',
+          name: 'adminUserTable',
           component: () => import('../views/users/UserTable.vue')
         },
         {
           path: '/users/add',
-          name: 'addUser',
+          name: 'adminAddUser',
           component: () => import('../views/users/UserInfoForm.vue'),
           props: {isNewUser: true}
         },
         {
           path: '/users/:userId/edit',
-          name: 'editUser',
+          name: 'adminEditUser',
           component: () => import('../views/users/UserInfoForm.vue'),
           // userId is expected to be a number, but by default, router passes all
           // params as a string, so we need to use a function here to cast it
           props(route) { return {userId: Number(route.params.userId)} }
         }
       ]
+    },
+    {
+      path: '/signed-out',
+      name: 'signedOut',
+      meta: { isPublic: true },
+      component: () => import('../views/SignedOut.vue')
     }
   ]
 })

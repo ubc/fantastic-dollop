@@ -6,6 +6,12 @@
 			</h1>
 		</div>
 		<div class='flex-1 pagePadding flex justify-end'>
+			<router-link to='/' class='navSpacer'>
+				<LabelledIcon label='Home'><HomeIcon /></LabelledIcon>
+			</router-link>
+			<router-link :to='{name:"admin"}' class='navSpacer'>
+				<LabelledIcon label='Admin'><AdminIcon title="Admin" /></LabelledIcon>
+			</router-link>
 			<!-- sign in/out -->
 			<router-link to='/home' v-if='!isSignedIn'>
 				<LabelledIcon label='Sign in'>
@@ -24,12 +30,16 @@
 <script>
 import LabelledIcon from '@/components/util/LabelledIcon'
 
+import HomeIcon from 'icons/Home'
+import AdminIcon from 'icons/Key'
 import SignInIcon from 'icons/Account'
 import SignOutIcon from 'icons/Logout'
 
 export default {
 	name: 'Header',
 	components: {
+		AdminIcon,
+		HomeIcon,
 		LabelledIcon,
 		SignInIcon,
 		SignOutIcon
@@ -48,5 +58,13 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.navSpacer {
+	@apply mr-3;
+}
+@screen md {
+	.navSpacer {
+		@apply mr-4;
+	}
+}
 </style>
