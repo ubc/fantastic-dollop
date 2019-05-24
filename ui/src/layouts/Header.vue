@@ -1,11 +1,12 @@
 <template>
 	<div class='flex border-gray-300 border-b'>
-		<div class='flex-auto bg-gray-100'>
-			<h1 class="text-xl font-semibold p-4">
+		<div class='flex-auto'>
+			<h1 class="font-semibold pagePadding text-lg md:text-xl">
 				App Name
 			</h1>
 		</div>
-		<div class='flex-1 p-4 flex justify-end'>
+		<div class='flex-1 pagePadding flex justify-end'>
+			<!-- sign in/out -->
 			<router-link to='/home' v-if='!isSignedIn'>
 				<LabelledIcon label='Sign in'>
 					<SignInIcon title="Sign in" />

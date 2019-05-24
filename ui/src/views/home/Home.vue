@@ -13,6 +13,15 @@ export default {
   name: 'home',
   components: {
     HelloWorld
-  }
+  },
+	computed: {
+		isSignedIn() {
+			return this.$store.getters['auth/isSignedIn']
+		}
+	},
+	mounted() {
+		if (this.isSignedIn)
+			this.$router.replace({ name: 'signedInHome' })
+	}
 }
 </script>

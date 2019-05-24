@@ -10,7 +10,7 @@
 				<router-link to="/users">User</router-link>
 			</div>
 			<!-- content -->
-			<div class='flex-1 p-4'>
+			<div class='flex-1 pagePadding'>
 				<div class='flex justify-center'>
 					<!-- router-view stuff will go into slot -->
 					<slot />
