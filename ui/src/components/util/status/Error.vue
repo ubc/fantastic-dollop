@@ -8,6 +8,7 @@
 			<div class='flex-1 px-2 py-1 text-red-700'>
 				<h3 v-if='title' class='font-bold'>{{ title }}</h3>
 				<p>{{ msg }}</p>
+				<slot />
 			</div>
 		</div>
 	</div>
@@ -23,10 +24,7 @@ export default {
 	},
 	props: {
 		title: String,
-		msg: {
-			type: String,
-			required: true
-		}
+		msg: String,
 	}
 }
 </script>

@@ -1,13 +1,13 @@
 <template>
   <div>
 		<h1 class='font-bold text-xl mb-2'>Admin Area</h1>
-		<div class='flex'>
+		<div class='flex pills'>
 			<router-link :to='{ name: "adminUserTable" }' class='flex-initial mr-2'>
 				Users
 			</router-link>
-			<div class='flex-initial'>
+			<a>
 				Item 2
-			</div>
+			</a>
 		</div>
 		<router-view />
   </div>
@@ -20,4 +20,13 @@ export default {
 </script>
 
 <style scoped>
+.pills { 
+	@apply mb-4;
+	& a {
+		@apply px-2 py-1; 
+	}
+}
+.router-link-active {
+	@apply border border-orange-400 rounded;
+}
 </style>
