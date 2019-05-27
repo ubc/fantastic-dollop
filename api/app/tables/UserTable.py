@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, Unicode, Table
+from sqlalchemy import Boolean, Column, DateTime, Integer, Unicode, Table
 from app.tables import dbMetadata
 
 # database connection
@@ -15,7 +15,9 @@ table = Table(
     Column('name', Unicode(255)),
     Column('preferredName', Unicode(255)),
     Column('email', Unicode(255)),
-    Column('studentNumber', Unicode(255))
+    Column('studentNumber', Unicode(255)),
+    Column('isAdmin', Boolean),
+    Column('created', DateTime)
 )
 
 async def getByUsername(username: str):

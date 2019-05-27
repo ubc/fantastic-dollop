@@ -1,3 +1,5 @@
+from datetime import datetime
+
 # request body data validation
 from pydantic import BaseModel
 
@@ -11,6 +13,7 @@ class UserBase(BaseModel):
     preferredName: str = None
     email: str = None
     studentNumber: str = None
+    isAdmin: bool = False
 
 
 # Incoming request data will need to match this spec.
@@ -20,3 +23,4 @@ class UserIn(UserBase):
 # Outgoing response data will be filtered to match this spec.
 class UserOut(UserBase):
     id: int
+    created: datetime
