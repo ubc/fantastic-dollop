@@ -2,13 +2,10 @@
 	<div>
 
 		<!-- content body -->
-		<div class="flex">
-			<!-- content -->
-			<div class='flex-1 pagePadding'>
-				<div class='flex justify-center'>
-					<!-- router-view stuff will go into slot -->
-					<slot />
-				</div>
+		<div class="pagePadding flex justify-center">
+			<!-- router-view stuff will go into slot -->
+			<div class='flex-auto md:flex-initial'>
+				<slot />
 			</div>
 		</div>
 

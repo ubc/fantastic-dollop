@@ -3,11 +3,13 @@
 	So the icons, ideally, needs to be easy to figure out by itself.
 -->
 <template>
-	<div>
-		<slot />
-		<span class='hidden md:inline'>
+	<div class='flex'>
+		<div class='flex-initial md:pr-1'>
+			<slot />
+		</div>
+		<div class='hidden md:inline md:flex-initial'>
 			{{ label }}
-		</span>
+		</div>
 	</div>
 </template>
 

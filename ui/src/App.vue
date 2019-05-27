@@ -7,9 +7,9 @@
 		entire app, we just need to show it if the user is accessing a page that
 		needs sign in. Once they are signed in, the form should automatically
 		disappear and the page they were on gets unhidden. -->
-		<DefaultLayout v-if='needSignIn'>
+		<div class='pagePadding flex justify-center' v-if='needSignIn'>
 			<SignIn />
-		</DefaultLayout>
+		</div>
 
 		<!-- Main content. Note that v-show only hides/unhides while v-if destroys
 		the elements in DOM. We don't want the destructive 'v-if' cause it'll
@@ -28,7 +28,6 @@
 <script>
 import Header from '@/layouts/Header'
 import Footer from '@/layouts/Footer'
-import DefaultLayout from '@/layouts/Default'
 import SignIn from '@/components/SignIn'
 
 const DEFAULT_LAYOUT = "Default"
@@ -38,7 +37,6 @@ export default {
 	components: {
 		Header,
 		Footer,
-		DefaultLayout,
 		SignIn
 	},
 	computed: {

@@ -23,10 +23,10 @@ export default {
 .pills { 
 	@apply mb-4;
 	& a {
-		@apply px-2 py-1; 
+		@apply border border-gray-400 rounded px-2 py-1; 
+		&.router-link-active {
+			@apply border-orange-400;
+		}
 	}
-}
-.router-link-active {
-	@apply border border-orange-400 rounded;
 }
 </style>
