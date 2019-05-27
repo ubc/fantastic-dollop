@@ -1,6 +1,6 @@
 // Stores the auth token in vuex, with a backup in a cookie
 
-import axios from 'axios'
+import axios from '@/plugins/axios'
 
 export const TOKEN_KEY = 'token'
 

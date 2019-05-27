@@ -51,8 +51,8 @@
 			</div>
 		</div>
 
-		<div class='flex justify-center'>
-			<Loading v-if='users.loading' class='text-center' />
+		<div class='flex justify-center my-2' v-show='users.loading' >
+			<Loading class='text-center' />
 		</div>
 	</div>
 </template>
