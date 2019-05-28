@@ -3,7 +3,7 @@ import logging
 from fastapi import APIRouter, Depends, HTTPException
 
 # http status codes
-from starlette.status import HTTP_404_NOT_FOUND
+from starlette.status import HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND, HTTP_409_CONFLICT
 
 # request body data validation
 from pydantic import BaseModel
@@ -12,45 +12,40 @@ from typing import List
 
 # database table
 from app.tables import UserTable
-# database connection
-from app import db
 
 # validation models
-from app.models.User import UserIn, UserOut
+from app.models.User import UserIn, UserNewIn, UserOut
 
 # session data
 from app.helpers import Token
-# password security
-from app.helpers import Password
-# database retrival
-from app.helpers import TableRetriever
 
 log = logging.getLogger(__name__)
 router = APIRouter()
 
 @router.get("/users", response_model=List[UserOut])
-async def get(currentUser: UserOut=Depends(Token.getCurrentUser)):
-    query = UserTable.table.select()
-    return await db.fetch_all(query)
+async def getAll(currentUser: UserOut=Depends(Token.getCurrentUser)):
+    return await UserTable.getAll()
 
 @router.get("/users/{userId}", response_model=UserOut)
 async def get(userId: int):
-    ret = await TableRetriever.getById(UserTable.table, userId)
+    ret = await UserTable.get(userId)
     if ret:
         return ret
     raise HTTPException(status_code=HTTP_404_NOT_FOUND,
-                        detail="User not found")
+                        detail="User not found.")
 
 @router.post("/users", response_model=UserOut)
-async def add(userInfo: UserIn):
-    hashedPassword = Password.hash(userInfo.password)
-    query = UserTable.table.insert().values(
-        username=userInfo.username,
-        password=hashedPassword,
-        name=userInfo.name,
-        preferredName=userInfo.preferredName,
-        email=userInfo.email,
-        studentNumber=userInfo.studentNumber
-    )
-    last_record_id = await db.execute(query)
-    return {**userInfo.dict(), "id": last_record_id}
+async def post(userInfo: UserNewIn):
+    userExists = await UserTable.has(userInfo)
+    if userExists:
+        raise HTTPException(status_code=HTTP_409_CONFLICT,
+                            detail="Username is taken.")
+    return await UserTable.add(userInfo)
+
+@router.post("/users/{userId}", response_model=UserOut)
+async def post(userId: int, userInfo: UserIn):
+    # TODO: if user changes username, need to make sure new username is unique
+    if userId != userInfo.id:
+        raise HTTPException(status_code=HTTP_400_BAD_REQUEST,
+                            detail="User ID in route does not match user ID in request data.")
+    return await UserTable.edit(userInfo)

@@ -15,10 +15,16 @@ class UserBase(BaseModel):
     studentNumber: str = None
     isAdmin: bool = False
 
-
 # Incoming request data will need to match this spec.
-class UserIn(UserBase):
+
+# new users must have a password
+class UserNewIn(UserBase):
     password: str
+
+# existing users must have id
+class UserIn(UserBase):
+    id: int
+    password: str = None
 
 # Outgoing response data will be filtered to match this spec.
 class UserOut(UserBase):

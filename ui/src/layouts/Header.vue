@@ -9,7 +9,7 @@
 			<router-link to='/' class='navSpacer'>
 				<LabelledIcon label='Home'><HomeIcon /></LabelledIcon>
 			</router-link>
-			<router-link :to='{name:"admin"}' class='navSpacer'>
+			<router-link :to='{name:"admin"}' class='navSpacer' v-if='isSignedIn'>
 				<LabelledIcon label='Admin'><AdminIcon title="Admin" /></LabelledIcon>
 			</router-link>
 			<!-- sign in/out -->

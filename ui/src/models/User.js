@@ -40,7 +40,8 @@ export class User extends Model {
   routes() {
     return {
       fetch: getAPIURL('/users/{id}'),
-      save: getAPIURL('/users')
+      save: getAPIURL('/users'), // creating new
+      update: getAPIURL('/users/{id}') // editing existing
     }
   }
 }

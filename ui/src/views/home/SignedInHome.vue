@@ -1,6 +1,6 @@
 <template>
 	<div>
-		you need to be signed in to see this
+		a list of courses you're enrolled in, coming soon
 	</div>
 </template>
 
