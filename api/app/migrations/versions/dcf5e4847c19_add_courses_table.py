@@ -7,7 +7,7 @@ Create Date: 2019-05-27 14:18:25.999916
 """
 from alembic import op
 import sqlalchemy as sa
-from sqlalchemy import Column, DateTime, Integer, Unicode
+from sqlalchemy import Boolean, Column, DateTime, Integer, Unicode, UnicodeText
 
 
 # revision identifiers, used by Alembic.
@@ -24,6 +24,8 @@ def upgrade():
         'courses',
         Column('id', Integer, primary_key=True),
         Column('name', Unicode(255), nullable=False, unique=True),
+        Column('description', UnicodeText),
+        Column('isActive', Boolean, server_default=sa.sql.expression.true()),
         Column('modified', DateTime, server_default=sa.func.current_timestamp(),
                server_onupdate=sa.func.current_timestamp()),
         Column('created', DateTime, server_default=sa.func.current_timestamp()),

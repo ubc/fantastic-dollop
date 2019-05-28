@@ -3,7 +3,7 @@ import logging
 from fastapi import APIRouter, Depends, HTTPException
 
 # http status codes
-from starlette.status import HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND, HTTP_409_CONFLICT
+from starlette.status import HTTP_201_CREATED, HTTP_204_NO_CONTENT, HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND, HTTP_409_CONFLICT
 
 # data types used for data validation
 from typing import List
@@ -33,9 +33,9 @@ async def get(courseId: int):
     raise HTTPException(status_code=HTTP_404_NOT_FOUND,
                         detail="Course not found.")
 
-@router.post("/courses", response_model=CourseOut)
+@router.post("/courses", response_model=CourseOut, status_code=HTTP_201_CREATED)
 async def post(courseInfo: CourseNewIn):
-    exists = await CourseTable.has(courseInfo)
+    exists = await CourseTable.has(name=courseInfo.name)
     if exists:
         raise HTTPException(status_code=HTTP_409_CONFLICT,
                             detail="Course name is taken.")
@@ -48,3 +48,12 @@ async def post(courseId: int, courseInfo: CourseIn):
         raise HTTPException(status_code=HTTP_400_BAD_REQUEST,
                             detail="Course ID in route does not match course ID in request data.")
     return await CourseTable.edit(courseInfo)
+
+@router.delete("/courses/{courseId}", status_code=HTTP_204_NO_CONTENT)
+async def post(courseId: int):
+    courseExists = await CourseTable.has(courseId=courseId)
+    if courseExists:
+        await CourseTable.delete(courseId)
+        return
+    raise HTTPException(status_code=HTTP_404_NOT_FOUND,
+                        detail="Course not found.")

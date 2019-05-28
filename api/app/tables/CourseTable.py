@@ -43,9 +43,19 @@ async def edit(info: CourseIn):
     await db.execute(query)
     return await get(info.id)
 
-async def has(info: CourseNewIn):
-    exists = await getByName(info.name)
-    if exists:
+async def delete(courseId: int):
+    query = table.delete().where(table.c.id==courseId)
+    await db.execute(query)
+    return
+
+async def has(name: str=None, courseId: int=None):
+    courseExists = False
+    if name:
+        courseExists = await getByName(name)
+    elif courseId:
+        courseExists = await get(courseId)
+    else:
+        log.warning("No parameter passed into CourseTable.has(), will always return False.")
+    if courseExists:
         return True
     return False
-

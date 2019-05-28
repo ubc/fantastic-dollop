@@ -58,9 +58,19 @@ async def edit(userInfo: UserIn):
     await db.execute(query)
     return await get(userInfo.id)
 
-async def has(userInfo: UserBase):
-    userExists = await getByUsername(userInfo.username)
+async def delete(userId: int):
+    query = table.delete().where(table.c.id==userId)
+    await db.execute(query)
+    return
+
+async def has(username: str=None, userId: int=None):
+    userExists = None
+    if username:
+        userExists = await getByUsername(username)
+    elif userId:
+        userExists = await get(userId)
+    else:
+        log.warning("No parameter passed into UserTable.has(), will always return False.")
     if userExists:
         return True
     return False
-
