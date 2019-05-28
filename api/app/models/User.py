@@ -30,3 +30,4 @@ class UserIn(UserBase):
 class UserOut(UserBase):
     id: int
     created: datetime
+    modified: datetime

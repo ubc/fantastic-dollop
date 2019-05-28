@@ -24,7 +24,8 @@ table = Table(
     Column('email', Unicode(255)),
     Column('studentNumber', Unicode(255)),
     Column('isAdmin', Boolean),
-    Column('created', DateTime)
+    Column('created', DateTime),
+    Column('modified', DateTime)
 )
 
 async def getByUsername(username: str):
