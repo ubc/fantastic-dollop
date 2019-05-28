@@ -4,8 +4,9 @@ import os
 import yaml # for reading the logging config file
 
 from fastapi import FastAPI
-from app.controllers import users
-from app.controllers import signin
+from app.controllers import Users
+from app.controllers import SignIn
+from app.controllers import Courses
 from app import db
 
 # Configures logging for the whole app, will default to using the settings
@@ -26,19 +27,11 @@ log = logging.getLogger(__name__)
 
 app = FastAPI()
 
-app.include_router(users.router)
-app.include_router(signin.router)
+app.include_router(Courses.router)
+app.include_router(Users.router)
+app.include_router(SignIn.router)
 
-@app.get("/")
-async def root():
-    log.debug("HELLO WORLD 1")
-    return {"message": "Hello World"}
-
-@app.get("/items/")
-async def read_items():
-    log.debug("HELLO WORLD")
-    return "blah"
-
+# clean up database connection
 @app.on_event("startup")
 async def startup():
     await db.connect()

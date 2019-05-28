@@ -1,0 +1,50 @@
+import logging
+
+from fastapi import APIRouter, Depends, HTTPException
+
+# http status codes
+from starlette.status import HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND, HTTP_409_CONFLICT
+
+# data types used for data validation
+from typing import List
+
+# database table
+from app.tables import CourseTable
+
+# validation models
+from app.models.Course import CourseIn, CourseNewIn, CourseOut
+from app.models.User import UserOut
+
+# session data
+from app.helpers import Token
+
+log = logging.getLogger(__name__)
+router = APIRouter()
+
+@router.get("/courses", response_model=List[CourseOut])
+async def getAll(currentUser: UserOut=Depends(Token.getCurrentUser)):
+    return await CourseTable.getAll()
+
+@router.get("/courses/{courseId}", response_model=CourseOut)
+async def get(courseId: int):
+    ret = await CourseTable.get(courseId)
+    if ret:
+        return ret
+    raise HTTPException(status_code=HTTP_404_NOT_FOUND,
+                        detail="Course not found.")
+
+@router.post("/courses", response_model=CourseOut)
+async def post(courseInfo: CourseNewIn):
+    exists = await CourseTable.has(courseInfo)
+    if exists:
+        raise HTTPException(status_code=HTTP_409_CONFLICT,
+                            detail="Course name is taken.")
+    return await CourseTable.add(courseInfo)
+
+@router.post("/courses/{courseId}", response_model=CourseOut)
+async def post(courseId: int, courseInfo: CourseIn):
+    # TODO: if course name changes, need to make sure new name is unique
+    if courseId != courseInfo.id:
+        raise HTTPException(status_code=HTTP_400_BAD_REQUEST,
+                            detail="Course ID in route does not match course ID in request data.")
+    return await CourseTable.edit(courseInfo)

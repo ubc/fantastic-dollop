@@ -5,8 +5,6 @@ from fastapi import APIRouter, Depends, HTTPException
 # http status codes
 from starlette.status import HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND, HTTP_409_CONFLICT
 
-# request body data validation
-from pydantic import BaseModel
 # data types used for data validation
 from typing import List
 

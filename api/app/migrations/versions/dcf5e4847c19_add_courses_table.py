@@ -23,7 +23,7 @@ def upgrade():
     op.create_table(
         'courses',
         Column('id', Integer, primary_key=True),
-        Column('name', Unicode(255), nullable=False),
+        Column('name', Unicode(255), nullable=False, unique=True),
         Column('modified', DateTime, server_default=sa.func.current_timestamp(),
                server_onupdate=sa.func.current_timestamp()),
         Column('created', DateTime, server_default=sa.func.current_timestamp()),
