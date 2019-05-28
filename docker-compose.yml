@@ -7,7 +7,7 @@ version: '3'
 
 services:
   ui:
-    image: "node:10-alpine"
+    build: ui/
     working_dir: /home/node/app
     volumes:
       - ./ui/:/home/node/app
