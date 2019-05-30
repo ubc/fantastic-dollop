@@ -2,12 +2,12 @@
   <div>
 		<h1 class='font-bold text-xl mb-2'>Admin Area</h1>
 		<div class='flex pills'>
-			<router-link :to='{ name: "adminUserTable" }' class='flex-initial mr-2'>
+			<router-link :to='{ name: "adminCourseTable" }' class='flex-initial mr-2'>
+				Courses
+			</router-link>
+			<router-link :to='{ name: "adminUserTable" }' class='flex-initial'>
 				Users
 			</router-link>
-			<a>
-				Item 2
-			</a>
 		</div>
 		<router-view />
   </div>

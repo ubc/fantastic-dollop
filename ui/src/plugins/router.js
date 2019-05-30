@@ -39,6 +39,11 @@ export default new Router({
       component: () => import('../views/admin/Admin.vue'),
       children: [
         {
+          path: '/admin/courses',
+          name: 'adminCourseTable',
+          component: () => import('../views/courses/CourseTable.vue')
+        },
+        {
           path: '/admin/users',
           name: 'adminUserTable',
           component: () => import('../views/users/UserTable.vue')
