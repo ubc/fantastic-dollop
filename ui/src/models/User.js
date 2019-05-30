@@ -1,6 +1,6 @@
 import {Model, Collection} from 'vue-mc'
-import {equal, integer, min, required, string} from 'vue-mc/validation'
-import {getAPIURL} from './Helpers'
+import {email, equal, integer, min, required, string} from 'vue-mc/validation'
+import {getAPIURL, convertDatabaseDate} from './Helpers'
 
 export class User extends Model {
   defaults() {
@@ -26,7 +26,9 @@ export class User extends Model {
       name: String,
       preferredName: String,
       email: String,
-      studentNumber: String
+      studentNumber: String,
+      created: (created) => convertDatabaseDate(created),
+      modified: (modified) => convertDatabaseDate(modified)
     }
   }
 
@@ -34,6 +36,7 @@ export class User extends Model {
     return {
       id:   integer.and(min(1)).or(equal(null)),
       username: string.and(required),
+      email: email
     }
   }
 

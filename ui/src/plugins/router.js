@@ -44,19 +44,27 @@ export default new Router({
           component: () => import('../views/users/UserTable.vue')
         },
         {
-          path: '/users/add',
+          path: '/admin/users/add',
           name: 'adminAddUser',
           component: () => import('../views/users/UserInfoForm.vue'),
           props: {isNewUser: true}
         },
         {
-          path: '/users/:userId/edit',
+          path: '/admin/users/:userId',
+          name: 'adminViewUser',
+          component: () => import('../views/users/UserInfo.vue'),
+          // userId is expected to be a number, but by default, router passes all
+          // params as a string, so we need to use a function here to cast it
+          props(route) { return {userId: Number(route.params.userId)} }
+        },
+        {
+          path: '/admin/users/:userId/edit',
           name: 'adminEditUser',
           component: () => import('../views/users/UserInfoForm.vue'),
           // userId is expected to be a number, but by default, router passes all
           // params as a string, so we need to use a function here to cast it
           props(route) { return {userId: Number(route.params.userId)} }
-        }
+        },
       ]
     },
     {

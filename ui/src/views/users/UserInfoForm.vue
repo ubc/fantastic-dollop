@@ -70,17 +70,14 @@ export default {
 	}},
 	mounted() {
 		if (this.userId) {
-			console.log("fetching user")
 			this.user.id = this.userId
 			this.user.fetch()
-			console.log(this.user)
 		}
 	},
 	methods: {
 		saveUser: function() {
-			this.user.save().then( (response) => {
-				console.log("we has success")
-				console.log(response)
+			this.user.save().then( () => {
+				this.$router.push({'name': 'adminUserTable'})
 			}).catch( (error) => {
 				console.log("we has error")
 				console.log(error)
