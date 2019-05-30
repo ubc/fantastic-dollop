@@ -1,5 +1,6 @@
 import logging
 
+import sqlalchemy as sa
 from sqlalchemy import Boolean, Column, DateTime, Integer, Unicode, Table
 from app.tables import dbMetadata
 
@@ -25,7 +26,9 @@ table = Table(
     Column('studentNumber', Unicode(255)),
     Column('isAdmin', Boolean),
     Column('created', DateTime),
-    Column('modified', DateTime)
+    # postgresql doesn't have onupdate without sql triggers, so we'll just
+    # let sqlalchemy take care of it instead
+    Column('modified', DateTime, onupdate=sa.func.current_timestamp())
 )
 
 async def getByUsername(username: str):
