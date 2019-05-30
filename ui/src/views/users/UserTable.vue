@@ -56,7 +56,8 @@
 						</router-link>
 					</div>
 					<div class='flex-initial md:inline-block'>
-						<button class='btnRegular'>
+						<button class='btnRegular' type='button'
+							v-on:click='deleteUser($event, user)'>
 							<LabelledIcon label='Delete'>
 							<DeleteIcon title='Delete user' />
 							</LabelledIcon>
@@ -107,6 +108,13 @@ export default {
 				if (error.response.response.status == 401) {
 					this.errMsg = "Session expired, please sign in again and then click retry."
 				}
+			})
+		},
+		deleteUser(event, user) {
+			user.delete().then(() => {
+				console.log("User deleted")
+			}).catch((error) => {
+				this.errMsg = "Failed to delete user: " + error.message
 			})
 		}
 	},

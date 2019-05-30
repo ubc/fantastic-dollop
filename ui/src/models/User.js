@@ -44,7 +44,8 @@ export class User extends Model {
     return {
       fetch: getAPIURL('/users/{id}'),
       save: getAPIURL('/users'), // creating new
-      update: getAPIURL('/users/{id}') // editing existing
+      update: getAPIURL('/users/{id}'), // editing existing
+      delete: getAPIURL('/users/{id}')
     }
   }
 }
