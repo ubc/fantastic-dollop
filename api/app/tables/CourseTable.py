@@ -1,7 +1,7 @@
 import logging
 
 import sqlalchemy as sa
-from sqlalchemy import Column, DateTime, Integer, Unicode, Table
+from sqlalchemy import Boolean, Column, DateTime, Integer, Table, Unicode, UnicodeText
 from app.tables import dbMetadata
 
 # database connection
@@ -9,7 +9,7 @@ from app import db
 
 from app.helpers import TableRetriever
 
-from app.models.Course import CourseIn, CourseNewIn, CourseOut 
+from app.models.Course import CourseIn, CourseNewIn
 
 log = logging.getLogger(__name__)
 
@@ -18,8 +18,10 @@ table = Table(
     dbMetadata,
     Column('id', Integer, primary_key=True),
     Column('name', Unicode(255), unique=True),
-    Column('created', DateTime),
-    Column('modified', DateTime, onupdate=sa.func.current_timestamp())
+    Column('description', UnicodeText),
+    Column('isActive', Boolean),
+    Column('modified', DateTime, onupdate=sa.func.current_timestamp()),
+    Column('created', DateTime)
 )
 
 async def getByName(name: str):

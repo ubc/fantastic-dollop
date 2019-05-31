@@ -10,6 +10,8 @@ python-multipart
 pyjwt
 # secure password hashing
 passlib[bcrypt]
+# permissions system
+miracle-acl
 
 # for reading yaml config files, e.g.: config/logging.yml
 PyYAML

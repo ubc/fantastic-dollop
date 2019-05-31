@@ -22,6 +22,7 @@ idna==2.8                 # via email-validator
 immutables==0.9           # via contextvars
 mako==1.0.10              # via alembic
 markupsafe==1.1.1         # via mako
+miracle-acl==0.0.4.post1
 passlib[bcrypt]==1.7.1
 pip-tools==3.7.0
 psycopg2-binary==2.8.2    # via databases

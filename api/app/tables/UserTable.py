@@ -1,8 +1,14 @@
 import logging
 
+from fastapi import HTTPException
+
+from starlette.status import HTTP_409_CONFLICT
+
 import sqlalchemy as sa
 from sqlalchemy import Boolean, Column, DateTime, Integer, Unicode, Table
 from app.tables import dbMetadata
+
+from asyncpg.exceptions import PostgresError, UniqueViolationError
 
 # database connection
 from app import db
@@ -10,7 +16,7 @@ from app import db
 from app.helpers import Password
 from app.helpers import TableRetriever
 
-from app.models.User import UserBase, UserIn, UserNewIn, UserOut
+from app.models.User import UserBase, UserIn, UserNewIn
 
 log = logging.getLogger(__name__)
 
@@ -45,7 +51,11 @@ async def add(userInfo: UserNewIn):
     newVals = userInfo.dict(skip_defaults=True)
     newVals['password'] = Password.hash(userInfo.password)
     query = table.insert().values(newVals)
-    userId = await db.execute(query)
+    try:
+        userId = await db.execute(query)
+    except UniqueViolationError as e:
+        raise HTTPException(status_code=HTTP_409_CONFLICT,
+                            detail=e.detail)
     return await get(userId)
 
 async def edit(userInfo: UserIn):
@@ -58,7 +68,12 @@ async def edit(userInfo: UserIn):
         del newVals['password']
 
     query = table.update().where(table.c.id==userInfo.id).values(newVals)
-    await db.execute(query)
+    try:
+        await db.execute(query)
+    except UniqueViolationError as e:
+        raise HTTPException(status_code=HTTP_409_CONFLICT,
+                            detail=e.detail)
+
     return await get(userInfo.id)
 
 async def delete(userId: int):
