@@ -9,6 +9,8 @@ from alembic import context
 # to import config, need to add config to search path
 import sys
 from os.path import dirname, join, abspath
+# need to manually add the app directory to search path for imports, or it
+# won't see our app's config modules
 sys.path.insert(0, abspath(join(dirname(__file__), '..')))
 from config import EnvConfig
 

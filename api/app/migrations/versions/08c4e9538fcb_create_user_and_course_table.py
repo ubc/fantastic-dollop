@@ -1,4 +1,4 @@
-"""create users table
+"""create user and course table
 
 Revision ID: 08c4e9538fcb
 Revises:
@@ -37,6 +37,7 @@ def upgrade():
         Column('created', DateTime, server_default=sa.func.current_timestamp())
 
     )
+    # create a default admin user with password admin
     op.bulk_insert(userTable, [
         {'username': 'admin', 'password': '$2b$12$kD4DGvXC3GWOQkc0mBO4xejJM3pupLif49.sFeCTkeesGR1wEdw4S', 'isAdmin': True}
     ])

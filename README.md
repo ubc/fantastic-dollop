@@ -26,9 +26,16 @@ Make sure you're in the web component's root directory (where this README is loc
 * The UI should be accessible at [http://localhost:5000/](http://localhost:5000/).
 * The API should be accessible at [http://localhost:5000/api](http://localhost:5000/api).
 
-Changes to the source files should automatically be reflected to the running containers. In practice, frontend CSS sometimes don't go through properly, so you might need to manually refresh the page to see the changes.
+A default admin user is available with:
+
+* Username: admin
+* Password: admin
 
 The default `docker-compose up` command will start the containers in the foreground, showing all log output directly. To exit, press `Ctrl`-`c` or whatever key combo your OS uses to send SIGINT.
+
+Changes to the source files should be automatically reloaded on the running containers. In practice, frontend CSS sometimes don't go through properly, so you might need to manually refresh the page to see the changes. Some python errors, particularly syntax problems, can kill the reloader. In such cases, you can restart just the API container with:
+
+    docker-compose restart api
 
 On the API side, two automatically generated interactive documention is available at:
 
@@ -80,13 +87,13 @@ To stop running:
     docker-compose stop
 
 
-To access the logs in this mode, run: 
+To access the logs in this mode, run:
 
     docker-compose logs <SERVICENAME>
 
 Examples:
 
-* API  
+* API
 
         docker-compose logs api
 

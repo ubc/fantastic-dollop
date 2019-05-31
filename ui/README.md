@@ -4,7 +4,15 @@ The frontend.
 
 ## Frameworks
 
+Major frameworks & plugins:
+
 * [Vue.js](https://vuejs.org/), JavaScript framework
+  * [Vue Router](https://router.vuejs.org/), routing for vue
+  * [Vuex](https://vuex.vuejs.org/), vue state management
+  * [vue-mc](https://vuemc.io/), models & collections
+  * [vue-material-design-icons](https://www.npmjs.com/package/vue-material-design-icons), material design icons
+* [Axios](https://github.com/axios/axios), http request library
+* [Tailwind CSS](https://tailwindcss.com/), CSS framework
 
 ## Setup (Non-Docker)
 
