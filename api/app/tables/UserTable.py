@@ -15,7 +15,7 @@ from app.models.User import UserBase, UserIn, UserNewIn, UserOut
 log = logging.getLogger(__name__)
 
 table = Table(
-    'users',
+    'user',
     dbMetadata,
     Column('id', Integer, primary_key=True),
     Column('username', Unicode(255), nullable=False),

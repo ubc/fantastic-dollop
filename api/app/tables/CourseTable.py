@@ -14,7 +14,7 @@ from app.models.Course import CourseIn, CourseNewIn, CourseOut
 log = logging.getLogger(__name__)
 
 table = Table(
-    'courses',
+    'course',
     dbMetadata,
     Column('id', Integer, primary_key=True),
     Column('name', Unicode(255), unique=True),
