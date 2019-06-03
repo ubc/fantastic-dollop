@@ -106,6 +106,9 @@ To upgrade a dependency to a specific version:
 
         pip install --force-reinstall <PACKAGE_NAME>
 
+2. I can't run raw SQL queries against the user table!
+  This is because `user` is a keyword that gets translated to the `current_user` function in Postgres. You need to double quote `"user"` so that it treats it as a table. For more detail: https://dba.stackexchange.com/questions/75551/returning-rows-in-postgresql-with-a-table-called-user
+
 ### Modifying the Database Schema
 
 See the README in `app/migrations` for instructions on how to write migrations for modifying the database schema.
