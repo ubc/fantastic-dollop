@@ -21,9 +21,11 @@ from app.helpers import Token
 log = logging.getLogger(__name__)
 router = APIRouter()
 
+
 @router.get("/courses", response_model=List[CourseOut])
 async def getAll(currentUser: UserOut=Depends(Token.getCurrentUser)):
     return await CourseTable.getAll()
+
 
 @router.get("/courses/{courseId}", response_model=CourseOut)
 async def get(courseId: int):
@@ -33,24 +35,27 @@ async def get(courseId: int):
     raise HTTPException(status_code=HTTP_404_NOT_FOUND,
                         detail="Course not found.")
 
+
 @router.post("/courses", response_model=CourseOut, status_code=HTTP_201_CREATED)
-async def post(courseInfo: CourseNewIn):
+async def create(courseInfo: CourseNewIn):
     exists = await CourseTable.has(name=courseInfo.name)
     if exists:
         raise HTTPException(status_code=HTTP_409_CONFLICT,
                             detail="Course name is taken.")
     return await CourseTable.add(courseInfo)
 
+
 @router.post("/courses/{courseId}", response_model=CourseOut)
-async def post(courseId: int, courseInfo: CourseIn):
+async def update(courseId: int, courseInfo: CourseIn):
     # TODO: if course name changes, need to make sure new name is unique
     if courseId != courseInfo.id:
         raise HTTPException(status_code=HTTP_400_BAD_REQUEST,
                             detail="Course ID in route does not match course ID in request data.")
     return await CourseTable.edit(courseInfo)
 
+
 @router.delete("/courses/{courseId}", status_code=HTTP_204_NO_CONTENT)
-async def post(courseId: int):
+async def delete(courseId: int):
     courseExists = await CourseTable.has(courseId=courseId)
     if courseExists:
         await CourseTable.delete(courseId)
