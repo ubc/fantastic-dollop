@@ -8,7 +8,7 @@ import sqlalchemy as sa
 from sqlalchemy import Boolean, Column, DateTime, Integer, Unicode, Table
 from app.tables import dbMetadata
 
-from asyncpg.exceptions import PostgresError, UniqueViolationError
+from asyncpg.exceptions import UniqueViolationError
 
 # database connection
 from app import db
@@ -16,7 +16,7 @@ from app import db
 from app.helpers import Password
 from app.helpers import TableRetriever
 
-from app.models.User import UserBase, UserIn, UserNewIn
+from app.models.User import UserIn, UserNewIn
 
 log = logging.getLogger(__name__)
 
