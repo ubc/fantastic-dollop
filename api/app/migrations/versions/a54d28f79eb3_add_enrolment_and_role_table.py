@@ -7,7 +7,7 @@ Create Date: 2019-05-30 15:27:06.627753
 """
 from alembic import op
 import sqlalchemy as sa
-from sqlalchemy import Column, DateTime, ForeignKey, Integer, Unicode
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, Unicode, UniqueConstraint
 
 from app.helpers import Permission
 
@@ -40,8 +40,10 @@ def upgrade():
         Column('role_id', Integer, ForeignKey('role.id')),
         Column('modified', DateTime, server_default=sa.func.current_timestamp(),
                server_onupdate=sa.func.current_timestamp()),
-        Column('created', DateTime, server_default=sa.func.current_timestamp())
+        Column('created', DateTime, server_default=sa.func.current_timestamp()),
+        UniqueConstraint('course_id', 'user_id')
     )
+
 
 def downgrade():
     op.drop_table('enrolment')
