@@ -2,7 +2,7 @@
 <template>
 	<div>
 		<Loading v-if='user.loading' />
-		<form @submit.prevent='saveUser'>
+		<form @submit.prevent='saveUser' class='formVertical'>
 			<!-- Required Fields -->
 			<fieldset>
 				<legend>Required</legend>

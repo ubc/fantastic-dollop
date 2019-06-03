@@ -44,7 +44,7 @@ async def get(userId: int):
     return await TableRetriever.getById(table, userId)
 
 async def getAll():
-    query = table.select()
+    query = table.select().order_by('username')
     return await db.fetch_all(query)
 
 async def add(userInfo: UserNewIn):

@@ -5,6 +5,7 @@ from pydantic import BaseModel
 
 class CourseBase(BaseModel):
     name: str
+    description: str=None
 
 class CourseNewIn(CourseBase):
     pass

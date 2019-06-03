@@ -40,8 +40,25 @@ export default new Router({
       children: [
         {
           path: '/admin/courses',
-          name: 'adminCourseTable',
-          component: () => import('../views/courses/CourseTable.vue')
+          component: () => import('../views/DefaultRouterView.vue'),
+          children: [
+            {
+              path: '',
+              name: 'adminCourse',
+              component: () => import('../views/courses/CourseTable.vue')
+            },
+            {
+              path: '/admin/courses/add',
+              name: 'adminCourseAdd',
+              component: () => import('../views/courses/CourseForm.vue')
+            },
+            {
+              path: '/admin/courses/:courseId/edit',
+              name: 'adminCourseEdit',
+              component: () => import('../views/courses/CourseForm.vue'),
+              props(route) { return {courseId: Number(route.params.courseId)} }
+            }
+          ]
         },
         {
           path: '/admin/users',

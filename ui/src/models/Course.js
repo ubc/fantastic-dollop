@@ -6,7 +6,8 @@ export class Course extends Model {
   defaults() {
     return {
       id: null,
-      name: ''
+      name: '',
+      description: ''
     }
   }
 
@@ -27,8 +28,9 @@ export class Course extends Model {
   routes() {
     return {
       fetch: getAPIURL('/courses/{id}'),
-      save: getAPIURL('/courses'), // creating new
-      update: getAPIURL('/courses/{id}') // editing existing
+      save: getAPIURL('/courses'),
+      update: getAPIURL('/courses/{id}'),
+      delete: getAPIURL('/courses/{id}')
     }
   }
 }

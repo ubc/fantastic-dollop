@@ -4,7 +4,7 @@
 		<!-- content body -->
 		<div class="pagePadding flex justify-center">
 			<!-- router-view stuff will go into slot -->
-			<div class='flex-auto md:flex-initial'>
+			<div class='w-full lg:w-5/6 xl:w-3/4'>
 				<slot />
 			</div>
 		</div>

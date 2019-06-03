@@ -21,12 +21,6 @@ export class User extends Model {
   mutations() {
     return {
       id:   (id) => Number(id) || null,
-      username: String,
-      password: String,
-      name: String,
-      preferredName: String,
-      email: String,
-      studentNumber: String,
       created: (created) => convertDatabaseDate(created),
       modified: (modified) => convertDatabaseDate(modified)
     }

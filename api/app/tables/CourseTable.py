@@ -31,7 +31,7 @@ async def get(courseId: int):
     return await TableRetriever.getById(table, courseId)
 
 async def getAll():
-    query = table.select()
+    query = table.select().order_by('name')
     return await db.fetch_all(query)
 
 async def add(info: CourseNewIn):

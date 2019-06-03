@@ -1,50 +1,43 @@
 <!-- Table that lists courses in the database -->
 <template>
 	<div>
-		<router-link :to="{name: 'adminAddUser'}" tag="button" class='btnRegular mb-4' v-show='!errMsg'>
-			<LabelledIcon label='Add'><AddIcon title='Add a new user' /></LabelledIcon>
+		<h3 class='text-2xl mb-2'>Courses</h3>
+		<router-link :to="{name: 'adminCourseAdd'}" tag="button" class='btnRegular mb-4' v-show='!errMsg'>
+			<LabelledIcon label='Add'><AddIcon title='Add a new course' /></LabelledIcon>
 		</router-link>
 
 		<Error :msg='errMsg' v-if='errMsg'>
-			<button type='button' v-on:click='getUsers' class='btn btnPrimary'>Retry</button>
+			<button type='button' v-on:click='getCourses' class='btn btnPrimary'>Retry</button>
 		</Error>
+		<Info :msg='infoMsg' v-if='infoMsg' class='mb-3'>
+			<button type='button' v-on:click='infoMsg = ""' class='btn btnRegular'>
+				Dismiss</button>
+		</Info>
 
-		<div class='flex flex-col md:table'>
-			<div class='hidden md:table-row'>
-				<div class='p-1 font-bold md:pr-2 md:table-cell'>Name</div>
-				<div class='p-1 font-bold md:pr-2 md:table-cell'>Created</div>
-			</div>
+		<div class='border-gray-400 border-t mb-3'>
+			<!-- course card -->
 			<div v-for="course in courses.models" :course="course" :key="course.id"
-				class='border flex-auto p-1 border rounded mb-2 md:table-row'>
-				<!-- info fields -->
-				<div class='p-1 md:px-2 md:table-cell'>
-					<div class='w-1/2 inline-block md:hidden'>Name</div>
-					{{ course.$.name }}
+				class='py-2 border-b border-gray-400 flex'>
+				<!-- course info -->
+				<div class='flex-auto mr-3'>
+					<h4 class='text-xl font-medium break-all'>{{ course.$.name }}</h4>
+					<p class='text-gray-700'>{{ course.$.description }}</p>
 				</div>
-
-				<div class='p-1 md:px-2 md:table-cell'>
-					<div class='w-1/2 inline-block md:hidden'>Created</div>
-					{{ course.$.created }}
+				<!-- course controls -->
+				<div class='flex-initial self-center flex'>
+					<router-link tag="button" class='btnRegular mr-2'
+						:to="{name:'adminCourseEdit',params:{courseId: course.$.id}}">
+						<LabelledIcon label='Edit'>
+						<EditIcon title='Edit course' />
+						</LabelledIcon>
+					</router-link>
+					<button class='btnRegular' type='button'
+						v-on:click='deleteCourse($event, course)'>
+						<LabelledIcon label='Delete'>
+						<DeleteIcon title='Delete course' />
+						</LabelledIcon>
+					</button>
 				</div>
-				<!-- edit buttons -->
-				<div class='flex mt-2 md:p-1 md:table-cell'>
-					<div class='flex-1 md:inline-block'>
-						<router-link :to="{name: 'adminEditCourse',params:{courseId: course.$.id}}"
-							tag="button" class='btnRegular md:mr-2'>
-							<LabelledIcon label='Edit'>
-							<EditIcon title='Edit course' />
-							</LabelledIcon>
-						</router-link>
-					</div>
-					<div class='flex-initial md:inline-block'>
-						<button class='btnRegular'>
-							<LabelledIcon label='Delete'>
-							<DeleteIcon title='Delete course' />
-							</LabelledIcon>
-						</button>
-					</div>
-				</div>
-
 			</div>
 		</div>
 
@@ -62,6 +55,7 @@ import DeleteIcon from 'icons/Delete'
 import {CourseList} from '@/models/Course'
 
 import Error from '@/components/util/status/Error'
+import Info from '@/components/util/status/Info'
 import LabelledIcon from '@/components/util/LabelledIcon'
 import Loading from '@/components/util/status/Loading'
 
@@ -72,12 +66,14 @@ export default {
 		EditIcon,
 		Error,
 		DeleteIcon,
+		Info,
 		LabelledIcon,
-		Loading
+		Loading,
 	},
 	data() { return {
 		courses: new CourseList(),
-		errMsg: ''
+		errMsg: '',
+		infoMsg: ''
 	}},
 	methods: {
 		getCourses() {
@@ -88,6 +84,14 @@ export default {
 				if (error.response.response.status == 401) {
 					this.errMsg = "Session expired, please sign in again and then click retry."
 				}
+			})
+		},
+		deleteCourse(event, course) {
+			let courseName = course.$.name
+			course.delete().then(() => {
+				this.infoMsg = "Course '" + courseName + "' was deleted."
+			}).catch((error) => {
+				this.errMsg = "Failed to delete course: " + error.message
 			})
 		}
 	},
