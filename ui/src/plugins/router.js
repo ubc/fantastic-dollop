@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '../views/home/Home.vue'
 
+import AdminRoutes from '@/plugins/router/admin'
+
 Vue.use(Router)
 
 /* Each route entry can have optional metadata configuration, see root page for
@@ -30,70 +32,14 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (signedInHome.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () =>
-        import('../views/home/SignedInHome.vue')//webpackChunkName: "signedInHome"
-    },
-    {
-      path: '/admin',
-      name: 'admin',
-      component: () => import('../views/admin/Admin.vue'),
-      children: [
-        {
-          path: '/admin/courses',
-          component: () => import('../views/DefaultRouterView.vue'),
-          children: [
-            {
-              path: '',
-              name: 'adminCourse',
-              component: () => import('../views/courses/CourseTable.vue')
-            },
-            {
-              path: '/admin/courses/add',
-              name: 'adminCourseAdd',
-              component: () => import('../views/courses/CourseForm.vue')
-            },
-            {
-              path: '/admin/courses/:courseId/edit',
-              name: 'adminCourseEdit',
-              component: () => import('../views/courses/CourseForm.vue'),
-              props(route) { return {courseId: Number(route.params.courseId)} }
-            }
-          ]
-        },
-        {
-          path: '/admin/users',
-          name: 'adminUserTable',
-          component: () => import('../views/users/UserTable.vue')
-        },
-        {
-          path: '/admin/users/add',
-          name: 'adminAddUser',
-          component: () => import('../views/users/UserForm.vue'),
-          props: {isNewUser: true}
-        },
-        {
-          path: '/admin/users/:userId',
-          name: 'adminViewUser',
-          component: () => import('../views/users/UserInfo.vue'),
-          // userId is expected to be a number, but by default, router passes all
-          // params as a string, so we need to use a function here to cast it
-          props(route) { return {userId: Number(route.params.userId)} }
-        },
-        {
-          path: '/admin/users/:userId/edit',
-          name: 'adminEditUser',
-          component: () => import('../views/users/UserForm.vue'),
-          // userId is expected to be a number, but by default, router passes all
-          // params as a string, so we need to use a function here to cast it
-          props(route) { return {userId: Number(route.params.userId)} }
-        },
-      ]
+      component: () => import('../views/home/SignedInHome.vue')
     },
     {
       path: '/signed-out',
       name: 'signedOut',
       meta: { isPublic: true },
       component: () => import('../views/SignedOut.vue')
-    }
+    },
+    AdminRoutes
   ]
 })

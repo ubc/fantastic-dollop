@@ -1,5 +1,6 @@
 <template>
 	<div>
+		<Breadcrumb />
 
 		<!-- content body -->
 		<div class="pagePadding flex justify-center">
@@ -13,8 +14,13 @@
 </template>
 
 <script>
+import Breadcrumb from '@/layouts/Breadcrumb'
+
 export default {
-	name: 'DefaultLayout'
+	name: 'DefaultLayout',
+	components: {
+		Breadcrumb
+	}
 }
 </script>
 
