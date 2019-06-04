@@ -2,7 +2,7 @@
 	<div>
 		<label for='password'>Password</label>
 		<input id='password' name='password' 
-			spellcheck='false' class='w-full' 
+			spellcheck='false' :class='{"w-full": isFullWidth}'
 			v-bind:type='passwordType' 
 			v-bind:autocomplete='passwordAutocomplete' 
 			v-bind:value='password'
@@ -40,6 +40,10 @@ export default {
 		showPassword: false
 	}},
 	props: {
+		isFullWidth: {
+			type: Boolean,
+			default: false
+		},
 		isNewPassword: Boolean,
 		isRequired: {
 			type: Boolean,

@@ -7,7 +7,7 @@
 			<input id='username' name='username' v-model='username' 
 				autocomplete='username' spellcheck='false' type='text' class='w-full'
 				required />
-			<PasswordField v-model='password' :is-required='true' />
+			<PasswordField v-model='password' :is-required='true' :is-full-width='true' />
 
 			<button class='w-full mt-4 btnPrimary' :disabled='isLoading'>
 					Sign in

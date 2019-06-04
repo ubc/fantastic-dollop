@@ -68,7 +68,7 @@ export default new Router({
         {
           path: '/admin/users/add',
           name: 'adminAddUser',
-          component: () => import('../views/users/UserInfoForm.vue'),
+          component: () => import('../views/users/UserForm.vue'),
           props: {isNewUser: true}
         },
         {
@@ -82,7 +82,7 @@ export default new Router({
         {
           path: '/admin/users/:userId/edit',
           name: 'adminEditUser',
-          component: () => import('../views/users/UserInfoForm.vue'),
+          component: () => import('../views/users/UserForm.vue'),
           // userId is expected to be a number, but by default, router passes all
           // params as a string, so we need to use a function here to cast it
           props(route) { return {userId: Number(route.params.userId)} }

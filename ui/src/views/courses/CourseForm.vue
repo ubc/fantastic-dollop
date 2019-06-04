@@ -10,11 +10,12 @@
 		<form @submit.prevent='saveCourse' class='formVertical' v-show='!course.loading'>
 			<!-- Required Fields -->
 			<label for='name'>Name</label>
-			<input id='name' name='name' v-model='course.name' spellcheck='false' class='border' required />
+			<input id='name' name='name' v-model='course.name' spellcheck='false'
+				required type='text' class='border' />
 			<span v-for="error in course.errors.coursename" v-bind:key="error">{{ error }}</span>
 
 			<label for='description'>Description</label>
-			<input id='description' description='description'
+			<input id='description' description='description' type='text'
 				v-model='course.description' spellcheck='false' class='border' />
 			<span v-for="error in course.errors.coursedescription" v-bind:key="error">{{ error }}</span>
 
@@ -48,10 +49,8 @@ export default {
 	}},
 	mounted() {
 		if (this.courseId) {
-			console.log("fetching course")
 			this.course.id = this.courseId
 			this.course.fetch()
-			console.log(this.course)
 		}
 	},
 	methods: {
