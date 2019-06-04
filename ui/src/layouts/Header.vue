@@ -13,7 +13,7 @@
 				<LabelledIcon label='Admin'><AdminIcon title="Admin" /></LabelledIcon>
 			</router-link>
 			<!-- sign in/out -->
-			<router-link to='/home' v-if='!isSignedIn'>
+			<router-link :to='{name:"signedInHome"}' v-if='!isSignedIn'>
 				<LabelledIcon label='Sign in'>
 					<SignInIcon title="Sign in" />
 				</LabelledIcon>
