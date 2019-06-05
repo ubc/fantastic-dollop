@@ -18,7 +18,7 @@
 				<label for='username'>Username</label>
 				<input id='username' name='username' v-model='user.username' type='text'
 					autocomplete='username' spellcheck='false' class='border' required />
-				<span v-for="error in user.errors.username" v-bind:key="error">{{ error }}</span>
+				<span v-for='error in user.errors.username' v-bind:key='error'>{{ error }}</span>
 
 				<PasswordField v-model='user.password' :is-required='true'
 					:is-new-password='isNewUser' />
@@ -96,9 +96,9 @@ export default {
 			this.user.save().then( () => {
 				this.$router.push({'name': 'adminUserTable'})
 			}).catch( (error) => {
-				this.errMsg = "Failed to save user: " + error.message
+				this.errMsg = 'Failed to save user: ' + error.message
 				if (error.response.response.status == 409)
-					this.errMsg = "Failed to save user: " +
+					this.errMsg = 'Failed to save user: ' +
 						error.response.response.data.detail
 			})
 		}

@@ -26,7 +26,7 @@
 				<!-- course controls -->
 				<div class='flex-initial self-center flex'>
 					<router-link tag="button" class='btnRegular mr-2'
-						:to="{name:'adminCourseEdit',params:{courseId: course.$.id}}">
+						:to="{name:'adminCourseEdit', params:{courseId: course.$.id}}">
 						<LabelledIcon label='Edit'>
 						<EditIcon title='Edit course' />
 						</LabelledIcon>

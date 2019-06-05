@@ -40,6 +40,22 @@ export default new Router({
       meta: { isPublic: true },
       component: () => import('../views/SignedOut.vue')
     },
+    {
+      path: '/courses/:courseId',
+      name: 'courseHome',
+      meta: { breadcrumb: 'Course' },
+      component: () => import('../views/courses/CourseHome.vue'),
+      props(route) { return {courseId: Number(route.params.courseId)}},
+      children: [
+        {
+          path: '/courses/:courseId/users',
+          name: 'enrolment',
+          meta: { breadcrumb: 'Enrolment' },
+          component: () => import('../views/enrolment/EnrolmentTable.vue'),
+          props(route) { return {courseId: Number(route.params.courseId)}}
+        }
+      ]
+    },
     AdminRoutes
   ]
 })
