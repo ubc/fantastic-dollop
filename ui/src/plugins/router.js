@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from '../views/home/Home.vue'
 
 import AdminRoutes from '@/plugins/router/admin'
+import ExamRoutes from '@/plugins/router/exam'
 
 Vue.use(Router)
 
@@ -43,6 +44,7 @@ export default new Router({
       meta: { breadcrumb: 'Course' },
       component: () => import('../views/courses/CourseHome.vue'),
       props(route) { return {courseId: Number(route.params.courseId)}},
+      redirect: {name: 'examsList'},
       children: [
         {
           path: '/courses/:courseId/users',
@@ -50,7 +52,8 @@ export default new Router({
           meta: { breadcrumb: 'Enrolment' },
           component: () => import('../views/enrolment/EnrolmentTable.vue'),
           props(route) { return {courseId: Number(route.params.courseId)}}
-        }
+        },
+        ExamRoutes
       ]
     },
     AdminRoutes

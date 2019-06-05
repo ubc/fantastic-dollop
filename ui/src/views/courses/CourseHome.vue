@@ -1,14 +1,18 @@
 <template>
 	<div>
-		<h3 class='text-2xl'>{{ course.$.name }}</h3>
+		<h3 class='text-4xl'>{{ course.$.name }}</h3>
 		<p class='text-gray-700 hidden md:block'>{{ course.$.description }}</p>
 
-		<ul class="flex my-1">
-			<li class="mr-6">
+		<ul class="flex my-3">
+			<li class="">
+				<router-link :to='{name:"examsList", params:"$route.params"}'
+					>Exams</router-link>
+			</li>
+			<li class="">
 				<router-link :to='{name:"enrolment", params:"$route.params"}'
 					>Users</router-link>
 			</li>
-			<li class="mr-6">
+			<li class="">
 				<a class="text-blue-500 hover:text-blue-800" href="#">Settings</a>
 			</li>
 		</ul>
@@ -39,4 +43,10 @@ export default {
 </script>
 
 <style scoped>
+li a {
+	@apply p-2
+}
+.router-link-active {
+	@apply border rounded border-blue-400
+}
 </style>
