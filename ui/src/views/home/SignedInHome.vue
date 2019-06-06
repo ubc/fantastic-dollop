@@ -34,6 +34,11 @@ export default {
 	components: {
 		Error
 	},
+	computed: {
+		isSignedIn() {
+			return this.$store.getters['auth/isSignedIn']
+		}
+	},
 	data() { return {
 		courses: new CourseList(),
 		errMsg: ''
@@ -44,14 +49,23 @@ export default {
 				this.errMsg = ""
 			}).catch((error) => {
 				this.errMsg = "Failed to get courses list: " + error.message
-				if (error.response.response.status == 401) {
-					this.errMsg = "Session expired, please sign in again and then click retry."
-				}
 			})
 		}
 	},
 	mounted() {
-		this.getCourses()
+		// will get rejected with 401 if we try to get courses without being signed in
+		// since we only show the sign in page if user isn't signed in and we're using
+		// using this home page as a proxy for the sign in page, we need to take some
+		// care to make sure errors don't show up on first sign in. Was previously
+		// checking for 401 errors and that caused the error message to show up even
+		// on initial sign ins
+		if (this.isSignedIn) this.getCourses()
+	},
+	watch: {
+		isSignedIn: function (signedIn) {
+			// make sure user can see the list of courses once they're signed in
+			if (signedIn) this.getCourses()
+		}
 	}
 }
 </script>

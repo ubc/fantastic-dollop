@@ -8,12 +8,13 @@ import store from '@/plugins/store'
 axios.interceptors.response.use(
   response => response,
   (error) => {
-  if (error.response.status == 401) {
-    store.dispatch('auth/signOut')
-  }
-  // pass on the error
-  return Promise.reject(error)
-})
+    if (error.response.status == 401 ) {
+      if (store.getters['auth/isSignedIn']) store.commit('auth/rejectToken')
+      store.dispatch('auth/signOut')
+    }
+    // pass on the error
+    return Promise.reject(error)
+  })
 
 const http = axios.create()
 http.defaults.baseURL = process.env.VUE_APP_API

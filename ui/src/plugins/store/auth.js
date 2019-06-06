@@ -7,11 +7,18 @@ export const TOKEN_KEY = 'token'
 export const auth = {
   namespaced: true,
   state: {
-    token: localStorage.getItem(TOKEN_KEY) || ''
+    token: localStorage.getItem(TOKEN_KEY) || '',
+    isTokenRejected: false
   },
   mutations: {
     token(state, token) {
       state.token = token
+    },
+    rejectToken(state) {
+      state.isTokenRejected = true
+    },
+    acceptToken(state) {
+      state.isTokenRejected = false
     }
   },
   getters: {
@@ -24,6 +31,7 @@ export const auth = {
     signIn(context, token) {
       localStorage.setItem(TOKEN_KEY, token)
       context.commit('token', token)
+      context.commit('acceptToken')
       axios.defaults.headers.common['Authorization'] = "Bearer " + token
     },
     signOut(context) {

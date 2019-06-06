@@ -1,6 +1,9 @@
 <template>
 	<div class='block w-5/6 md:w-1/3 lg:w-1/5 xl:w-1/6'>
 		<h3 class='text-2xl text-center'>Sign in</h3>
+		<Error v-if='isTokenRejected' class='mt-2'>
+		Session expired, please sign in again.
+		</Error>
 		<Error v-if='errMsg' :msg='errMsg' class='mt-2' />
 		<form class='formVertical' v-on:submit.prevent='signIn'>
 			<label for='username'>Username</label>
@@ -37,6 +40,9 @@ export default {
 	computed: {
 		isSignedIn() {
 			return this.$store.getters['auth/isSignedIn']
+		},
+		isTokenRejected() {
+			return this.$store.state.auth.isTokenRejected
 		}
 	},
 
