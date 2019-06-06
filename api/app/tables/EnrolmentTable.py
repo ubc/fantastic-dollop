@@ -50,7 +50,10 @@ async def getList(courseId: int, limitUserIds: List[int] = None):
 
 # get courses that a user is in
 async def getEnroledCourses(userId: int):
-    query = sa.sql.select([CourseTable.table]) \
+    query = sa.sql.select([
+            RoleTable.table.c.name.label('role'),
+            CourseTable.table
+        ]) \
         .where(
             sa.sql.and_(
                 table.c.user_id == userId,

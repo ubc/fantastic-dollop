@@ -11,7 +11,12 @@ import jwt
 from jwt import PyJWTError
 
 from app.config import EnvConfig
+
+from app.models.Token import TokenContext
+from app.models.Course import CourseOut
 from app.models.User import UserOut
+
+from app.tables import EnrolmentTable
 from app.tables import UserTable
 
 log = logging.getLogger(__name__)
@@ -22,6 +27,7 @@ TOKEN_SECRET = EnvConfig.getTokenSecret()
 TOKEN_ALGORITHM = EnvConfig.getTokenAlgorithm()
 TOKEN_EXPIRE = EnvConfig.getTokenExpire()
 
+
 async def getCurrentUser(token: str=Depends(oauth2_scheme)):
     credentials_exception = HTTPException(
         status_code=HTTP_401_UNAUTHORIZED,
@@ -30,16 +36,26 @@ async def getCurrentUser(token: str=Depends(oauth2_scheme)):
     )
     try:
         payload = jwt.decode(token, TOKEN_SECRET, algorithms=[TOKEN_ALGORITHM])
-        username: str = payload.get("sub")
-        userId: int = payload.get("userId")
-        if username is None or userId is None:
+        userId: int = payload.get("sub")
+        if userId is None:
             raise credentials_exception
     except PyJWTError:
         raise credentials_exception
-    user = await UserTable.getByUsername(username)
-    if not user or user['id'] != userId:
+    user = await UserTable.get(userId)
+    if not user:
         raise credentials_exception
     return UserOut(**user)
+
+
+# one stop shop for everything you need to know about the signed in user
+async def getContext(signedInUser: UserOut=Depends(getCurrentUser)):
+    # get courses that the user is enroled in
+    courses = await EnrolmentTable.getEnroledCourses(signedInUser.id)
+    roles = {course['id'] : course['role'] for course in courses}
+    courses = [CourseOut(**course) for course in courses]
+    return TokenContext(signedInUser=signedInUser, enroledCourses=courses,
+                        roles=roles)
+
 
 def create(*, data: dict,
            expires_delta: timedelta = timedelta(minutes=TOKEN_EXPIRE)):

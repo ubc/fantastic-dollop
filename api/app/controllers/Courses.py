@@ -9,13 +9,13 @@ from starlette.status import HTTP_201_CREATED, HTTP_204_NO_CONTENT, HTTP_400_BAD
 from typing import List
 
 # database table
-from app.tables import CourseTable, EnrolmentTable
+from app.tables import CourseTable
 
 # validation models
 from app.models.Course import CourseIn, CourseNewIn, CourseOut
+from app.models.Token import TokenContext
 from app.models.User import UserOut
 
-# session data
 from app.helpers import Token
 
 log = logging.getLogger(__name__)
@@ -23,11 +23,11 @@ router = APIRouter()
 
 
 @router.get("/courses", response_model=List[CourseOut])
-async def getAll(signedInUser: UserOut=Depends(Token.getCurrentUser)):
-    if signedInUser.isAdmin:
+async def getAll(context: TokenContext=Depends(Token.getContext)):
+    if context.signedInUser.isAdmin:
         return await CourseTable.getAll()
     else:
-        return await EnrolmentTable.getEnroledCourses(signedInUser.id)
+        return context.enroledCourses
 
 
 @router.get("/courses/{courseId}", response_model=CourseOut)

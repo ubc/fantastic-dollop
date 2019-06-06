@@ -37,5 +37,5 @@ async def signin(formData: OAuth2PasswordRequestForm = Depends()):
         raise HTTPException(status_code=HTTP_400_BAD_REQUEST,
                             detail="Incorrect username or password")
     log.info("Sign in successful, generating token.")
-    token = Token.create(data={"sub": ret['username'], "userId": ret['id']})
+    token = Token.create(data={"sub": ret['id']})
     return {"access_token": token, "token_type": "bearer"}
