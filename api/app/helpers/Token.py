@@ -31,12 +31,13 @@ async def getCurrentUser(token: str=Depends(oauth2_scheme)):
     try:
         payload = jwt.decode(token, TOKEN_SECRET, algorithms=[TOKEN_ALGORITHM])
         username: str = payload.get("sub")
-        if username is None:
+        userId: int = payload.get("userId")
+        if username is None or userId is None:
             raise credentials_exception
     except PyJWTError:
         raise credentials_exception
     user = await UserTable.getByUsername(username)
-    if not user:
+    if not user or user['id'] != userId:
         raise credentials_exception
     return UserOut(**user)
 

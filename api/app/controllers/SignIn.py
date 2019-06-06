@@ -1,7 +1,7 @@
 import logging
 
 from fastapi import APIRouter, Depends, HTTPException
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi.security import OAuth2PasswordRequestForm
 
 from pydantic import BaseModel
 
@@ -10,8 +10,6 @@ from starlette.status import HTTP_400_BAD_REQUEST
 
 # database table
 from app.tables import UserTable
-# database connection
-from app import db
 
 # session & password security
 from app.helpers import Token, Password
@@ -39,5 +37,5 @@ async def signin(formData: OAuth2PasswordRequestForm = Depends()):
         raise HTTPException(status_code=HTTP_400_BAD_REQUEST,
                             detail="Incorrect username or password")
     log.info("Sign in successful, generating token.")
-    token = Token.create(data={"sub": ret['username']})
+    token = Token.create(data={"sub": ret['username'], "userId": ret['id']})
     return {"access_token": token, "token_type": "bearer"}

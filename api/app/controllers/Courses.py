@@ -9,7 +9,7 @@ from starlette.status import HTTP_201_CREATED, HTTP_204_NO_CONTENT, HTTP_400_BAD
 from typing import List
 
 # database table
-from app.tables import CourseTable
+from app.tables import CourseTable, EnrolmentTable
 
 # validation models
 from app.models.Course import CourseIn, CourseNewIn, CourseOut
@@ -23,8 +23,11 @@ router = APIRouter()
 
 
 @router.get("/courses", response_model=List[CourseOut])
-async def getAll(currentUser: UserOut=Depends(Token.getCurrentUser)):
-    return await CourseTable.getAll()
+async def getAll(signedInUser: UserOut=Depends(Token.getCurrentUser)):
+    if signedInUser.isAdmin:
+        return await CourseTable.getAll()
+    else:
+        return await EnrolmentTable.getEnroledCourses(signedInUser.id)
 
 
 @router.get("/courses/{courseId}", response_model=CourseOut)

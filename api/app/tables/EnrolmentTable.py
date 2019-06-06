@@ -11,7 +11,7 @@ from app import db
 
 from app.models.Enrolment import EnrolmentIn, EnrolmentNewIn
 
-from app.tables import RoleTable, UserTable
+from app.tables import CourseTable, RoleTable, UserTable
 
 log = logging.getLogger(__name__)
 
@@ -46,6 +46,19 @@ async def getList(courseId: int, limitUserIds: List[int] = None):
                 userIdLimit
             ))
     return await db.fetch_all(query)
+
+
+# get courses that a user is in
+async def getEnroledCourses(userId: int):
+    query = sa.sql.select([CourseTable.table]) \
+        .where(
+            sa.sql.and_(
+                table.c.user_id == userId,
+                table.c.course_id == CourseTable.table.c.id,
+                table.c.role_id == RoleTable.table.c.id
+            ))
+    ret = await db.fetch_all(query)
+    return ret
 
 
 async def add(courseId: int, enrolments: List[EnrolmentNewIn]):
