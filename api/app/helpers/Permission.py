@@ -10,6 +10,7 @@ from miracle import Acl
 
 ## Constants
 # roles, need to ensure these match names in the roles table
+# changing these will require an alembic migration to match
 INSTRUCTOR = 'Instructor'
 TA = 'Teaching Assistant'
 GUEST = 'Guest'
@@ -42,7 +43,7 @@ acl.add({
 # granting access to resources
 acl.grants({
     INSTRUCTOR: {
-        COURSE: [READ, UPDATE, DELETE],
+        COURSE: [READ, UPDATE],
         USER: [CREATE, READ]
     },
     TA: {
