@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 # For data validation with incoming and outgoing data, this base class contains
 # fields that are in both requests and responses.
-# unfortunately, this mechanism suffers from code duplication with the database 
+# unfortunately, this mechanism suffers from code duplication with the database
 # table definition, no clue how to address that
 class UserBase(BaseModel):
     username: str
@@ -21,9 +21,9 @@ class UserBase(BaseModel):
 class UserNewIn(UserBase):
     password: str
 
-# existing users must have id
+# incoming data might not have id since the id is already given in the url
 class UserIn(UserBase):
-    id: int
+    id: int=None
     password: str = None
 
 # Outgoing response data will be filtered to match this spec.

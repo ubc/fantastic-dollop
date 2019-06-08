@@ -15,9 +15,7 @@ from app.tables import EnrolmentTable, CourseTable
 from app.models.User import UserOut
 from app.models.Enrolment import EnrolmentIn, EnrolmentNewIn, EnrolmentOut
 
-# session data
-from app.helpers import Token
-from app.helpers import Permission
+from app.helpers import ModelChecker, Permission, Token
 
 log = logging.getLogger(__name__)
 router = APIRouter()
@@ -65,9 +63,12 @@ async def edit(
     signedInUser: UserOut=Depends(Token.getCurrentUser)
 ):
     await can(signedInUser, courseId)
-    if userId != enrolment.user_id:
-        raise HTTPException(status_code=HTTP_400_BAD_REQUEST,
-                            detail="User ID in route does not match user ID in request data.")
+    await ModelChecker.checkIds({'user_id': userId}, enrolment)
+    ret = await EnrolmentTable.getByCourseAndUserId(courseId, userId)
+    if not ret:
+        raise HTTPException(status_code=HTTP_404_NOT_FOUND,
+                            detail="Enrolment not found.")
+    enrolment = await ModelChecker.checkId(ret['id'], enrolment)
 
     return await EnrolmentTable.edit(courseId, enrolment)
 

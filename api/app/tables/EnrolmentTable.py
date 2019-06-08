@@ -13,6 +13,8 @@ from app.models.Enrolment import EnrolmentIn, EnrolmentNewIn
 
 from app.tables import CourseTable, RoleTable, UserTable
 
+from app.helpers import TableRetriever
+
 log = logging.getLogger(__name__)
 
 table = Table(
@@ -25,6 +27,10 @@ table = Table(
     Column('created', DateTime),
     Column('modified', DateTime, onupdate=sa.func.current_timestamp())
 )
+
+async def getByCourseAndUserId(courseId: int, userId: int):
+    return await TableRetriever.getByFields(table, {table.c.course_id: courseId,
+                                                    table.c.user_id: userId})
 
 
 async def getList(courseId: int, limitUserIds: List[int] = None):
@@ -60,8 +66,7 @@ async def getEnroledCourses(userId: int):
                 table.c.course_id == CourseTable.table.c.id,
                 table.c.role_id == RoleTable.table.c.id
             ))
-    ret = await db.fetch_all(query)
-    return ret
+    return await db.fetch_all(query)
 
 
 async def add(courseId: int, enrolments: List[EnrolmentNewIn]):

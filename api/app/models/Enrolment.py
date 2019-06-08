@@ -20,6 +20,6 @@ class EnrolmentNewIn(EnrolmentBase):
 
 
 class EnrolmentIn(EnrolmentBase):
-    id: int
+    id: int=None
     user_id: int=None
     role_id: int=None

@@ -3,7 +3,7 @@ import logging
 from fastapi import APIRouter, Depends, HTTPException
 
 # http status codes
-from starlette.status import HTTP_201_CREATED, HTTP_204_NO_CONTENT, HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND, HTTP_409_CONFLICT
+from starlette.status import HTTP_201_CREATED, HTTP_204_NO_CONTENT, HTTP_404_NOT_FOUND, HTTP_409_CONFLICT
 
 # data types used for data validation
 from typing import List
@@ -14,9 +14,8 @@ from app.tables import CourseTable
 # validation models
 from app.models.Course import CourseIn, CourseNewIn, CourseOut
 from app.models.Token import TokenContext
-from app.models.User import UserOut
 
-from app.helpers import Permission, Token
+from app.helpers import ModelChecker, Permission, Token
 
 log = logging.getLogger(__name__)
 router = APIRouter()
@@ -78,9 +77,7 @@ async def update(
     context: TokenContext=Depends(Token.getContext)
 ):
     await can(Permission.UPDATE, context, courseId)
-    if courseId != courseInfo.id:
-        raise HTTPException(status_code=HTTP_400_BAD_REQUEST,
-                            detail="Course ID in route does not match course ID in request data.")
+    courseInfo = await ModelChecker.checkId(courseId, courseInfo)
     exists = await CourseTable.has(name=courseInfo.name)
     if exists:
         raise HTTPException(status_code=HTTP_409_CONFLICT,

@@ -11,7 +11,7 @@ class CourseNewIn(CourseBase):
     pass
 
 class CourseIn(CourseBase):
-    id: int
+    id: int=None
 
 class CourseOut(CourseBase):
     id: int

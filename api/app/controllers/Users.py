@@ -3,7 +3,7 @@ import logging
 from fastapi import APIRouter, Depends, HTTPException
 
 # http status codes
-from starlette.status import HTTP_201_CREATED, HTTP_204_NO_CONTENT, HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND, HTTP_409_CONFLICT
+from starlette.status import HTTP_201_CREATED, HTTP_204_NO_CONTENT, HTTP_404_NOT_FOUND, HTTP_409_CONFLICT
 
 # data types used for data validation
 from typing import List
@@ -15,6 +15,7 @@ from app.tables import UserTable
 from app.models.User import UserIn, UserNewIn, UserOut
 
 # session data
+from app.helpers import ModelChecker
 from app.helpers import Token
 from app.helpers import Permission
 
@@ -66,9 +67,7 @@ async def create(userInfo: UserNewIn,
 async def edit(userId: int, userInfo: UserIn,
                signedInUser: UserOut=Depends(Token.getCurrentUser)):
     await can(signedInUser, userId)
-    if userId != userInfo.id:
-        raise HTTPException(status_code=HTTP_400_BAD_REQUEST,
-                            detail="User ID in route does not match user ID in request data.")
+    userInfo = await ModelChecker.checkId(userId, userInfo)
     return await UserTable.edit(userInfo)
 
 
