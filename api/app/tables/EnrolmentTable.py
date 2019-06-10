@@ -50,7 +50,8 @@ async def getList(courseId: int, limitUserIds: List[int] = None):
                 table.c.user_id == UserTable.table.c.id,
                 table.c.role_id == RoleTable.table.c.id,
                 userIdLimit
-            ))
+            )) \
+        .order_by('username')
     return await db.fetch_all(query)
 
 

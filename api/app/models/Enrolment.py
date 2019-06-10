@@ -20,6 +20,5 @@ class EnrolmentNewIn(EnrolmentBase):
 
 
 class EnrolmentIn(EnrolmentBase):
-    id: int=None
-    user_id: int=None
-    role_id: int=None
+    id: int=None # make optional
+    user_id: int=None # make optional

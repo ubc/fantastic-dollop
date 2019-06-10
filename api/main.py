@@ -8,6 +8,7 @@ from app.controllers import Users
 from app.controllers import SignIn
 from app.controllers import Courses
 from app.controllers import Enrolments
+from app.controllers import Roles
 from app import db
 
 # Configures logging for the whole app, will default to using the settings
@@ -32,6 +33,7 @@ app.include_router(Courses.router)
 app.include_router(Users.router)
 app.include_router(SignIn.router)
 app.include_router(Enrolments.router)
+app.include_router(Roles.router)
 
 # clean up database connection
 @app.on_event("startup")
