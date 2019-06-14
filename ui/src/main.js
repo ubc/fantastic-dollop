@@ -8,6 +8,9 @@ import store from '@/plugins/store'
 // for making http requests, make axios globally available on Vue
 import axios from '@/plugins/axios'
 
+// initialize the notification system with default options
+import '@/plugins/notifications'
+
 // layouts
 import DefaultLayout from "@/layouts/Default"
 

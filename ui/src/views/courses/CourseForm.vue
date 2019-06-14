@@ -5,8 +5,6 @@
 
 		<Loading v-if='course.loading' />
 
-		<Error :msg='errMsg' v-if='errMsg'></Error>
-
 		<form @submit.prevent='saveCourse' class='formVertical' v-show='!course.loading'>
 			<!-- Required Fields -->
 			<label for='name'>Name</label>
@@ -28,13 +26,11 @@
 <script>
 import Loading from '@/components/util/status/Loading'
 import {Course} from '@/models/Course'
-import Error from '@/components/util/status/Error'
 
 
 export default {
 	name: 'CourseForm',
 	components: {
-		Error,
 		Loading
 	},
 	props: {
@@ -44,8 +40,7 @@ export default {
 		}
 	},
 	data() { return {
-		course: new Course(),
-		errMsg: ''
+		course: new Course()
 	}},
 	mounted() {
 		if (this.courseId) {
@@ -58,7 +53,8 @@ export default {
 			this.course.save().then( () => {
 				this.$router.push({'name': 'adminCourse'})
 			}).catch( (error) => {
-				this.errMsg = "Failed to save course: " + error.message
+				this.$store.commit('error/add', {error: error,
+					message: "Failed to save course: " + error.message})
 			})
 		}
 	}

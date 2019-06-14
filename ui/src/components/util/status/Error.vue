@@ -1,7 +1,7 @@
 <template>
 	<div class='border border-red-600 rounded'>
 		<div class='flex'>
-			<div class='bg-red-600 flex-initial text-lg px-2 pb-1 text-white 
+			<div class='bg-red-600 flex-initial text-lg px-2 pb-1 text-white
 				flex items-center'>
 				<ErrorIcon />
 			</div>

@@ -2,7 +2,6 @@
 	<div>
 		<h3 class='text-2xl'>{{ course.$.name }}</h3>
 		<p class='text-gray-700 hidden md:block'>{{ course.$.description }}</p>
-		<Error :msg='errMsg' v-if='errMsg'></Error>
 
 		<ul class="flex my-1">
 			<li class="mr-6">
@@ -21,30 +20,18 @@
 <script>
 import {Course} from '@/models/Course'
 
-import Error from '@/components/util/status/Error'
-
 export default {
 	name: 'CourseHome',
 	components: {
-		Error
 	},
 	data() { return {
-		course: new Course(),
-		errMsg: ''
+		course: new Course()
 	}},
 	mounted() {
-		if (this.$route.params.courseId)
-			this.course.id = this.$route.params.courseId
-		else
-			this.errMsg = 'No course ID given!'
-		this.course.fetch().then(() => {
-			this.errMsg = ''
-		}).catch((error) => {
-			this.errMsg = 'Failed to retrieve course: ' + error.message
-			if (error.response.response.data)
-				this.errMsg = "Failed to retrieve course: " +
-					error.response.response.data.detail
-
+		this.course.id = this.$route.params.courseId
+		this.course.fetch().then().catch((error) => {
+			this.$store.commit('error/add', {error: error,
+				message: 'Failed to retrieve course.'})
 		})
 	}
 

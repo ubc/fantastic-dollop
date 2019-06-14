@@ -2,10 +2,6 @@
 	<div>
 		<h3 class='text-2xl mb-2'>Courses</h3>
 
-		<Error :msg='errMsg' v-if='errMsg'>
-			<button type='button' v-on:click='getCourses' class='btn btnPrimary'>Retry</button>
-		</Error>
-
 		<div class='border-gray-400 border-t mb-3'>
 			<!-- course card -->
 			<router-link v-for="course in courses.models" :course="course"
@@ -27,12 +23,9 @@
 <script>
 import {CourseList} from '@/models/Course'	
 
-import Error from '@/components/util/status/Error'
-
 export default {
 	name: "SignedInHome",
 	components: {
-		Error
 	},
 	computed: {
 		isSignedIn() {
@@ -41,14 +34,12 @@ export default {
 	},
 	data() { return {
 		courses: new CourseList(),
-		errMsg: ''
 	}},
 	methods: {
 		getCourses() {
-			this.courses.fetch().then(() => {
-				this.errMsg = ""
-			}).catch((error) => {
-				this.errMsg = "Failed to get courses list: " + error.message
+			this.courses.fetch().then().catch((error) => {
+				this.$store.commit('error/add', {error:error,
+					message: 'Failed to get courses list: ' + error.message})
 			})
 		}
 	},

@@ -2,19 +2,14 @@
 <template>
 	<div>
 		<h3 class='text-2xl mb-2'>Courses</h3>
-		<router-link :to="{name: 'adminCourseAdd'}" tag="button" class='btnRegular mb-4' v-show='!errMsg'>
+		<router-link :to="{name: 'adminCourseAdd'}" tag="button" class='btnRegular mb-4'>
 			<LabelledIcon label='Add'><AddIcon title='Add a new course' /></LabelledIcon>
 		</router-link>
 
-		<Error :msg='errMsg' v-if='errMsg'>
-			<button type='button' v-on:click='getCourses' class='btn btnPrimary'>Retry</button>
-		</Error>
-		<Info :msg='infoMsg' v-if='infoMsg' class='mb-3'>
-			<button type='button' v-on:click='infoMsg = ""' class='btn btnRegular'>
-				Dismiss</button>
-		</Info>
-
 		<div class='border-gray-400 border-t mb-3'>
+			<p class='text-center text-lg py-1' v-if='courses.models.length == 0'>
+			No courses found.
+			</p>
 			<!-- course card -->
 			<div v-for="course in courses.models" :course="course" :key="course.id"
 				class='py-2 border-b border-gray-400 flex'>
@@ -54,8 +49,6 @@ import DeleteIcon from 'icons/Delete'
 
 import {CourseList} from '@/models/Course'
 
-import Error from '@/components/util/status/Error'
-import Info from '@/components/util/status/Info'
 import LabelledIcon from '@/components/util/LabelledIcon'
 import Loading from '@/components/util/status/Loading'
 
@@ -64,34 +57,28 @@ export default {
 	components: {
 		AddIcon,
 		EditIcon,
-		Error,
 		DeleteIcon,
-		Info,
 		LabelledIcon,
 		Loading,
 	},
 	data() { return {
-		courses: new CourseList(),
-		errMsg: '',
-		infoMsg: ''
+		courses: new CourseList()
 	}},
 	methods: {
 		getCourses() {
-			this.courses.fetch().then(() => {
-				this.errMsg = ""
-			}).catch((error) => {
-				this.errMsg = "Failed to get courses list: " + error.message
-				if (error.response.response.status == 401) {
-					this.errMsg = "Session expired, please sign in again and then click retry."
-				}
+			this.courses.fetch().then().catch((error) => {
+				this.$store.commit('error/add', {error: error,
+					message: 'Failed to get courses.'})
 			})
 		},
 		deleteCourse(event, course) {
 			let courseName = course.$.name
 			course.delete().then(() => {
-				this.infoMsg = "Course '" + courseName + "' was deleted."
+				this.$notify({title: "Course '" + courseName + "' was deleted.",
+					type: 'success'})
 			}).catch((error) => {
-				this.errMsg = "Failed to delete course: " + error.message
+				this.$store.commit('error/add', {error: error,
+					message: 'Failed to delete course.'})
 			})
 		}
 	},

@@ -51,6 +51,12 @@ export default {
 			if (this.isSignedIn) return false
 			return true
 		}
+	},
+	watch: {
+		'$route' () {
+			// reset errors on page navigate
+			this.$store.commit('error/reset')
+		}
 	}
 }
 </script>

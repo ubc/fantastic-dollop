@@ -84,7 +84,7 @@ export default {
 					this.errMsg = "Server failed to respond."
 				} else {
 					// Something happened in setting up the request that triggered an Error
-					this.errMSg = "Failed to send request, check your internet connection."
+					this.errMsg = "Failed to send request, check your internet connection."
 				}
 			})
 		}

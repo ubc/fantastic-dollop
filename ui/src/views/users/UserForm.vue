@@ -8,8 +8,6 @@
 
 		<Loading v-if='user.loading' />
 
-		<Error :msg='errMsg' v-if='errMsg'></Error>
-
 		<form @submit.prevent='saveUser' class='formVertical'>
 			<!-- Required Fields -->
 			<fieldset>
@@ -52,7 +50,6 @@
 </template>
 
 <script>
-import Error from '@/components/util/status/Error'
 import Loading from '@/components/util/status/Loading'
 import PasswordField from '@/components/users/PasswordField'
 
@@ -61,7 +58,6 @@ import {User} from '@/models/User'
 export default {
 	name: 'UserForm',
 	components: {
-		Error,
 		Loading,
 		PasswordField
 	},
@@ -82,7 +78,6 @@ export default {
 		}
 	},
 	data() { return {
-		errMsg: '',
 		user: new User()
 	}},
 	mounted() {
@@ -96,10 +91,8 @@ export default {
 			this.user.save().then( () => {
 				this.$router.push({'name': 'adminUserTable'})
 			}).catch( (error) => {
-				this.errMsg = 'Failed to save user: ' + error.message
-				if (error.response.response.status == 409)
-					this.errMsg = 'Failed to save user: ' +
-						error.response.response.data.detail
+				this.$store.commit('error/add', {error: error,
+					message: 'Failed to save user info.'})
 			})
 		}
 	}

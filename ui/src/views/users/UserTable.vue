@@ -1,13 +1,9 @@
 <!-- Table that lists users in the database -->
 <template>
 	<div>
-		<router-link :to="{name: 'adminAddUser'}" tag="button" class='btnRegular mb-4' v-show='!errMsg'>
+		<router-link :to="{name: 'adminAddUser'}" tag="button" class='btnRegular mb-4' >
 			<LabelledIcon label='Add'><AddIcon title='Add a new user' /></LabelledIcon>
 		</router-link>
-
-		<Error :msg='errMsg' v-if='errMsg'>
-			<button type='button' v-on:click='getUsers' class='btn btnPrimary'>Retry</button>
-		</Error>
 
 		<div class='flex flex-col md:table'>
 			<div class='hidden md:table-row'>
@@ -81,7 +77,6 @@ import DeleteIcon from 'icons/Delete'
 
 import {UserList} from '@/models/User'
 
-import Error from '@/components/util/status/Error'
 import LabelledIcon from '@/components/util/LabelledIcon'
 import Loading from '@/components/util/status/Loading'
 
@@ -90,31 +85,24 @@ export default {
 	components: {
 		AddIcon,
 		EditIcon,
-		Error,
 		DeleteIcon,
 		LabelledIcon,
 		Loading
 	},
 	data() { return {
-		users: new UserList(),
-		errMsg: ''
+		users: new UserList()
 	}},
 	methods: {
 		getUsers() {
-			this.users.fetch().then(() => {
-				this.errMsg = ""
-			}).catch((error) => {
-				this.errMsg = "Failed to get users list: " + error.message
-				if (error.response.response.status == 401) {
-					this.errMsg = "Session expired, please sign in again and then click retry."
-				}
+			this.users.fetch().then().catch((error) => {
+				this.$store.commit('error/add', {error: error,
+					message: "Failed to get users list."})
 			})
 		},
 		deleteUser(event, user) {
-			user.delete().then(() => {
-				console.log("User deleted")
-			}).catch((error) => {
-				this.errMsg = "Failed to delete user: " + error.message
+			user.delete().then().catch((error) => {
+				this.$store.commit('error/add', {error: error,
+					message: "Failed to delete user."})
 			})
 		}
 	},
