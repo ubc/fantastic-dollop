@@ -23,13 +23,21 @@
 					<router-link tag="button" class='btnRegular mr-2'
 						:to="{name:'adminCourseEdit', params:{courseId: course.$.id}}">
 						<LabelledIcon label='Edit'>
-						<EditIcon title='Edit course' />
+							<EditIcon title='Edit course' />
 						</LabelledIcon>
 					</router-link>
+
+					<router-link tag="button" class='btnRegular mr-2'
+						:to="{name:'adminCourseEnrolment', params:{courseId: course.$.id}}">
+						<LabelledIcon label='Enrolment'>
+							<EnrolmentIcon title='Course enrolment' />
+						</LabelledIcon>
+					</router-link>
+
 					<button class='btnRegular' type='button'
 						v-on:click='deleteCourse($event, course)'>
 						<LabelledIcon label='Delete'>
-						<DeleteIcon title='Delete course' />
+							<DeleteIcon title='Delete course' />
 						</LabelledIcon>
 					</button>
 				</div>
@@ -45,6 +53,7 @@
 <script>
 import AddIcon from 'icons/Plus'
 import EditIcon from 'icons/Pencil'
+import EnrolmentIcon from 'icons/AccountMultiple'
 import DeleteIcon from 'icons/Delete'
 
 import {CourseList} from '@/models/Course'
@@ -57,6 +66,7 @@ export default {
 	components: {
 		AddIcon,
 		EditIcon,
+		EnrolmentIcon,
 		DeleteIcon,
 		LabelledIcon,
 		Loading,

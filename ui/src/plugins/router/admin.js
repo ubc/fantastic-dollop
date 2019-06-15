@@ -26,6 +26,13 @@ export default {
           meta: { breadcrumb: 'Edit Course' },
           component: () => import('../../views/courses/CourseForm.vue'),
           props(route) { return {courseId: Number(route.params.courseId)}}
+        },
+        {
+          path: '/admin/courses/:courseId/users',
+          name: 'adminCourseEnrolment',
+          meta: { breadcrumb: 'Enrolment' },
+          component: () => import('../../views/enrolment/EnrolmentTable.vue'),
+          props(route) { return {courseId: Number(route.params.courseId)}}
         }
       ]
     },
