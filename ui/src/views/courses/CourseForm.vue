@@ -54,7 +54,7 @@ export default {
 				this.$router.push({'name': 'adminCourse'})
 			}).catch( (error) => {
 				this.$store.commit('error/add', {error: error,
-					message: "Failed to save course: " + error.message})
+					message: "Failed to save course."})
 			})
 		}
 	}

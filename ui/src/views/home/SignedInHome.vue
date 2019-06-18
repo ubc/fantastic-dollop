@@ -39,7 +39,7 @@ export default {
 		getCourses() {
 			this.courses.fetch().then().catch((error) => {
 				this.$store.commit('error/add', {error:error,
-					message: 'Failed to get courses list: ' + error.message})
+					message: 'Failed to get courses list.'})
 			})
 		}
 	},
