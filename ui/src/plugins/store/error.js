@@ -18,7 +18,7 @@ export const error = {
       if (response) {
         // we got a response from the server
         if (response.status == 401) {
-          errMsg += 'Session expired, please try again after signing in. '
+          errMsg += 'Session expired, you might need to refresh the page after signing in. '
         }
         else if (response.data.detail) {
           // server gave us error detail, include it in the error message

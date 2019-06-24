@@ -9,7 +9,10 @@ from alembic import op
 import sqlalchemy as sa
 from sqlalchemy import Column, DateTime, ForeignKey, Integer, Unicode, UniqueConstraint
 
-from app.helpers import Permission
+import sys
+from os.path import dirname, join, abspath
+sys.path.insert(0, abspath(join(dirname(__file__), '../..')))
+from helpers import Permission
 
 # revision identifiers, used by Alembic.
 revision = 'a54d28f79eb3'
