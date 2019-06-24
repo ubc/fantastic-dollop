@@ -7,7 +7,7 @@ from app.tables import dbMetadata
 # database connection
 from app import db
 
-from app.helpers import TableRetriever
+from app.helpers import TableOp
 
 from app.models.Course import CourseIn, CourseNewIn
 
@@ -25,10 +25,10 @@ table = Table(
 )
 
 async def getByName(name: str):
-    return await TableRetriever.getByField(table, table.c.name, name)
+    return await TableOp.getByField(table, table.c.name, name)
 
 async def get(courseId: int):
-    return await TableRetriever.getById(table, courseId)
+    return await TableOp.getById(table, courseId)
 
 async def getAll():
     query = table.select().order_by('name')

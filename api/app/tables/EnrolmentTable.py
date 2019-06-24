@@ -13,7 +13,7 @@ from app.models.Enrolment import EnrolmentIn, EnrolmentNewIn
 
 from app.tables import CourseTable, RoleTable, UserTable
 
-from app.helpers import TableRetriever
+from app.helpers import TableOp
 
 log = logging.getLogger(__name__)
 
@@ -29,7 +29,7 @@ table = Table(
 )
 
 async def getByCourseAndUserId(courseId: int, userId: int):
-    return await TableRetriever.getByFields(table, {table.c.course_id: courseId,
+    return await TableOp.getByFields(table, {table.c.course_id: courseId,
                                                     table.c.user_id: userId})
 
 

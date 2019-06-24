@@ -14,7 +14,7 @@ from asyncpg.exceptions import UniqueViolationError
 from app import db
 
 from app.helpers import Password
-from app.helpers import TableRetriever
+from app.helpers import TableOp
 
 from app.models.User import UserIn, UserNewIn
 
@@ -38,10 +38,10 @@ table = Table(
 )
 
 async def getByUsername(username: str):
-    return await TableRetriever.getByField(table, table.c.username, username)
+    return await TableOp.getByField(table, table.c.username, username)
 
 async def get(userId: int):
-    return await TableRetriever.getById(table, userId)
+    return await TableOp.getById(table, userId)
 
 async def getAll():
     query = table.select().order_by('username')

@@ -4,6 +4,8 @@ from typing import Any, Dict
 import sqlalchemy as sa
 from sqlalchemy import Column, Table
 
+from pydantic import BaseModel
+
 # database connection
 from app import db
 
@@ -26,3 +28,21 @@ async def getByFields(table: Table, fields: Dict[Column, Any]):
 
 async def getById(table: Table, value: int):
     return await getByField(table, table.c.id, value)
+
+async def add(table: Table, info: BaseModel):
+    newVals = info.dict(skip_defaults=True)
+    query = table.insert().values(newVals)
+    newId = await db.execute(query)
+    return await getById(table, newId)
+
+async def edit(table: Table, info: BaseModel):
+    newVals = info.dict(skip_defaults=True)
+    query = table.update().where(table.c.id==info.id).values(newVals)
+    await db.execute(query)
+    return await getById(table, info.id)
+
+async def delete(table: Table, itemId: int):
+    query = table.delete().where(table.c.id==itemId)
+    await db.execute(query)
+    return
+
