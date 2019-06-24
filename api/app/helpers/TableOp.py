@@ -19,6 +19,11 @@ async def getByField(table: Table, field: Column, value):
     ret = await db.fetch_one(query)
     return ret
 
+async def getAllByField(table: Table, field: Column, value):
+    query = table.select().where(field==value)
+    ret = await db.fetch_all(query)
+    return ret
+
 async def getByFields(table: Table, fields: Dict[Column, Any]):
     wheres = [col == val for col, val in fields.items()]
     query = table.select()
