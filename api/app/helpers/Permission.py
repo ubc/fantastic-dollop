@@ -18,6 +18,7 @@ GUEST = 'Guest'
 # resources
 COURSE = 'Course'
 USER = 'User'
+EXAM = 'Exam'
 
 # permissions
 CREATE = 'create'
@@ -37,6 +38,7 @@ acl.add_role(GUEST)
 # defining resources & their permissions
 acl.add({
     COURSE: {CREATE, READ, UPDATE, DELETE},
+    EXAM: {CREATE, READ, UPDATE, DELETE},
     USER: {CREATE, READ, UPDATE, DELETE}
 })
 
@@ -44,10 +46,12 @@ acl.add({
 acl.grants({
     INSTRUCTOR: {
         COURSE: [READ, UPDATE],
+        EXAM: [CREATE, READ, UPDATE, DELETE],
         USER: [CREATE, READ]
     },
     TA: {
         COURSE: [READ],
+        EXAM: [READ],
         USER: [READ]
     },
     GUEST: {
