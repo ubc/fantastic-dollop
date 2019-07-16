@@ -1,12 +1,17 @@
 <!-- Form for entering course information -->
 <template>
 	<div>
-		<h3 class='text-2xl mb-2'>Add Exam</h3>
+		<h3 class='text-2xl mb-2'>Configure Exam</h3>
 
-		<form class='formVertical mb-3'>
+		<form class='formVertical mb-3' @submit.prevent='saveExam'>
 			<!-- Required Fields -->
 			<label for='name'>Name</label>
-			<input id='name' name='name' required type='text' value='Midterm 1'  />
+			<input id='name' name='name' required type='text' v-model='exam.name'  />
+
+			<label for='printId'>Print ID</label>
+			<input id='printId' name='printId' type='text' v-model='exam.print_id'
+				placeholder='100midterm1' />
+			<span class='hint'>Human friendly ID printed on every page.</span>
 		</form>
 
 		<h5 class='text-lg mb-2'>Exam Sources</h5>
@@ -49,7 +54,7 @@
 			</div>
 		</div>
 
-		<button type='submit' class='btnPrimary my-3' v-on:click='$router.push("/courses/1/exams/1")'>Save</button>
+		<button type='submit' class='btnPrimary my-3' v-on:click='saveExam()'>Save</button>
 	</div>
 </template>
 
@@ -59,6 +64,8 @@ import ConfigureIcon from 'icons/Settings'
 import DeleteIcon from 'icons/Delete'
 
 import LabelledIcon from '@/components/util/LabelledIcon'
+
+import {Exam} from '@/models/Exam'
 
 export default {
 	name: 'CourseForm',
@@ -71,6 +78,7 @@ export default {
 	props: {
 	},
 	data() { return {
+		exam: new Exam(),
 		sources: [
 			{
 				name: "2017w1 math100 midterm 1.pdf",
@@ -82,9 +90,26 @@ export default {
 			}
 		]
 	}},
-	mounted() {
-	},
 	methods: {
+		saveExam() {
+			this.exam.save().then(() => {
+				this.$notify({title: "Exam '" + this.exam.name + "' updated.",
+					type: 'success'})
+				this.$router.push({name: 'examsList', params:
+					{ courseId: this.$route.params.courseId }})
+			}).catch((error) => {
+				this.$store.commit('error/add', {error: error,
+					message: 'Failed to save exam.'})
+			})
+		}
+	},
+	mounted() {
+		this.exam.id = this.$route.params.examId
+		this.exam.course_id = this.$route.params.courseId
+		this.exam.fetch().catch((error) => {
+			this.$store.commit('error/add', {error: error,
+				message: "Failed to get exam."})
+		})
 	}
 }
 </script>
