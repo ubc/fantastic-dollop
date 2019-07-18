@@ -24,7 +24,7 @@ def upgrade():
         Column('id', Integer, primary_key=True),
         Column('course_id', Integer, ForeignKey('course.id',ondelete="CASCADE"),
                nullable=False),
-        Column('name', Unicode(255)),
+        Column('name', Unicode(255), nullable=False),
         Column('print_id', Unicode(255),
                comment='ID printed on every page of every exam to help humans identify and sort exams. Otherwise, they would need to somehow read the auto-generated QR codes.'),
         Column('modified', DateTime, server_default=sa.func.current_timestamp(),
@@ -37,7 +37,7 @@ def upgrade():
         Column('id', Integer, primary_key=True),
         Column('exam_id', Integer, ForeignKey('exam.id',ondelete="CASCADE"),
                nullable=False),
-        Column('name', Unicode(255)),
+        Column('name', Unicode(255), nullable=False),
         Column('file', Unicode(255), nullable=False, unique=True),
         Column('page_count', Integer),
         Column('modified', DateTime, server_default=sa.func.current_timestamp(),
@@ -48,7 +48,7 @@ def upgrade():
     componentTypeTable = op.create_table(
         'exam_component_type',
         Column('id', Integer, primary_key=True),
-        Column('name', Unicode(255), unique=True),
+        Column('name', Unicode(255), unique=True, nullable=False),
         Column('modified', DateTime, server_default=sa.func.current_timestamp(),
                server_onupdate=sa.func.current_timestamp()),
         Column('created', DateTime, server_default=sa.func.current_timestamp())
@@ -131,10 +131,10 @@ def upgrade():
 
 
 def downgrade():
-    op.drop_table('exam')
-    op.drop_table('exam_source')
-    op.drop_table('exam_component_type')
-    op.drop_table('exam_component')
-    op.drop_table('exam_component_source')
-    op.drop_table('exam_paper')
     op.drop_table('exam_paper_component_source')
+    op.drop_table('exam_paper')
+    op.drop_table('exam_component_source')
+    op.drop_table('exam_component')
+    op.drop_table('exam_component_type')
+    op.drop_table('exam_source')
+    op.drop_table('exam')

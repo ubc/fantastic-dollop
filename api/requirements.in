@@ -29,3 +29,6 @@ alembic
 databases
 # postgres async driver for sqlalchemy
 databases[postgresql]
+
+# for file management
+filedepot
