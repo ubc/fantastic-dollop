@@ -52,7 +52,7 @@ async def can(action: str, context: TokenContext, courseId: int,
 async def getAll(courseId: int, examId: int,
                  context: TokenContext=Depends(Token.getContext)):
     await can(Permission.READ, context, courseId, examId)
-    return await ExamSourceTable.getAll(examId)
+    return await ExamSourceTable.getAll(courseId, examId)
 
 
 @router.get("/courses/{courseId}/exams/{examId}/sources/{sourceId}",
@@ -60,7 +60,7 @@ async def getAll(courseId: int, examId: int,
 async def get(courseId: int, examId: int, sourceId: int,
               context: TokenContext=Depends(Token.getContext)):
     await can(Permission.READ, context, courseId, examId)
-    return await ExamSourceTable.get(sourceId)
+    return await ExamSourceTable.get(courseId, sourceId)
 
 
 @router.post("/courses/{courseId}/exams/{examId}/sources",
@@ -80,7 +80,7 @@ async def create(
         name=file.filename,
         page_count=1
     )
-    return await ExamSourceTable.add(newSource)
+    return await ExamSourceTable.add(courseId, newSource)
 
 
 @router.delete("/courses/{courseId}/exams/{examId}/sources/{sourceId}",
@@ -92,7 +92,7 @@ async def delete(
     context: TokenContext=Depends(Token.getContext)
 ):
     await can(Permission.DELETE, context, courseId, examId)
-    await ExamSourceTable.delete(sourceId)
+    await ExamSourceTable.delete(courseId, sourceId)
 
 #@router.post("/courses/{courseId}/exams", response_model=ExamOut,
 #             status_code=HTTP_201_CREATED)

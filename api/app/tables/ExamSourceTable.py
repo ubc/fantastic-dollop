@@ -4,7 +4,7 @@ from typing import List, NamedTuple
 import sqlalchemy as sa
 from sqlalchemy.sql.expression import and_, exists, select
 from sqlalchemy import Column, DateTime, ForeignKey, Integer, Table, Unicode
-from app.tables import dbMetadata, ExamTable
+from app.tables import dbMetadata, CourseTable, ExamTable
 
 # database connection
 from app import db
@@ -33,39 +33,42 @@ table = Table(
 )
 
 
-async def getAll(examId: int):
-    rowSpecs = []
-    rowSpecs.append(
-        RowSpec(ExamTable.table, [ExamTable.table.c.id==3])
-    )
-    rowSpecs.append(
-        RowSpec(ExamTable.table, [ExamTable.table.c.id==2,
-                                  ExamTable.table.c.course_id==1])
-    )
-    ret = await TableOp.checkRowsExists(rowSpecs)
-    log.debug("**********************************************")
-    log.debug(ret)
-
-    return await TableOp.getAllByField(table, table.c.exam_id, examId)
-
-
-async def get(itemId: int):
-    return await TableOp.getById(table, itemId)
+async def getAll(courseId: int, examId: int):
+    #rowSpecs = []
+    #rowSpecs.append(
+    #    RowSpec(ExamTable.table, [ExamTable.table.c.id==3])
+    #)
+    #rowSpecs.append(
+    #    RowSpec(ExamTable.table, [ExamTable.table.c.id==2,
+    #                              ExamTable.table.c.course_id==1])
+    #)
+    #ret = await TableOp.checkRowsExists(rowSpecs)
+    query = sa.sql.select([ExamTable.table.c.course_id, table]) \
+        .where(table.c.exam_id == examId)
+    return await db.fetch_all(query)
 
 
-async def add(info: ExamSourceNewIn):
-    return await TableOp.add(table, info)
+async def get(courseId: int, itemId: int):
+    query = sa.sql.select([ExamTable.table.c.course_id, table]) \
+        .where(table.c.id == itemId)
+    return await db.fetch_one(query)
 
 
-async def edit(info: ExamSourceIn):
-    return await TableOp.edit(table, info)
+async def add(courseId: int, info: ExamSourceNewIn):
+    source = await TableOp.add(table, info)
+    return await get(courseId, source['id'])
 
 
-async def delete(itemId: int):
-    source = await get(itemId)
-    depot = DepotManager.get()
-    depot.delete(source['file'])
+#async def edit(courseId: int, info: ExamSourceIn):
+#    return await TableOp.edit(table, info)
+
+
+async def delete(courseId: int, itemId: int):
+    source = await get(courseId, itemId)
+    sourceFileId = source['file']
     await TableOp.delete(table, itemId)
+    depot = DepotManager.get()
+    depot.delete(sourceFileId)
     return
 
 

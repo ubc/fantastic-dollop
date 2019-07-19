@@ -17,6 +17,7 @@ class ExamSourceIn(ExamSourceBase):
 
 class ExamSourceOut(ExamSourceBase):
     id: int
+    course_id: int
     exam_id: int
     file: str
     page_count: int
