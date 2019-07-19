@@ -3,20 +3,19 @@ import logging
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 
 # http status codes
-from starlette.status import HTTP_201_CREATED, HTTP_204_NO_CONTENT, HTTP_404_NOT_FOUND, HTTP_409_CONFLICT
+from starlette.status import HTTP_201_CREATED, HTTP_204_NO_CONTENT, HTTP_404_NOT_FOUND
 
 # data types used for data validation
 from typing import List
 
 # database table
-from app.tables import CourseTable, ExamTable, ExamSourceTable
+from app.tables import ExamSourceTable
 
 # validation models
-from app.models.Exam import ExamIn, ExamNewIn, ExamOut
 from app.models.ExamSource import ExamSourceNewIn, ExamSourceOut
 from app.models.Token import TokenContext
 
-from app.helpers import ModelChecker, Permission, Token
+from app.helpers import Permission, Token
 
 # file management
 from depot.manager import DepotManager
@@ -27,15 +26,15 @@ router = APIRouter()
 
 async def can(action: str, context: TokenContext, courseId: int,
               examId: int, examSourceId: int=None):
-    # gotta make sure course exists first
-    hasCourse = await CourseTable.has(courseId=courseId)
-    if not hasCourse:
+    hasIds = False
+    # trying to limit the number of queries to do for this validation
+    if examSourceId is None:
+        hasIds = await ExamSourceTable.hasParents(courseId, examId)
+    else:
+        hasIds = await ExamSourceTable.has(courseId, examId, examSourceId)
+    if not hasIds:
         raise HTTPException(status_code=HTTP_404_NOT_FOUND,
-                            detail="Course not found.")
-    hasExam = await ExamTable.has(courseId, examId)
-    if not hasExam:
-        raise HTTPException(status_code=HTTP_404_NOT_FOUND,
-                            detail="Exam not found in course.")
+                            detail="Course or exam or exam source not found.")
     # check if user has permission
     if context.signedInUser.isAdmin:
         return True
@@ -64,8 +63,8 @@ async def get(courseId: int, examId: int, sourceId: int,
 
 
 @router.post("/courses/{courseId}/exams/{examId}/sources",
-             response_model=ExamSourceOut)
-async def create(
+             response_model=ExamSourceOut, status_code=HTTP_201_CREATED)
+async def add(
     courseId: int,
     examId: int,
     context: TokenContext=Depends(Token.getContext),
@@ -74,6 +73,7 @@ async def create(
     await can(Permission.CREATE, context, courseId, examId)
     depot = DepotManager.get()
     fileId = depot.create(file.file, file.filename)
+    # TODO actually fill in page_count
     newSource = ExamSourceNewIn(
         exam_id = examId,
         file=fileId,
@@ -93,35 +93,3 @@ async def delete(
 ):
     await can(Permission.DELETE, context, courseId, examId)
     await ExamSourceTable.delete(courseId, sourceId)
-
-#@router.post("/courses/{courseId}/exams", response_model=ExamOut,
-#             status_code=HTTP_201_CREATED)
-#async def create(
-#    courseId: int,
-#    examInfo: ExamNewIn,
-#    context: TokenContext=Depends(Token.getContext)
-#):
-#    await can(Permission.CREATE, context, courseId)
-#    examInfo.course_id = courseId
-#    return await ExamTable.add(examInfo)
-#
-#
-#@router.post("/courses/{courseId}/exams/{examId}", response_model=ExamOut)
-#async def update(
-#    courseId: int,
-#    examId: int,
-#    examInfo: ExamIn,
-#    context: TokenContext=Depends(Token.getContext)
-#):
-#    await can(Permission.UPDATE, context, courseId, examId)
-#    examInfo.id = examId
-#    examInfo.course_id = courseId
-#    return await ExamTable.edit(examInfo)
-#
-#
-#@router.delete("/courses/{courseId}/exams/{examId}",
-#               status_code=HTTP_204_NO_CONTENT)
-#async def delete(courseId: int, examId: int,
-#                 context: TokenContext=Depends(Token.getContext)):
-#    await can(Permission.DELETE, context, courseId, examId)
-#    await ExamTable.delete(courseId)
