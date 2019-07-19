@@ -15,80 +15,27 @@
 		</form>
 
 		<h5 class='text-lg mb-2'>Exam Sources</h5>
-		<button class='btnRegular mb-2'>
-			<UploadIcon title='Upload a new exam' class='text-lg' /> Upload
-		</button>
-
-		<div class='border-gray-400 border-t mb-3'>
-			<!-- source card -->
-			<div v-for='source in sources' :key='source.name'
-				class='py-2 border-b border-gray-400 flex'>
-				<!-- source info -->
-				<div class='flex-auto mr-3'>
-					<router-link to='/courses/1/sources/1'>
-						<h4 class='break-all'>
-							{{ source.name }}
-						</h4>
-					</router-link>
-					<p v-if='source.isConfigured' class='text-sm text-green-600'>
-					Configured
-					</p>
-					<p v-else class='text-sm text-red-600'>
-					Not Configured Yet
-					</p>
-				</div>
-				<!-- source controls -->
-				<div class='flex-initial self-center flex'>
-					<router-link tag='button' class='btnRegular mr-2'
-						to='/courses/1/exams/1/sources/1/edit'>
-						<LabelledIcon label='Configure'>
-							<ConfigureIcon title='Configure source' />
-						</LabelledIcon>
-					</router-link>
-					<button class='btnRegular' type='button'>
-						<LabelledIcon label='Delete'>
-						<DeleteIcon title='Delete source' />
-						</LabelledIcon>
-					</button>
-				</div>
-			</div>
-		</div>
+		<ExamSourceTable />
 
 		<button type='submit' class='btnPrimary my-3' v-on:click='saveExam()'>Save</button>
 	</div>
 </template>
 
 <script>
-import UploadIcon from 'icons/Upload'
-import ConfigureIcon from 'icons/Settings'
-import DeleteIcon from 'icons/Delete'
 
-import LabelledIcon from '@/components/util/LabelledIcon'
+import ExamSourceTable from '@/components/exam/ExamSourceTable'
 
 import {Exam} from '@/models/Exam'
 
 export default {
 	name: 'CourseForm',
 	components: {
-		ConfigureIcon,
-		DeleteIcon,
-		LabelledIcon,
-		UploadIcon
+		ExamSourceTable,
 	},
 	props: {
 	},
 	data() { return {
 		exam: new Exam(),
-		sources: [
-			{
-				name: "2017w1 math100 midterm 1.pdf",
-				isConfigured: true
-			},
-			{
-				name: "2018w1 math100 midterm 1.pdf",
-				isConfigured: false
-			}
-		]
 	}},
 	methods: {
 		saveExam() {
@@ -101,11 +48,14 @@ export default {
 				this.$store.commit('error/add', {error: error,
 					message: 'Failed to save exam.'})
 			})
-		}
+		},
 	},
 	mounted() {
-		this.exam.id = this.$route.params.examId
-		this.exam.course_id = this.$route.params.courseId
+		let examId = this.$route.params.examId
+		let courseId = this.$route.params.courseId
+
+		this.exam.id = examId
+		this.exam.course_id = courseId
 		this.exam.fetch().catch((error) => {
 			this.$store.commit('error/add', {error: error,
 				message: "Failed to get exam."})
