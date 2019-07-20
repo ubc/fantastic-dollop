@@ -11,6 +11,7 @@ from app.controllers import Enrolments
 from app.controllers import Exams
 from app.controllers import ExamSources
 from app.controllers import ExamComponents
+from app.controllers import ExamComponentTypes
 from app.controllers import Roles
 from app import db
 
@@ -40,6 +41,7 @@ app.include_router(Roles.router)
 app.include_router(Exams.router)
 app.include_router(ExamSources.router)
 app.include_router(ExamComponents.router)
+app.include_router(ExamComponentTypes.router)
 
 # clean up database connection
 @app.on_event("startup")
