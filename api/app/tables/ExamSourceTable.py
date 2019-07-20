@@ -73,6 +73,6 @@ async def has(courseId: int, examId: int, sourceId: int):
                                   ExamTable.table.c.course_id == courseId])
     )
     rowSpecs.append(RowSpec(table, [table.c.id == sourceId,
-                                    table.c.examId == examId]))
+                                    table.c.exam_id == examId]))
     return await TableOp.checkRowsExists(rowSpecs)
 
