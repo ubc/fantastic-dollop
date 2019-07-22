@@ -111,7 +111,7 @@ async def add(
     "/courses/{courseId}/exams/{examId}/components/{componentId}/sources/{sourceId}",
     status_code=HTTP_204_NO_CONTENT,
     summary="Delete a specific exam component's source in an exam.",
-    tags=["ExamSourceComponent"]
+    tags=["ExamComponentSource"]
 )
 async def delete(
     courseId: int,
@@ -121,4 +121,4 @@ async def delete(
     context: TokenContext=Depends(Token.getContext)
 ):
     await can(Permission.DELETE, context, courseId, examId, componentId, sourceId)
-    await ExamComponentSourceTable.delete(componentId)
+    await ExamComponentSourceTable.delete(sourceId)
