@@ -32,3 +32,6 @@ databases[postgresql]
 
 # for file management
 filedepot
+
+# for PDF handling
+PyPDF2

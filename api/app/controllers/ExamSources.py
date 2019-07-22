@@ -19,6 +19,8 @@ from app.helpers import Permission, Token
 
 # file management
 from depot.manager import DepotManager
+# pdf handling
+from PyPDF2 import PdfFileReader
 
 log = logging.getLogger(__name__)
 router = APIRouter()
@@ -73,12 +75,13 @@ async def add(
     await can(Permission.CREATE, context, courseId, examId)
     depot = DepotManager.get()
     fileId = depot.create(file.file, file.filename)
+    pdf = PdfFileReader(file.file)
     # TODO actually fill in page_count
     newSource = ExamSourceNewIn(
         exam_id = examId,
         file=fileId,
         name=file.filename,
-        page_count=1
+        page_count=pdf.getNumPages()
     )
     return await ExamSourceTable.add(courseId, newSource)
 

@@ -30,7 +30,7 @@ table = Table(
 
 async def getByCourseAndUserId(courseId: int, userId: int):
     return await TableOp.getByFields(table, {table.c.course_id: courseId,
-                                                    table.c.user_id: userId})
+                                             table.c.user_id: userId})
 
 
 async def getList(courseId: int, limitUserIds: List[int] = None):
