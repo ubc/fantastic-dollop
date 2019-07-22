@@ -78,7 +78,6 @@ def upgrade():
         Column('modified', DateTime, server_default=sa.func.current_timestamp(),
                server_onupdate=sa.func.current_timestamp()),
         Column('created', DateTime, server_default=sa.func.current_timestamp()),
-        UniqueConstraint('exam_id', 'sequence'),
         comment='Defines components used to generate papers for the exam. The order of the questions, ID pages, etc.'
     )
 

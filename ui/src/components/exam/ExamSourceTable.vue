@@ -58,6 +58,7 @@ export default {
 			source.delete().then(() => {
 				this.$notify({title: "Exam source file '"+ sourceName +"' was deleted.",
 					type: 'success'})
+				this.$store.commit('exam/setSources', this.sources.models)
 			}).catch((error) => {
 				this.$store.commit('error/add', {error: error,
 					message: 'Failed to delete exam source file "' + sourceName + '".'})
@@ -72,6 +73,7 @@ export default {
 			let source = new ExamSource(e.data)
 			this.sources.add(source)
 			setTimeout(() => { this.uploadStatus = "" }, 500)
+			this.$store.commit('exam/setSources', this.sources.models)
 		},
 
 		uploadProgress(e) {
@@ -86,7 +88,9 @@ export default {
 
 		this.sources.set('course_id', courseId)
 		this.sources.set('exam_id', examId)
-		this.sources.fetch().catch((error) => {
+		this.sources.fetch().then(() => {
+			this.$store.commit('exam/setSources', this.sources.models)
+		}).catch((error) => {
 			this.$store.commit('error/add', {error: error,
 				message: "Failed to get exam sources."})
 		})

@@ -12,25 +12,31 @@
 			<input id='printId' name='printId' type='text' v-model='exam.print_id'
 				placeholder='100midterm1' />
 			<span class='hint'>Human friendly ID printed on every page.</span>
+			<button type='submit' class='btnPrimary my-3'>Save</button>
 		</form>
 
-		<h5 class='text-lg mb-2'>Exam Sources</h5>
+		<h5 class='text-xl mb-2'>Exam Sources</h5>
 		<ExamSourceTable />
 
-		<button type='submit' class='btnPrimary my-3' v-on:click='saveExam()'>Save</button>
+		<h5 class='text-xl mb-2 mt-4'>Exam Specification</h5>
+		<ExamSpecificationTable />
+
 	</div>
 </template>
 
 <script>
 
 import ExamSourceTable from '@/components/exam/ExamSourceTable'
+import ExamSpecificationTable from '@/components/exam/ExamSpecificationTable'
+
 
 import {Exam} from '@/models/Exam'
 
 export default {
 	name: 'CourseForm',
 	components: {
-		ExamSourceTable,
+		ExamSpecificationTable,
+		ExamSourceTable
 	},
 	props: {
 	},

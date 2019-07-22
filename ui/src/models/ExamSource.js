@@ -5,10 +5,11 @@ export class ExamSource extends Model {
   defaults() {
     return {
       id: null,
-      name: '',
-      file: '',
       course_id: null,
       exam_id: null,
+      name: '',
+      file: '',
+      page_count: 0,
       created: '',
       modified: ''
     }

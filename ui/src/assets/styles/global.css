@@ -23,11 +23,14 @@ a {
 }
 
 /* default form inputs */
-input[type=text], input[type=password], input[type=email] {
+input[type=text], input[type=password], input[type=email], input[type=number] {
 	@apply border border-gray-500 rounded p-2;
 }
 select {
 	@apply border rounded border-gray-500 p-2 bg-gray-100;
+}
+textarea {
+	@apply border rounded border-gray-500 p-2;
 }
 
 /* default tables */

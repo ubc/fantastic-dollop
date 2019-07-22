@@ -2,7 +2,7 @@ import logging
 
 import sqlalchemy as sa
 from sqlalchemy import Column, DateTime, ForeignKey, Integer, Table, UnicodeText
-from app.tables import dbMetadata, ExamTable
+from app.tables import dbMetadata, ExamComponentTypeTable, ExamTable
 
 # database connection
 from app import db
@@ -37,14 +37,29 @@ table = Table(
 
 
 async def getAll(courseId: int, examId: int):
-    query = sa.sql.select([ExamTable.table.c.course_id, table]) \
-        .where(table.c.exam_id == examId)
+    query = sa.sql.select([
+            ExamTable.table.c.course_id,
+            ExamComponentTypeTable.table.c.name.label('exam_component_type'),
+            table
+        ]) \
+        .where(sa.sql.and_(
+            table.c.exam_id == examId,
+            table.c.exam_component_type_id == ExamComponentTypeTable.table.c.id
+        )) \
+        .order_by(table.c.sequence)
     return await db.fetch_all(query)
 
 
 async def get(courseId: int, itemId: int):
-    query = sa.sql.select([ExamTable.table.c.course_id, table]) \
-        .where(table.c.id == itemId)
+    query = sa.sql.select([
+            ExamTable.table.c.course_id,
+            ExamComponentTypeTable.table.c.name.label('exam_component_type'),
+            table
+        ]) \
+        .where(sa.sql.and_(
+            table.c.id == itemId,
+            table.c.exam_component_type_id == ExamComponentTypeTable.table.c.id
+        ))
     return await db.fetch_one(query)
 
 

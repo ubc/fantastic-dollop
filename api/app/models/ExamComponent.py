@@ -21,5 +21,6 @@ class ExamComponentIn(ExamComponentBase):
 class ExamComponentOut(ExamComponentBase):
     id: int
     course_id: int
+    exam_component_type: str
     created: datetime
     modified: datetime
