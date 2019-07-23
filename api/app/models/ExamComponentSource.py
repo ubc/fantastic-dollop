@@ -21,5 +21,6 @@ class ExamComponentSourceOut(ExamComponentSourceBase):
     id: int
     course_id: int
     exam_id: int
+    exam_source_name: str
     created: datetime
     modified: datetime

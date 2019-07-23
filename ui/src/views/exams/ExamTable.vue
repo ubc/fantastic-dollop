@@ -32,6 +32,9 @@
 							<ConfigureIcon title='Configure exam' />
 						</LabelledIcon>
 					</router-link>
+					<button class='btnRegular' v-on:click='deleteExam(exam)'>
+						<LabelledIcon label='Delete'><DeleteIcon /></LabelledIcon>
+					</button>
 				</div>
 			</div>
 		</div>
@@ -42,6 +45,7 @@
 <script>
 import AddIcon from 'icons/Plus'
 import ConfigureIcon from 'icons/Tune'
+import DeleteIcon from 'icons/Delete'
 
 import LabelledIcon from '@/components/util/LabelledIcon'
 
@@ -52,6 +56,7 @@ export default {
 	components: {
 		AddIcon,
 		ConfigureIcon,
+		DeleteIcon,
 		LabelledIcon
 	},
 	data() { return {
@@ -67,7 +72,6 @@ export default {
 			})
 		},
 		addExam() {
-			console.log("ADD EXAM " + this.newExamName)
 			let exam = new Exam()
 			exam.name = this.newExamName
 			exam.course_id = this.$route.params.courseId;
@@ -78,7 +82,17 @@ export default {
 				this.exams.add(exam)
 			}).catch( (error) => {
 				this.$store.commit('error/add', {error: error,
-					message: 'Failed to add new exam "'+ this.newExamName +'".'})
+					message: 'Failed to add exam "'+ this.newExamName +'".'})
+			})
+		},
+		deleteExam(exam) {
+			let examName = exam.name
+			exam.delete().then( () => {
+				this.$notify({title: "Exam '" + examName + "' was deleted.",
+					type: 'success'})
+			}).catch( (error) => {
+				this.$store.commit('error/add', {error: error,
+					message: 'Failed to delete exam "'+ examName +'".'})
 			})
 		}
 	},

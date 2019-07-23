@@ -2,7 +2,7 @@ import logging
 
 import sqlalchemy as sa
 from sqlalchemy import Column, DateTime, ForeignKey, Integer, Table, UnicodeText
-from app.tables import dbMetadata, ExamComponentTable, ExamTable
+from app.tables import dbMetadata, ExamComponentTable, ExamSourceTable, ExamTable
 
 # database connection
 from app import db
@@ -34,12 +34,14 @@ async def getAll(examComponentId: int):
             ExamComponentTable.table.c.exam_id,
             ExamTable.table.c.id,
             ExamTable.table.c.course_id,
+            ExamSourceTable.table.c.name.label('exam_source_name'),
             table
         ]) \
         .where(sa.sql.and_(
             table.c.exam_component_id == examComponentId,
             ExamComponentTable.table.c.id == examComponentId,
             ExamTable.table.c.id == ExamComponentTable.table.c.exam_id,
+            ExamSourceTable.table.c.id == table.c.exam_source_id
         ))
     return await db.fetch_all(query)
 
@@ -49,12 +51,14 @@ async def get(examComponentSourceId: int):
             ExamComponentTable.table.c.exam_id,
             ExamTable.table.c.id,
             ExamTable.table.c.course_id,
+            ExamSourceTable.table.c.name.label('exam_source_name'),
             table
         ]) \
         .where(sa.sql.and_(
             table.c.id == examComponentSourceId,
             ExamComponentTable.table.c.id == table.c.exam_component_id,
             ExamTable.table.c.id == ExamComponentTable.table.c.exam_id,
+            ExamSourceTable.table.c.id == table.c.exam_source_id
         ))
     return await db.fetch_one(query)
 
