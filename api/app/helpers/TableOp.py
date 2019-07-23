@@ -55,8 +55,10 @@ async def getByField(table: Table, field: Column, value):
     return ret
 
 
-async def getAllByField(table: Table, field: Column, value):
+async def getAllByField(table: Table, field: Column, value, orderBy: str=None):
     query = table.select().where(field==value)
+    if orderBy:
+        query = query.order_by(orderBy)
     ret = await db.fetch_all(query)
     return ret
 

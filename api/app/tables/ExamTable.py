@@ -26,7 +26,7 @@ table = Table(
 
 
 async def getAll(courseId: int):
-    return await TableOp.getAllByField(table, table.c.course_id, courseId)
+    return await TableOp.getAllByField(table, table.c.course_id, courseId, "name")
 
 
 async def get(itemId: int):
