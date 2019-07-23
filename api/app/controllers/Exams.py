@@ -87,4 +87,4 @@ async def update(
 async def delete(courseId: int, examId: int,
                  context: TokenContext=Depends(Token.getContext)):
     await can(Permission.DELETE, context, courseId, examId)
-    await ExamTable.delete(courseId)
+    await ExamTable.delete(examId)
