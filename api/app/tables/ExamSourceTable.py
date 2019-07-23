@@ -33,13 +33,19 @@ table = Table(
 
 async def getAll(courseId: int, examId: int):
     query = sa.sql.select([ExamTable.table.c.course_id, table]) \
-        .where(table.c.exam_id == examId)
+        .where(sa.sql.and_(
+            table.c.exam_id == examId,
+            ExamTable.table.c.id == examId
+        ))
     return await db.fetch_all(query)
 
 
 async def get(courseId: int, itemId: int):
     query = sa.sql.select([ExamTable.table.c.course_id, table]) \
-        .where(table.c.id == itemId)
+        .where(sa.sql.and_(
+            table.c.id == itemId,
+            ExamTable.table.c.id == table.c.exam_id
+        ))
     return await db.fetch_one(query)
 
 

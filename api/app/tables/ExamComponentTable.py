@@ -44,7 +44,8 @@ async def getAll(courseId: int, examId: int):
         ]) \
         .where(sa.sql.and_(
             table.c.exam_id == examId,
-            table.c.exam_component_type_id == ExamComponentTypeTable.table.c.id
+            table.c.exam_component_type_id == ExamComponentTypeTable.table.c.id,
+            ExamTable.table.c.id == examId
         )) \
         .order_by(table.c.sequence)
     return await db.fetch_all(query)
@@ -58,7 +59,8 @@ async def get(courseId: int, itemId: int):
         ]) \
         .where(sa.sql.and_(
             table.c.id == itemId,
-            table.c.exam_component_type_id == ExamComponentTypeTable.table.c.id
+            table.c.exam_component_type_id == ExamComponentTypeTable.table.c.id,
+            ExamTable.table.c.id == table.c.exam_id
         ))
     return await db.fetch_one(query)
 
