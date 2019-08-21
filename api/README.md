@@ -93,18 +93,18 @@ To upgrade a dependency to a specific version:
 
 #### Troubleshooting
 
-1. Compilation error caused by `wheel` when installing packages with `pip`
-  This is caused by an outdated `setuptools`, version 39.0.1 was problematic for me, but updating to 41.0.0 seems to have fixed it. To upgrade `setuptools`:
+1. Compilation error caused by missing `wheel` (eg: `bdist_wheel`) when installing packages with `pip`
+  This is caused by outdated `pip` or related tools, update them and see if the error goes away:
 
-        pip install --upgrade setuptools
+        pip install --upgrade pip setuptools pip-tools
 
-  This can also be caused by an outdated `pip`. You can upgrade with:
+  After upgrading, you might want to rerun the install from scratch by uninstalling everything first:
 
-        pip install --upgrade pip
+        pip uninstall -r requirements.txt
 
-  After upgrading, you will want to reinstall the package that threw the compilation error, this will need to be done with `pip` and not `pip-sync`:
+  Then running the install again:
 
-        pip install --force-reinstall <PACKAGE_NAME>
+        pip install -r requirements.txt
 
 2. I can't run raw SQL queries against the user table!
   This is because `user` is a keyword that gets translated to the `current_user` function in Postgres. You need to double quote `"user"` so that it treats it as a table. For more detail: https://dba.stackexchange.com/questions/75551/returning-rows-in-postgresql-with-a-table-called-user
