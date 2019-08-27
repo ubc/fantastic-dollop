@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 
 import { auth } from '@/plugins/store/auth'
 import { error } from '@/plugins/store/error'
+import orm from '@/plugins/store/orm'
 
 Vue.use(Vuex)
 
@@ -13,5 +14,6 @@ export default new Vuex.Store({
     auth,
     error
   },
+  plugins: [orm],
   strict: debug
 })

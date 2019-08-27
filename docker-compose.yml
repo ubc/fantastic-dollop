@@ -29,7 +29,7 @@ services:
       - ./api/:/app
     # python exceptions will kill the container, so have the container restart
     # automatically or every mistake we make will require a manual restart
-    restart: always
+    #restart: always
     labels:
       - "traefik.frontend.rule=PathPrefixStrip:/api"
     ports:

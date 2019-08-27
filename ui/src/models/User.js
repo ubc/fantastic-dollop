@@ -1,23 +1,29 @@
-import {Model, Collection} from 'vue-mc'
-import {email, equal, empty, integer, min, required, string} from 'vue-mc/validation'
-import {getAPIURL, convertDatabaseDate} from './Helpers'
+//import {Model, Collection} from 'vue-mc'
+//import {email, equal, empty, integer, min, required, string} from 'vue-mc/validation'
+//import {getAPIURL, convertDatabaseDate} from './Helpers'
+import { Model } from '@vuex-orm/core'
 
 export class User extends Model {
-  defaults() {
+  static entity = 'users'
+
+  static fields() {
     return {
-      id: null,
-      username: '',
-      password: '',
-      name: '',
-      preferredName: '',
-      email: '',
-      studentNumber: ''
+      id: this.increment(),
+      username: this.attr(''),
+      password: this.attr(''),
+      name: this.attr(''),
+      preferredName: this.attr(''),
+      email: this.attr(''),
+      studentNumber: this.attr(''),
+      created: this.attr(null),
+      modified: this.attr(null),
     }
   }
 
   // sort of a sanitize/preprocess step that attributes goes through
   // before being set in the model, really only using this for type
   // coercion right now
+  /*
   mutations() {
     return {
       id:   (id) => Number(id) || null,
@@ -42,8 +48,10 @@ export class User extends Model {
       delete: getAPIURL('/users/{id}')
     }
   }
+  */
 }
 
+/*
 export class UserList extends Collection {
   model() {
     return User
@@ -55,3 +63,4 @@ export class UserList extends Collection {
     }
   }
 }
+*/
