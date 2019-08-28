@@ -33,13 +33,13 @@ Unless otherwise noted, commands should be run in the project directory's root (
 
 For initial install:
 
-    pip install -r requirements.txt
+    pip install -r requirements/base.txt
 
 For subsequent installs, you can use:
 
-    pip-sync
+    pip-sync 
 
-Note that `pip-sync` will attempt to match `requirements.txt` exactly, including removing packages that do no appear in `requirements.txt`.
+Note that `pip-sync` will attempt to match `requirements/base.txt` exactly, including removing packages that do no appear in `requirements/base.txt`.
 
 ##### Database configuration
 
@@ -71,40 +71,44 @@ A default admin user is available with:
 
 ##### Add Dependency
 
-Add the dependency to `requirements.in`, in the same format as `requirements.txt`. If you do not specify a version limit, then it'll pull in the latest version.
+If the dependency is needed in production, add it to `requirements/base.in`. If the dependency is only used for testing, add it to `requirements/test.in`. If you do not specify a version limit, then it'll pull in the latest version.
 
-After updating `requirements.in`, you need to update `requirements.txt` with this command:
+After updating the requirements file, you need to compile and sync it. For example, if updated `requirements/base.in`, you need to compile `requirements/base.txt` with this command:
 
-    pip-compile
+    pip-compile requirements/base.in
 
 Then install the new package with:
 
-    pip-sync
+    pip-sync requirements/base.txt
 
 ##### Upgrade Dependencies
 
 To upgrade a dependency to the latest:
 
-    pip-compile -P <DEPENDENCY_NAME>
+    pip-compile -P <DEPENDENCY_NAME> requirements/base.in
 
 To upgrade a dependency to a specific version:
 
-    pip-compile -P <DEPENDENCY_NAME>==2.0.0
+    pip-compile -P <DEPENDENCY_NAME>==2.0.0 requirements/base.in
 
-#### Troubleshooting
+### Troubleshooting
 
 1. Compilation error caused by missing `wheel` (eg: `bdist_wheel`) when installing packages with `pip`
   This is caused by outdated `pip` or related tools, update them and see if the error goes away:
 
         pip install --upgrade pip setuptools pip-tools
 
+  If the error goes away, you need to update the dependency versions, or it'll downgrade `pip-tools` when you next run `pip-sync`:
+
+        pip-compile -P pip-tools requirements/base.in
+
   After upgrading, you might want to rerun the install from scratch by uninstalling everything first:
 
-        pip uninstall -r requirements.txt
+        pip uninstall -r requirements/base.txt
 
   Then running the install again:
 
-        pip install -r requirements.txt
+        pip install -r requirements/base.txt
 
 2. I can't run raw SQL queries against the user table!
   This is because `user` is a keyword that gets translated to the `current_user` function in Postgres. You need to double quote `"user"` so that it treats it as a table. For more detail: https://dba.stackexchange.com/questions/75551/returning-rows-in-postgresql-with-a-table-called-user

@@ -8,7 +8,7 @@
 set -e
 
 echo "Update dependencies using pip-sync"
-pip-sync
+pip-sync requirements/base.txt
 
 echo "Migrating database schema"
 alembic upgrade head

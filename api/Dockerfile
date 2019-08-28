@@ -11,8 +11,8 @@ RUN apk add --no-cache bash build-base libffi-dev postgresql-dev
 
 WORKDIR /app
 
-COPY . /app/ 
+COPY . /app/
 
 # TODO: pip-tools is specified in requirements, but isn't necessary in production,
 # consider removing them when building the production image.
-RUN pip install -r requirements.txt
+RUN pip install -r requirements/base.txt
