@@ -5,11 +5,12 @@ import os
 log = logging.getLogger(__name__)
 
 def getDbUrl():
+    # same defaults that the postgres docker container defaults to
     return "postgresql://%s:%s@%s/%s" % (
-        os.getenv("DB_USER", "user"),
-        os.getenv("DB_PASSWORD", "pass"),
+        os.getenv("DB_USER", "postgres"),
+        os.getenv("DB_PASSWORD", "postgres"),
         os.getenv("DB_HOST", "localhost"),
-        os.getenv("DB_NAME", "dbname"),
+        os.getenv("DB_NAME", "postgres"),
     )
 
 def getTokenSecret():

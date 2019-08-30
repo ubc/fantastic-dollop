@@ -73,13 +73,17 @@ A default admin user is available with:
 
 If the dependency is needed in production, add it to `requirements/base.in`. If the dependency is only used for testing, add it to `requirements/test.in`. If you do not specify a version limit, then it'll pull in the latest version.
 
-After updating the requirements file, you need to compile and sync it. For example, if updated `requirements/base.in`, you need to compile `requirements/base.txt` with this command:
+After updating the requirements file, you need to compile and sync it. For example, if you updated `requirements/base.in`, you need to compile `requirements/base.txt` with this command:
 
     pip-compile requirements/base.in
 
 Then install the new package with:
 
     pip-sync requirements/base.txt
+
+Note that since `test.in` pulls in `base.in`, if you update `base.in`, you should compile the test requirements too with:
+
+    pip-compile requirements/test.in
 
 ##### Upgrade Dependencies
 
@@ -90,6 +94,22 @@ To upgrade a dependency to the latest:
 To upgrade a dependency to a specific version:
 
     pip-compile -P <DEPENDENCY_NAME>==2.0.0 requirements/base.in
+
+### Running Test Cases ###
+
+Docker is required as we use docker to spin up a postgres instance for the application to write to.
+
+Running the test cases also requires additional python dependencies to be installed. We need to install `requirements/test.txt` which contains everything that's in `requirements/base.txt` as well as additional dependencies that are only used for testing.
+
+	pip-sync requirements/test.txt
+
+The test cases are located in the `test/` directory. They can be run by simply executing:
+
+    pytest
+
+### Modifying the Database Schema
+
+See the README in `app/migrations` for instructions on how to write migrations for modifying the database schema.
 
 ### Troubleshooting
 
@@ -112,7 +132,3 @@ To upgrade a dependency to a specific version:
 
 2. I can't run raw SQL queries against the user table!
   This is because `user` is a keyword that gets translated to the `current_user` function in Postgres. You need to double quote `"user"` so that it treats it as a table. For more detail: https://dba.stackexchange.com/questions/75551/returning-rows-in-postgresql-with-a-table-called-user
-
-### Modifying the Database Schema
-
-See the README in `app/migrations` for instructions on how to write migrations for modifying the database schema.

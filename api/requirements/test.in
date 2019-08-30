@@ -1,1 +1,8 @@
+# bring in the basics
 -r base.in
+# test running framework
+pytest
+# starlette TestClient dependency
+requests
+# for start up testing postgres instance using docker-compose
+pytest-docker-compose

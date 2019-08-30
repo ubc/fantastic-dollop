@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+  api_db:
+    image: "postgres:11-alpine"
+    ports:
+      - 5432:5432
