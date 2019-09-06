@@ -31,15 +31,19 @@ Unless otherwise noted, commands should be run in the project directory's root (
 
 ##### Install Dependencies
 
-For initial install:
+For a production install, run:
 
     pip install -r requirements/base.txt
 
-For subsequent installs, you can use:
+For a development install, you should instead use:
 
-    pip-sync 
+    pip install -r requirements/development.txt
 
-Note that `pip-sync` will attempt to match `requirements/base.txt` exactly, including removing packages that do no appear in `requirements/base.txt`.
+With the development install, you can use `pip-sync` after the initial install:
+
+    pip-sync requirements/development.txt
+
+The difference between `pip install` and `pip-sync` is that `pip-sync` will uninstall packages in order to match `requirements/development.txt` exactly.
 
 ##### Database configuration
 
@@ -71,7 +75,7 @@ A default admin user is available with:
 
 ##### Add Dependency
 
-If the dependency is needed in production, add it to `requirements/base.in`. If the dependency is only used for testing, add it to `requirements/test.in`. If you do not specify a version limit, then it'll pull in the latest version.
+If the dependency is needed in production, add it to `requirements/base.in`. If the dependency is only used for development, add it to `requirements/development.in`. If you do not specify a version limit, then it'll pull in the latest version. `pip-compile` will lock down the version for you when it generates the corresponding requirements txt file.
 
 After updating the requirements file, you need to compile and sync it. For example, if you updated `requirements/base.in`, you need to compile `requirements/base.txt` with this command:
 
@@ -81,9 +85,9 @@ Then install the new package with:
 
     pip-sync requirements/base.txt
 
-Note that since `test.in` pulls in `base.in`, if you update `base.in`, you should compile the test requirements too with:
+Note that since `development.in` pulls in `base.in`, if you update `base.in`, you should recompile the test requirements too. To simplify updating the requirement files, a script is provided that'll run the pip-compile commands for you, so you can just run:
 
-    pip-compile requirements/test.in
+	./build_requirements.sh
 
 ##### Upgrade Dependencies
 
@@ -99,9 +103,7 @@ To upgrade a dependency to a specific version:
 
 Docker is required as we use docker to spin up a postgres instance for the application to write to.
 
-Running the test cases also requires additional python dependencies to be installed. We need to install `requirements/test.txt` which contains everything that's in `requirements/base.txt` as well as additional dependencies that are only used for testing.
-
-	pip-sync requirements/test.txt
+Running the test cases requires development dependencies to be installed, see the Install Dependencies section.
 
 The test cases are located in the `test/` directory. They can be run by simply executing:
 

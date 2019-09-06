@@ -10,7 +10,7 @@ set -e
 
 # Development Only, update dependencies
 echo "Update dependencies using pip-sync"
-pip-sync requirements/test.txt
+pip-sync requirements/development.txt
 
 # Setup the database
 echo "Migrating database schema"

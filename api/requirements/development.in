@@ -1,7 +1,16 @@
-# Dependencies required for development
+## Dependencies required for development
 
 # bring in the basics
 -r base.in
 # requirements.txt management
 pip-tools
+
+## Required for running tests
+
+# test running framework
+pytest
+# starlette TestClient dependency
+requests
+# for start up testing postgres instance using docker-compose
+pytest-docker-compose
 
