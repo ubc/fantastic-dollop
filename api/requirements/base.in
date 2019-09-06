@@ -1,3 +1,5 @@
+# Dependencies required to run the app
+
 # main framework
 fastapi
 # fast python server used by fastapi
@@ -15,9 +17,6 @@ miracle-acl
 
 # for reading yaml config files, e.g.: config/logging.yml
 PyYAML
-
-# requirements.txt management
-pip-tools
 
 # sql database
 sqlalchemy

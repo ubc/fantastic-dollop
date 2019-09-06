@@ -1,0 +1,7 @@
+# Dependencies required for development
+
+# bring in the basics
+-r base.in
+# requirements.txt management
+pip-tools
+

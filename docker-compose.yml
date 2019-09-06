@@ -20,7 +20,9 @@ services:
     # Not using a stock image, building our own that includes build tools 
     # so we can install packages from pip. The build tools aren't necessary for
     # prod images.
-    build: api/
+    build:
+      context: api/
+      dockerfile: docker/development/Dockerfile
     # overrides the default startup to enable live reload when code changes.
     command: "/start-reload.sh"
     # mount the python source inside the container so that when you change

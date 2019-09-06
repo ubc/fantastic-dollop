@@ -5,3 +5,9 @@
 
 # Ignore the python compiled bytecode
 __pycache__
+
+# Ignore uploaded files
+/uploaded_files
+
+# Ignore pytest generated cache
+/.pytest_cache
