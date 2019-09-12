@@ -1,8 +1,8 @@
 FROM node:10 AS build
 COPY ./ /app
 WORKDIR /app
-RUN npm install
-RUN npm run build --modern
+RUN yarn install
+RUN yarn build --modern
 
 FROM nginx:1.17-alpine
 RUN mkdir /app
