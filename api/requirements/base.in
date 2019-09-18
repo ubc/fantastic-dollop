@@ -16,7 +16,7 @@ passlib[bcrypt]
 miracle-acl
 
 # for reading yaml config files, e.g.: config/logging.yml
-PyYAML
+PyYAML>=4.2b1
 
 # sql database
 sqlalchemy
