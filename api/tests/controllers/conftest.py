@@ -10,6 +10,8 @@ import pytest
 
 from app.config import EnvConfig
 
+from .fixtures.users import add_tmp_user
+
 log = logging.getLogger(__name__)
 
 dbUrl = EnvConfig.getDbUrl()
@@ -42,6 +44,12 @@ def wait_for_pg(session_scoped_container_getter):
     logger.error(f'We could not connect to Postgres within {check_timeout} seconds.')
     return False
 
+@pytest.fixture(scope='session')
+def dbconn(wait_for_pg):
+    dbUrl = EnvConfig.getDbUrl()
+    engine = sa.create_engine(dbUrl)
+    conn = engine.connect()
+    return conn
 
 # load data into postgres, this is executed at the module level, so every
 # test file will start with a new database
@@ -51,4 +59,3 @@ def reset_database(wait_for_pg):
     conn = engine.connect()
     conn.execute("select 'drop table \"' || tablename || '\" cascade;' from pg_tables where schemaname = 'public';")
     subprocess.run(['alembic', 'upgrade', 'head'])
-
