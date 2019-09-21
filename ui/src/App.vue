@@ -62,5 +62,5 @@ export default {
 </script>
 
 <style>
-@import 'assets/styles/tailwind.postcss';
+@import 'assets/styles/tailwind.css';
 </style>
