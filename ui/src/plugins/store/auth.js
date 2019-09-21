@@ -1,6 +1,8 @@
 // Stores the auth token in vuex, with a backup in a cookie
 
-import axios from '@/plugins/axios'
+// needs to be global axios in order to set common headers for all axios instances
+// using just the instance we created in @/plugins/axios doesn't work
+import axios from 'axios'
 
 export const TOKEN_KEY = 'token'
 

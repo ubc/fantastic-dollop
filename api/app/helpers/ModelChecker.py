@@ -8,7 +8,7 @@ from pydantic import BaseModel
 log = logging.getLogger(__name__)
 
 unmatchedIdException = HTTPException(status_code=HTTP_400_BAD_REQUEST,
-                                     detail="Course ID in route does not match course ID in request data.")
+                                     detail="Mismatched id between the API URL and the request JSON data. E.g.: does the course ID in the URL match the one in the JSON?")
 
 # id is an optional parameter for incoming data since the id is given in the
 # url itself. This check ensures that:
