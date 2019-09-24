@@ -32,7 +32,14 @@ export default {
           name: 'adminCourseEnrolment',
           meta: { breadcrumb: 'Enrolment' },
           component: () => import('../../views/enrolment/EnrolmentTable.vue'),
-          props(route) { return {courseId: Number(route.params.courseId)}}
+          props(route) { return {courseId: Number(route.params.courseId)}},
+        },
+        {
+          path: '/admin/courses/:courseId/users/add',
+          name: 'adminCourseEnrolmentAdd',
+          meta: { breadcrumb: 'Add Enrolment' },
+          component: () => import('../../views/enrolment/EnrolmentForm.vue'),
+          props(route) { return {courseId: Number(route.params.courseId)}},
         }
       ]
     },

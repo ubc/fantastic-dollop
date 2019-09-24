@@ -75,10 +75,10 @@ table caption {
 
 /* forms */
 .formVertical {
-	& input, & label {
+	& input, & label, & select {
 		@apply block;
 	}
-	& input {
+	& input, & select {
 		@apply my-1;
 	}
 	& label {

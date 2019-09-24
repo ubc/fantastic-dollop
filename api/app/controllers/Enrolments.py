@@ -3,7 +3,7 @@ import logging
 from fastapi import APIRouter, Depends, HTTPException
 
 # http status codes
-from starlette.status import HTTP_201_CREATED, HTTP_204_NO_CONTENT, HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND
+from starlette.status import HTTP_201_CREATED, HTTP_204_NO_CONTENT, HTTP_404_NOT_FOUND
 
 # data types used for data validation
 from typing import List
@@ -33,7 +33,9 @@ async def can(signedInUser: UserOut, courseId: int):
     raise Permission.denied
 
 
-@router.get("/courses/{courseId}/users", response_model=List[EnrolmentOut])
+@router.get("/courses/{courseId}/users",
+            response_model=List[EnrolmentOut],
+            tags=["enrolment"])
 async def getAll(
     courseId: int,
     signedInUser: UserOut=Depends(Token.getCurrentUser)
@@ -42,11 +44,13 @@ async def getAll(
     return await EnrolmentTable.getList(courseId)
 
 
-@router.post("/courses/{courseId}/users", response_model=List[EnrolmentOut],
-             status_code=HTTP_201_CREATED)
+@router.post("/courses/{courseId}/users",
+             response_model=EnrolmentOut,
+             status_code=HTTP_201_CREATED,
+             tags=["enrolment"])
 async def add(
     courseId: int,
-    enrolments: List[EnrolmentNewIn],
+    enrolments: EnrolmentNewIn,
     signedInUser: UserOut=Depends(Token.getCurrentUser)
 ):
     await can(signedInUser, courseId)
@@ -55,7 +59,8 @@ async def add(
 
 @router.post("/courses/{courseId}/users/{userId}",
              response_model=EnrolmentOut,
-             status_code=HTTP_201_CREATED)
+             status_code=HTTP_201_CREATED,
+             tags=["enrolment"])
 async def edit(
     courseId: int,
     userId: int,
@@ -73,7 +78,9 @@ async def edit(
     return await EnrolmentTable.edit(courseId, enrolment)
 
 
-@router.delete("/courses/{courseId}/users", status_code=HTTP_204_NO_CONTENT)
+@router.delete("/courses/{courseId}/users",
+               status_code=HTTP_204_NO_CONTENT,
+               tags=["enrolment"])
 async def delete(
     courseId: int,
     enrolments: List[EnrolmentIn],

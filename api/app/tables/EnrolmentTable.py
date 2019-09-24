@@ -30,7 +30,7 @@ table = Table(
 
 async def getByCourseAndUserId(courseId: int, userId: int):
     return await TableOp.getByFields(table, {table.c.course_id: courseId,
-                                                    table.c.user_id: userId})
+                                             table.c.user_id: userId})
 
 
 async def getList(courseId: int, limitUserIds: List[int] = None):
@@ -70,7 +70,19 @@ async def getEnroledCourses(userId: int):
     return await db.fetch_all(query)
 
 
-async def add(courseId: int, enrolments: List[EnrolmentNewIn]):
+async def add(courseId: int, enrolment: EnrolmentNewIn):
+    newEnrolment = {
+        'course_id': courseId,
+        'user_id': enrolment.user_id,
+        'role_id': enrolment.role_id
+    }
+    query = table.insert().values(newEnrolment)
+    await db.execute(query)
+    ret = await getList(courseId, [enrolment.user_id])
+    return ret[0]
+
+
+async def addList(courseId: int, enrolments: List[EnrolmentNewIn]):
     newEnrolments = []
     userIds = []
     for enrolment in enrolments:

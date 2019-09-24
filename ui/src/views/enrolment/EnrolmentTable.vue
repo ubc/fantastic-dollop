@@ -2,11 +2,12 @@
 	<div>
 		<h4 class='text-xl font-medium mb-2'>Enrolment</h4>
 
-		<button class='btnRegular mb-2'>
+		<router-link :to="{name: 'adminCourseEnrolmentAdd', params: '$route.params'}"
+			tag="button" class='btnRegular mb-4'>
 			<LabelledIcon label='Add'>
 				<AddIcon title='Enrol a user into course' />
 			</LabelledIcon>
-		</button>
+		</router-link>
 
 		<div v-if='!enrolments.models.length && !enrolments.loading'>No one enroled in course!</div>
 		<Loading v-if='enrolments.loading || roles.loading' />
