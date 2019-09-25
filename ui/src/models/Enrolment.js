@@ -1,5 +1,5 @@
 import {Model, Collection} from 'vue-mc'
-import {getAPIURL, convertDatabaseDate} from './Helpers'
+import {convertDatabaseDate} from './Helpers'
 
 export class Enrolment extends Model {
   defaults() {
@@ -38,10 +38,10 @@ export class Enrolment extends Model {
 
   routes() {
     return {
-      fetch: getAPIURL('/courses/{course_id}/users/{user_id}'),
-      save: getAPIURL('/courses/{course_id}/users'), // creating new
-      update: getAPIURL('/courses/{course_id}/users/{user_id}'),
-      delete: getAPIURL('/courses/{course_id}/users/{user_id}')
+      fetch: '/courses/{course_id}/users/{user_id}',
+      save: '/courses/{course_id}/users', // creating new
+      update: '/courses/{course_id}/users/{user_id}',
+      delete: '/courses/{course_id}/users/{user_id}'
     }
   }
 }
@@ -59,7 +59,7 @@ export class EnrolmentList extends Collection {
 
   routes() {
     return {
-      fetch: getAPIURL('/courses/{course_id}/users'),
+      fetch: '/courses/{course_id}/users'
     }
   }
 }

@@ -1,5 +1,5 @@
 import {Model, Collection} from 'vue-mc'
-import {getAPIURL, convertDatabaseDate} from './Helpers'
+import {convertDatabaseDate} from './Helpers'
 
 export class Role extends Model {
   defaults() {
@@ -27,7 +27,7 @@ export class RoleList extends Collection {
 
   routes() {
     return {
-      fetch: getAPIURL('/roles'),
+      fetch: '/roles'
     }
   }
 }

@@ -16,7 +16,6 @@ axios.interceptors.response.use(
     return Promise.reject(error)
   })
 
-const http = axios.create()
-http.defaults.baseURL = process.env.VUE_APP_API
+axios.defaults.baseURL = process.env.VUE_APP_API
 
-export default http
+export default axios

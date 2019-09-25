@@ -1,6 +1,6 @@
 import {Model, Collection} from 'vue-mc'
 import {email, equal, empty, integer, min, required, string} from 'vue-mc/validation'
-import {getAPIURL, convertDatabaseDate} from './Helpers'
+import {convertDatabaseDate} from './Helpers'
 
 export class User extends Model {
   defaults() {
@@ -36,10 +36,10 @@ export class User extends Model {
 
   routes() {
     return {
-      fetch: getAPIURL('/users/{id}'),
-      save: getAPIURL('/users'), // creating new
-      update: getAPIURL('/users/{id}'), // editing existing
-      delete: getAPIURL('/users/{id}')
+      fetch: '/users/{id}',
+      save: '/users', // creating new
+      update: '/users/{id}', // editing existing
+      delete: '/users/{id}'
     }
   }
 }
@@ -51,7 +51,7 @@ export class UserList extends Collection {
 
   routes() {
     return {
-      fetch: getAPIURL('/users'),
+      fetch: '/users'
     }
   }
 }

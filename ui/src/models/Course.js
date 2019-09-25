@@ -1,6 +1,5 @@
 import {Model, Collection} from 'vue-mc'
 import {equal, integer, min, required, string} from 'vue-mc/validation'
-import {getAPIURL} from './Helpers'
 
 export class Course extends Model {
   defaults() {
@@ -27,10 +26,10 @@ export class Course extends Model {
 
   routes() {
     return {
-      fetch: getAPIURL('/courses/{id}'),
-      save: getAPIURL('/courses'),
-      update: getAPIURL('/courses/{id}'),
-      delete: getAPIURL('/courses/{id}')
+      fetch: '/courses/{id}',
+      save: '/courses',
+      update: '/courses/{id}',
+      delete: '/courses/{id}'
     }
   }
 }
@@ -42,7 +41,7 @@ export class CourseList extends Collection {
 
   routes() {
     return {
-      fetch: getAPIURL('/courses'),
+      fetch: '/courses'
     }
   }
 }
