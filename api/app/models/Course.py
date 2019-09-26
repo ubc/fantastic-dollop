@@ -17,3 +17,6 @@ class CourseOut(CourseBase):
     id: int
     created: datetime
     modified: datetime
+
+class CourseRoleOut(CourseOut):
+    role: str=''

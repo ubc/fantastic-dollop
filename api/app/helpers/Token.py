@@ -13,7 +13,7 @@ from jwt import PyJWTError
 from app.config import EnvConfig
 
 from app.models.Token import TokenContext
-from app.models.Course import CourseOut
+from app.models.Course import CourseRoleOut
 from app.models.User import UserOut
 
 from app.tables import EnrolmentTable
@@ -52,7 +52,7 @@ async def getContext(signedInUser: UserOut=Depends(getCurrentUser)):
     # get courses that the user is enroled in
     courses = await EnrolmentTable.getEnroledCourses(signedInUser.id)
     roles = {course['id'] : course['role'] for course in courses}
-    courses = [CourseOut(**course) for course in courses]
+    courses = [CourseRoleOut(**course) for course in courses]
     return TokenContext(signedInUser=signedInUser, enroledCourses=courses,
                         roles=roles)
 

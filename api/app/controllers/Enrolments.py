@@ -14,6 +14,8 @@ from app.tables import EnrolmentTable, CourseTable
 # validation models
 from app.models.User import UserOut
 from app.models.Enrolment import EnrolmentIn, EnrolmentNewIn, EnrolmentOut
+from app.models.Course import CourseRoleOut
+from app.models.Token import TokenContext
 
 from app.helpers import ModelChecker, Permission, Token
 
@@ -33,10 +35,21 @@ async def can(signedInUser: UserOut, courseId: int):
     raise Permission.denied
 
 
+@router.get("/users/me/courses",
+            response_model=List[CourseRoleOut],
+            tags=["enrolment"],
+            summary='Get courses available to the signed in user.')
+async def getMyCourses(
+    context: TokenContext=Depends(Token.getContext)
+):
+    return context.enroledCourses
+
+
 @router.get("/courses/{courseId}/users",
             response_model=List[EnrolmentOut],
-            tags=["enrolment"])
-async def getAll(
+            tags=["enrolment"],
+            summary='Get a list of users enroled in a course.')
+async def getUsersInCourse(
     courseId: int,
     signedInUser: UserOut=Depends(Token.getCurrentUser)
 ):
@@ -47,8 +60,9 @@ async def getAll(
 @router.post("/courses/{courseId}/users",
              response_model=EnrolmentOut,
              status_code=HTTP_201_CREATED,
-             tags=["enrolment"])
-async def add(
+             tags=["enrolment"],
+             summary='Add a user to a course.')
+async def addUserToCourse(
     courseId: int,
     enrolments: EnrolmentNewIn,
     signedInUser: UserOut=Depends(Token.getCurrentUser)
@@ -60,8 +74,9 @@ async def add(
 @router.post("/courses/{courseId}/users/{userId}",
              response_model=EnrolmentOut,
              status_code=HTTP_201_CREATED,
-             tags=["enrolment"])
-async def edit(
+             tags=["enrolment"],
+             summary="Edit a user's role in a course.")
+async def editUserInCourse(
     courseId: int,
     userId: int,
     enrolment: EnrolmentIn,
@@ -80,8 +95,9 @@ async def edit(
 
 @router.delete("/courses/{courseId}/users",
                status_code=HTTP_204_NO_CONTENT,
-               tags=["enrolment"])
-async def delete(
+               tags=["enrolment"],
+               summary='Delete a user from a course.')
+async def deleteUserFromCourse(
     courseId: int,
     enrolments: List[EnrolmentIn],
     signedInUser: UserOut=Depends(Token.getCurrentUser)
