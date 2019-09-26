@@ -31,7 +31,7 @@ def upgrade():
         Column('created', DateTime, server_default=sa.func.current_timestamp())
     )
     op.bulk_insert(roleTable, [
-        {'name': Permission.GUEST},
+        {'name': Permission.STUDENT},
         {'name': Permission.TA},
         {'name': Permission.INSTRUCTOR}
     ])

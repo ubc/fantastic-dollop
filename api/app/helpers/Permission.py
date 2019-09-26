@@ -13,7 +13,7 @@ from miracle import Acl
 # changing these will require an alembic migration to match
 INSTRUCTOR = 'Instructor'
 TA = 'Teaching Assistant'
-GUEST = 'Guest'
+STUDENT = 'Student'
 
 # resources
 COURSE = 'Course'
@@ -32,7 +32,7 @@ acl = Acl()
 
 acl.add_role(INSTRUCTOR)
 acl.add_role(TA)
-acl.add_role(GUEST)
+acl.add_role(STUDENT)
 
 # defining resources & their permissions
 acl.add({
@@ -50,7 +50,7 @@ acl.grants({
         COURSE: [READ],
         USER: [READ]
     },
-    GUEST: {
+    STUDENT: {
         COURSE: [READ]
     }
 })
