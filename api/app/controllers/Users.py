@@ -40,19 +40,45 @@ async def can(signedInUser: UserOut, targetUserId: int = -1):
     raise Permission.denied
 
 
-@router.get("/users", response_model=List[UserOut])
+@router.get(
+    "/users",
+    response_model=List[UserOut],
+    tags=['users'],
+    summary='List all users in the system.'
+)
 async def getAll(signedInUser: UserOut=Depends(Token.getCurrentUser)):
     await can(signedInUser)
     return await UserTable.getAll()
 
 
-@router.get("/users/{userId}", response_model=UserOut)
+@router.get(
+    "/users/me",
+    response_model=UserOut,
+    tags=['users'],
+    summary="Get the signed in user's info"
+)
+async def getMyself(signedInUser: UserOut=Depends(Token.getCurrentUser)):
+    return signedInUser
+
+
+@router.get(
+    "/users/{userId}",
+    response_model=UserOut,
+    tags=['users'],
+    summary="Get a specific user's info"
+)
 async def get(userId: int, signedInUser: UserOut=Depends(Token.getCurrentUser)):
     await can(signedInUser, userId)
     return await UserTable.get(userId)
 
 
-@router.post("/users", response_model=UserOut, status_code=HTTP_201_CREATED)
+@router.post(
+    "/users",
+    response_model=UserOut,
+    status_code=HTTP_201_CREATED,
+    tags=['users'],
+    summary='Add a new user to the system'
+)
 async def create(userInfo: UserNewIn,
                  signedInUser: UserOut=Depends(Token.getCurrentUser)):
     await can(signedInUser)
@@ -63,7 +89,12 @@ async def create(userInfo: UserNewIn,
     return await UserTable.add(userInfo)
 
 
-@router.post("/users/{userId}", response_model=UserOut)
+@router.post(
+    "/users/{userId}",
+    response_model=UserOut,
+    tags=['users'],
+    summary='Edit a specific user'
+)
 async def edit(userId: int, userInfo: UserIn,
                signedInUser: UserOut=Depends(Token.getCurrentUser)):
     await can(signedInUser, userId)
@@ -71,7 +102,12 @@ async def edit(userId: int, userInfo: UserIn,
     return await UserTable.edit(userInfo)
 
 
-@router.delete("/users/{userId}", status_code=HTTP_204_NO_CONTENT)
+@router.delete(
+    "/users/{userId}",
+    status_code=HTTP_204_NO_CONTENT,
+    tags=['users'],
+    summary='Delete a specific user'
+)
 async def delete(userId: int,
                  signedInUser: UserOut=Depends(Token.getCurrentUser)):
     await can(signedInUser, userId)
