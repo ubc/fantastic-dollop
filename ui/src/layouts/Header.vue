@@ -9,7 +9,8 @@
 			<router-link to='/' class='navSpacer'>
 				<LabelledIcon label='Home'><HomeIcon /></LabelledIcon>
 			</router-link>
-			<router-link :to='{name:"admin"}' class='navSpacer' v-if='isSignedIn'>
+			<router-link :to='{name:"admin"}' class='navSpacer'
+				v-if='isSignedIn && isAdmin'>
 				<LabelledIcon label='Admin'><AdminIcon title="Admin" /></LabelledIcon>
 			</router-link>
 			<!-- sign in/out -->
@@ -45,6 +46,9 @@ export default {
 		SignOutIcon
 	},
 	computed: {
+		isAdmin() {
+			return this.$store.getters['access/isAdmin']
+		},
 		isSignedIn() {
 			return this.$store.getters['auth/isSignedIn']
 		}

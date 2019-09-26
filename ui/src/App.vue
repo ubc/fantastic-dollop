@@ -52,6 +52,9 @@ export default {
 			return true
 		}
 	},
+	mounted() {
+		this.$store.dispatch('access/init')
+	},
 	watch: {
 		'$route' () {
 			// reset errors on page navigate

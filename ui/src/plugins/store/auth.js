@@ -35,11 +35,13 @@ export const auth = {
       context.commit('token', token)
       context.commit('acceptToken')
       axios.defaults.headers.common['Authorization'] = "Bearer " + token
+      context.dispatch('access/init', null, {root: true})
     },
     signOut(context) {
       localStorage.removeItem(TOKEN_KEY)
       context.commit('token', '')
       delete axios.defaults.headers.common["Authorization"]
+      context.dispatch('access/reset', null, {root: true})
     }
   }
 }
