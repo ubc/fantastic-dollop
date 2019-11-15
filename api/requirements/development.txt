@@ -4,7 +4,6 @@
 #
 #    pip-compile requirements/development.in
 #
-aiocontextvars==0.2.2     # via databases
 alembic==1.1.0
 asn1crypto==0.24.0        # via cryptography
 asyncpg==0.18.3           # via databases
@@ -16,10 +15,8 @@ certifi==2019.6.16        # via requests
 cffi==1.12.3              # via bcrypt, cryptography, pynacl
 chardet==3.0.4            # via requests
 click==7.0                # via pip-tools, uvicorn
-contextvars==2.4          # via aiocontextvars
 cryptography==2.7         # via paramiko
 databases[postgresql]==0.2.5
-dataclasses==0.6          # via pydantic
 dnspython==1.16.0         # via email-validator
 docker-compose==1.24.1    # via pytest-docker-compose
 docker-pycreds==0.4.0     # via docker
@@ -31,7 +28,6 @@ fastapi==0.38.1
 h11==0.8.1                # via uvicorn
 httptools==0.0.13         # via uvicorn
 idna==2.7                 # via email-validator, requests
-immutables==0.9           # via contextvars
 importlib-metadata==0.20  # via pluggy, pytest
 jsonschema==2.6.0         # via docker-compose
 mako==1.1.0               # via alembic

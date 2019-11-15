@@ -4,22 +4,18 @@
 #
 #    pip-compile requirements/base.in
 #
-aiocontextvars==0.2.2     # via databases
 alembic==1.1.0
 asyncpg==0.18.3           # via databases
 bcrypt==3.1.7             # via passlib
 cffi==1.12.3              # via bcrypt
 click==7.0                # via uvicorn
-contextvars==2.4          # via aiocontextvars
 databases[postgresql]==0.2.5
-dataclasses==0.6          # via pydantic
 dnspython==1.16.0         # via email-validator
 email-validator==1.0.4
 fastapi==0.36.0
 h11==0.8.1                # via uvicorn
 httptools==0.0.13         # via uvicorn
 idna==2.8                 # via email-validator
-immutables==0.9           # via contextvars
 mako==1.1.0               # via alembic
 markupsafe==1.1.1         # via mako
 miracle-acl==0.0.4.post1

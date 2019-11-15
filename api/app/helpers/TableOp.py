@@ -1,9 +1,14 @@
 import logging
 from typing import Any, Dict, List, NamedTuple
 
+from fastapi import HTTPException
+from starlette.status import HTTP_409_CONFLICT
+
 from sqlalchemy.sql.expression import and_, exists, select
 from sqlalchemy.sql.operators import Operators
 from sqlalchemy import Column, Table
+
+from asyncpg.exceptions import UniqueViolationError
 
 from pydantic import BaseModel
 
@@ -76,7 +81,10 @@ async def getById(table: Table, value: int):
 async def add(table: Table, info: BaseModel):
     newVals = info.dict(skip_defaults=True)
     query = table.insert().values(newVals)
-    newId = await db.execute(query)
+    try:
+        newId = await db.execute(query)
+    except UniqueViolationError as e:
+        raise HTTPException(status_code=HTTP_409_CONFLICT, detail=e.detail)
     return await getById(table, newId)
 
 

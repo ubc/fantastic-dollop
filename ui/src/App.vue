@@ -46,6 +46,14 @@ export default {
 		isSignedIn() {
 			return this.$store.getters['auth/isSignedIn']
 		},
+		/*
+		isAdmin() {
+			return this.$store.getters['access/isAdmin']
+		},
+		isStudent() {
+			return this.$store.getters['access/isStudent'](1)
+		},
+		*/
 		needSignIn() {
 			if (this.$route.meta.isPublic) return false
 			if (this.isSignedIn) return false
